@@ -1,6 +1,6 @@
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
-import { getAuth } from "firebase/auth";
+import { getAuth, connectAuthEmulator } from "firebase/auth";
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 
@@ -11,7 +11,7 @@ const firebaseConfig = {
   projectId: "puri-systems",
   storageBucket: "puri-systems.appspot.com",
   messagingSenderId: "684555146850",
-  appId: "1:684555146850:web:158162497d3aff2b73233b"
+  appId: "1:684555146850:web:158162497d3aff2b73233b",
 };
 
 // Initialize Firebase
@@ -19,5 +19,7 @@ const app = initializeApp(firebaseConfig);
 
 // Initialize Firebase Authentication and get a reference to the service
 const auth = getAuth(app);
+
+connectAuthEmulator(auth, "http://localhost:9099");
 
 export { auth };

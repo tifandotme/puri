@@ -5,7 +5,7 @@ function AuthContainer({ children }) {
   let authType;
   switch (useLocation().pathname) {
     case "/login":
-      authType = "Masuk";
+      authType = "Login";
       break;
     case "/signup":
       authType = "Daftar";
