@@ -4,6 +4,7 @@ import { useLocation } from "react-router-dom";
 import Login from "./auth/Login";
 import SignUp from "./auth/SignUp";
 import ForgotPassword from "./auth/ForgotPassword";
+import background from "../assets/background.webp";
 
 function Home() {
   // pake colorScheme, contoh di Button, untuk pake warna brand
@@ -17,7 +18,7 @@ function Home() {
         styles: {
           global: {
             body: {
-              bgImage: { base: "null", sm: "url('../assets/background.webp')" },
+              bgImage: { base: "null", sm: `url('${background}')` },
               bgRepeat: "no-repeat",
               bgSize: "cover",
               bgPosition: "center",
