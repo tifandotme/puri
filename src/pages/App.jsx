@@ -17,7 +17,7 @@ function Home() {
         styles: {
           global: {
             body: {
-              bgImage: { base: "null", sm: "url('/assets/background.webp')" },
+              bgImage: { base: "null", sm: "url('../assets/background.webp')" },
               bgRepeat: "no-repeat",
               bgSize: "cover",
               bgPosition: "center",
