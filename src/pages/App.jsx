@@ -68,6 +68,7 @@ function Home() {
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<SignUp />} />
         <Route path="/forgotpassword" element={<ForgotPassword />} />
+        <Route path="*" element={<h1>404</h1>} />
       </Routes>
     </ChakraProvider>
   );
