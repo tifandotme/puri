@@ -51,7 +51,7 @@ function Home() {
   }
   return (
     <ChakraProvider theme={customTheme}>
-      <HStack m={3} justifyContent="center">
+      {/* <HStack m={3} justifyContent="center">
           <Link to="/">
             <Button colorScheme="messenger">Home</Button>
           </Link>
@@ -61,7 +61,7 @@ function Home() {
           <Link to="/signup">
             <Button colorScheme="red">Sign up</Button>
           </Link>
-        </HStack>
+        </HStack> */}
 
       <Routes>
         <Route path="/" element={<h1>Home</h1>} />
