@@ -1,2 +1,3 @@
-# puri
-An order management system.
+# Puri
+
+An order management system for PT. WPU
