@@ -1,55 +1,15 @@
+import { ChakraProvider, Button } from "@chakra-ui/react";
 import { Routes, Route, Link } from "react-router-dom";
-import { ChakraProvider, extendTheme, Button } from "@chakra-ui/react";
 import { useLocation } from "react-router-dom";
-import Login from "./auth/Login";
-import SignUp from "./auth/SignUp";
-import ForgotPassword from "./auth/ForgotPassword";
-import background from "../assets/background.webp";
-import { auth } from "../firebase-config";
+
+import Login from "./Login";
+import SignUp from "./SignUp";
+import ForgotPassword from "./ForgotPassword";
+import { auth } from "../config/firebase";
 import { signOut } from "firebase/auth";
+import { customTheme } from "../config/theme";
 
 function Home() {
-  // pake colorScheme, contoh di Button, untuk pake warna brand
-
-  let customTheme;
-  switch (useLocation().pathname) {
-    case "/login":
-    case "/signup":
-    case "/forgotpassword": {
-      customTheme = extendTheme({
-        styles: {
-          global: {
-            body: {
-              bgImage: { base: "null", sm: `url('${background}')` },
-              bgRepeat: "no-repeat",
-              bgSize: "cover",
-              bgPosition: "center",
-              bgAttachment: "fixed",
-            },
-          },
-        },
-      });
-      break;
-    }
-    default: {
-      customTheme = extendTheme({
-        colors: {
-          brand: {
-            50: "#FDE8E8",
-            100: "#F9BEBE",
-            200: "#F59494",
-            300: "#F16A6A",
-            400: "#ED4040",
-            500: "#E81717",
-            600: "#BA1212",
-            700: "#8B0E0E",
-            800: "#5D0909",
-            900: "#2E0505",
-          },
-        },
-      });
-    }
-  }
   const onSignOut = () => {
     signOut(auth)
       .then(alert("signout sukses"))
@@ -57,7 +17,7 @@ function Home() {
   };
 
   return (
-    <ChakraProvider theme={customTheme}>
+    <ChakraProvider theme={customTheme(useLocation().pathname)}>
       {/* <HStack m={3} justifyContent="center">
           <Link to="/">
             <Button colorScheme="messenger">Home</Button>
@@ -69,14 +29,9 @@ function Home() {
             <Button colorScheme="red">Sign up</Button>
           </Link>
         </HStack> */}
-      <Button
-        onClick={onSignOut}
-        variant="outline"
-        colorScheme="blue"
-      >
+      <Button onClick={onSignOut} variant="outline" colorScheme="blue">
         Sign Out
       </Button>
-      {/* <Text textAlign="center">{userLogged}</Text> */}
 
       <p>User: {auth.currentUser?.email}</p>
 
@@ -90,5 +45,4 @@ function Home() {
     </ChakraProvider>
   );
 }
-
 export default Home;
