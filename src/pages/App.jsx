@@ -1,24 +1,28 @@
-import { ChakraProvider, Button } from "@chakra-ui/react";
+import { ChakraProvider, Button, HStack, VStack, Text } from "@chakra-ui/react";
 import { Routes, Route, Link } from "react-router-dom";
 import { useLocation } from "react-router-dom";
+import { onAuthStateChanged } from "firebase/auth";
 
 import Login from "./Login";
 import SignUp from "./SignUp";
 import ForgotPassword from "./ForgotPassword";
 import { auth } from "../config/firebase";
-import { signOut } from "firebase/auth";
 import { customTheme } from "../config/theme";
+import { handleSignOut } from "./firebaseAuthOperations";
 
 function Home() {
-  const onSignOut = () => {
-    signOut(auth)
-      .then(alert("signout sukses"))
-      .catch((error) => alert(error));
-  };
+  onAuthStateChanged(auth, (user) => {
+    if (user) {
+      console.log(user.email + " is signed in");
+    } else {
+      console.log("no user");
+    }
+  });
 
   return (
     <ChakraProvider theme={customTheme(useLocation().pathname)}>
-      {/* <HStack m={3} justifyContent="center">
+      <VStack>
+        <HStack m={3} justifyContent="center">
           <Link to="/">
             <Button colorScheme="messenger">Home</Button>
           </Link>
@@ -28,13 +32,12 @@ function Home() {
           <Link to="/signup">
             <Button colorScheme="red">Sign up</Button>
           </Link>
-        </HStack> */}
-      <Button onClick={onSignOut} variant="outline" colorScheme="blue">
-        Sign Out
-      </Button>
-
-      <p>User: {auth.currentUser?.email}</p>
-
+          <Button onClick={handleSignOut} variant="outline" colorScheme="blue">
+            Sign Out
+          </Button>
+        </HStack>
+        <Text>User: {auth.currentUser?.email}</Text>
+      </VStack>
       <Routes>
         <Route path="/" element={<h1>Home</h1>} />
         <Route path="/login" element={<Login />} />
@@ -45,4 +48,5 @@ function Home() {
     </ChakraProvider>
   );
 }
+
 export default Home;

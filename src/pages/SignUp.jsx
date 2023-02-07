@@ -13,11 +13,10 @@ import {
 } from "@chakra-ui/react";
 import { useForm } from "react-hook-form";
 import { Link } from "react-router-dom";
-import { createUserWithEmailAndPassword } from "firebase/auth";
 
 import { PasswordField } from "./components/PasswordField";
 import AuthContainer from "./components/AuthContainer";
-import { auth } from "../config/firebase";
+import { handleSignUp } from "./firebaseAuthOperations";
 
 function SignUp() {
   const {
@@ -26,19 +25,9 @@ function SignUp() {
     formState: { errors },
   } = useForm();
 
-  const onSubmit = (data) => {
-    createUserWithEmailAndPassword(auth, data.email, data.password)
-      .then((userCredential) => {
-        console.log(userCredential);
-      })
-      .catch((error) => {
-        console.log(error.message);
-      });
-  };
-
   return (
     <AuthContainer>
-      <form onSubmit={handleSubmit(onSubmit)}>
+      <form onSubmit={handleSubmit((data) => handleSignUp(data))}>
         <Stack spacing="6">
           <Stack spacing="5">
             <HStack spacing="1" justify="center">
@@ -99,14 +88,14 @@ function SignUp() {
 
             <FormControl isRequired>
               <FormLabel htmlFor="role">Divisi</FormLabel>
-              <Select id="role" {...register("peran", { required: true })}>
+              <Select id="role" {...register("divisi", { required: true })}>
                 <option value="">--</option>
                 <option value="sales">Sales</option>
-                <option value="logistik>">Logistik</option>
+                <option value="logistik">Logistik</option>
               </Select>
               <FormHelperText>
-                Pilihan divisi akan mempengaruhi fitur yang tersedia untuk akun yang
-                didaftarkan.
+                Pilihan divisi akan mempengaruhi fitur yang tersedia untuk akun
+                yang didaftarkan.
               </FormHelperText>
             </FormControl>
           </Stack>
