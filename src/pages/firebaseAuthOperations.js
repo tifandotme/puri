@@ -17,11 +17,10 @@ function handleSignUp({ email, password, firstName, lastName, divisi }) {
       // add user to realtime database
       set(ref(database, `users/${userCredential.user.uid}`), {
         firstName,
-        ...lastName,
+        ...(lastName),
         email,
         divisi,
       });
-      console.log(lastName);
     })
     .catch((error) => {
       console.log("SIGN UP ERROR = " + error.message);
