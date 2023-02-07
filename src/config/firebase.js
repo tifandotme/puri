@@ -2,10 +2,6 @@ import { initializeApp as initializeFirebaseApp } from "firebase/app";
 import { getAuth } from "firebase/auth";
 import { getDatabase } from "firebase/database";
 
-// Do not use emulator in production! delete this line before deploying
-// import { connectAuthEmulator } from "firebase/auth";
-// import { connectDatabaseEmulator } from "firebase/database";
-
 const firebaseConfig = {
   apiKey: "AIzaSyD6eq4vdO_B0ivZN5oa68W97f_hSd0lMuk",
   authDomain: "puri-systems.firebaseapp.com",
@@ -24,6 +20,8 @@ const database = getDatabase(
 );
 
 // Do not use emulator in production! delete this line before deploying
+// import { connectAuthEmulator } from "firebase/auth";
+// import { connectDatabaseEmulator } from "firebase/database";
 // connectAuthEmulator(auth, "http://localhost:9099");
 // connectDatabaseEmulator(database, "localhost", 9000);
 

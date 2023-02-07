@@ -27,7 +27,12 @@ function SignUp() {
 
   return (
     <AuthContainer>
-      <form onSubmit={handleSubmit((data) => handleSignUp(data))}>
+      <form
+        onSubmit={handleSubmit((data) => {
+          handleSignUp(data);
+          console.log(data);
+        })}
+      >
         <Stack spacing="6">
           <Stack spacing="5">
             <HStack spacing="1" justify="center">

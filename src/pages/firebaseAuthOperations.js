@@ -17,7 +17,7 @@ function handleSignUp({ email, password, firstName, lastName, divisi }) {
       // add user to realtime database
       set(ref(database, `users/${userCredential.user.uid}`), {
         firstName,
-        ...(lastName),
+        ...(lastName && { lastName }),
         email,
         divisi,
       });
