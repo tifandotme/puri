@@ -10,15 +10,22 @@ import {
   Select,
   FormHelperText,
   FormErrorMessage,
+  useToast,
 } from "@chakra-ui/react";
 import { useForm } from "react-hook-form";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { useState } from "react";
 
 import { PasswordField } from "./components/PasswordField";
 import AuthContainer from "./components/AuthContainer";
 import { handleSignUp } from "./firebaseAuthOperations";
 
+// TODO: prevent users from accessing this page if they are already logged in
+
 function SignUp() {
+  const [isLoading, setLoading] = useState(false);
+  const navigate = useNavigate();
+  const toast = useToast();
   const {
     register,
     handleSubmit,
@@ -28,10 +35,9 @@ function SignUp() {
   return (
     <AuthContainer>
       <form
-        onSubmit={handleSubmit((data) => {
-          handleSignUp(data);
-          console.log(data);
-        })}
+        onSubmit={handleSubmit((data) =>
+          handleSignUp(data, setLoading, navigate, toast)
+        )}
       >
         <Stack spacing="6">
           <Stack spacing="5">
@@ -66,6 +72,7 @@ function SignUp() {
                   required: true,
                   pattern: /\S+@\S+\.\S+/,
                 })}
+                focusBorderColor={errors.email && "red.500"}
               />
               {errors.email && (
                 <FormErrorMessage>Email tidak valid</FormErrorMessage>
@@ -85,6 +92,7 @@ function SignUp() {
                     message: "Password maksimal 20 karakter",
                   },
                 })}
+                focusBorderColor={errors.password && "red.500"}
               />
               {errors.password && (
                 <FormErrorMessage>{errors.password.message}</FormErrorMessage>
@@ -105,7 +113,13 @@ function SignUp() {
             </FormControl>
           </Stack>
           <Stack spacing="6">
-            <Button type="submit" colorScheme="red" variant="solid">
+            <Button
+              type="submit"
+              colorScheme="red"
+              variant="solid"
+              isLoading={isLoading}
+              isDisabled={errors.password || errors.email ? true : false}
+            >
               Daftar
             </Button>
           </Stack>

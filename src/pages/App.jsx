@@ -1,7 +1,6 @@
 import { ChakraProvider, Button, HStack, VStack, Text } from "@chakra-ui/react";
 import { Routes, Route, Link } from "react-router-dom";
 import { useLocation } from "react-router-dom";
-import { onAuthStateChanged } from "firebase/auth";
 
 import Login from "./Login";
 import SignUp from "./SignUp";
@@ -11,14 +10,6 @@ import { customTheme } from "../config/theme";
 import { handleSignOut } from "./firebaseAuthOperations";
 
 function Home() {
-  onAuthStateChanged(auth, (user) => {
-    if (user) {
-      console.log(user.email + " is signed in");
-    } else {
-      console.log("no user");
-    }
-  });
-
   return (
     <ChakraProvider theme={customTheme(useLocation().pathname)}>
       <VStack>
