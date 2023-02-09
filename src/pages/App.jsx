@@ -13,19 +13,23 @@ import AuthGuard from "./AuthGuard";
 function Home() {
   const location = useLocation();
   const navigate = useNavigate();
-  const [currentUser, setCurrentUser] = useState(auth.currentUser?.email);
+  const [currentUser, setCurrentUser] = useState("");
 
   useEffect(() => {
-    if (auth.currentUser) {
-      setCurrentUser(auth.currentUser.email);
-    } else {
-      setCurrentUser("");
-    }
-  }, [location]);
+    const unsubscribe = auth.onAuthStateChanged((user) => {
+      if (user) {
+        setCurrentUser(user.email);
+      } else {
+        setCurrentUser("");
+      }
+    });
+
+    return () => unsubscribe();
+  }, []);
 
   return (
     <ChakraProvider theme={customTheme(location.pathname)}>
-      {/* <AuthButton user={currentUser} navigate={navigate} /> */}
+      <AuthButton user={currentUser} navigate={navigate} />
       <Routes>
         <Route path="/" element={<AuthGuard user={currentUser} />}>
           <Route index element={<h1>Index</h1>} />

@@ -5,6 +5,7 @@ import { HStack } from "@chakra-ui/react";
 // https://www.robinwieruch.de/react-router-private-routes/
 
 function AuthGuard({ user }) {
+  // console.log(user);
   if (!user) {
     return <Navigate to="/login" replace />;
   } else {
