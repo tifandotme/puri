@@ -8,6 +8,8 @@ import {
 import { ref, set } from "firebase/database";
 import { auth, database } from "../config/firebase";
 
+// TODO: implement Sentry for error logging
+
 async function handleSignUp(
   { email, password, firstName, lastName, divisi },
   setLoading,
@@ -36,7 +38,6 @@ async function handleSignUp(
 
     navigate("/");
   } catch (error) {
-    console.log(error.code);
     toast({
       title: "Email sudah terdaftar",
       status: "error",
@@ -90,9 +91,8 @@ async function handleForgotPassword({ email }, setLoading, toast) {
       duration: 3000,
     });
   } catch (error) {
-    console.log(error.message);
     toast({
-      title: error.code === "auth/invalid-email" && "Email tidak terdaftar",
+      title: "Email tidak terdaftar",
       status: "error",
       duration: 3000,
     });
