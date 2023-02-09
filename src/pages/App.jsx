@@ -15,8 +15,10 @@ function Home() {
   const navigate = useNavigate();
   const [currentUser, setCurrentUser] = useState("");
 
+  // TODO learn more about this
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged((user) => {
+      // console.log(user?.email);
       if (user) {
         setCurrentUser(user.email);
       } else {
