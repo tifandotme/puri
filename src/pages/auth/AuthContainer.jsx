@@ -10,12 +10,15 @@ function AuthContainer() {
   useEffect(() => {
     switch (location) {
       case "/login":
+        window.scrollTo(0, 0);
         setAuthTitle("Login");
         break;
       case "/signup":
+        window.scrollTo(0, 0);
         setAuthTitle("Daftar");
         break;
       case "/forgotpassword":
+        window.scrollTo(0, 0);
         setAuthTitle("Lupa Password");
         break;
     }

@@ -1,7 +1,6 @@
 import { ChakraProvider } from "@chakra-ui/react";
-import { Route, Routes, useLocation, useNavigate } from "react-router-dom";
+import { Route, Routes, useLocation } from "react-router-dom";
 import { customTheme } from "../config/theme";
-import AuthButton from "./components/AuthButton";
 import AuthContainer from "./auth/AuthContainer";
 import ForgotPassword from "./auth/ForgotPassword";
 import Login from "./auth/Login";
@@ -9,10 +8,10 @@ import SignUp from "./auth/SignUp";
 import { auth } from "../config/firebase";
 import { useState, useEffect } from "react";
 import AuthGuard from "./AuthGuard";
+// import AuthButton from "./components/AuthButton";
 
 function Home() {
   const location = useLocation();
-  const navigate = useNavigate();
   const [currentUser, setCurrentUser] = useState("");
 
   // TODO learn more about this
@@ -31,7 +30,7 @@ function Home() {
 
   return (
     <ChakraProvider theme={customTheme(location.pathname)}>
-      <AuthButton user={currentUser} navigate={navigate} />
+      {/* <AuthButton user={currentUser} navigate={navigate} /> */}
       <Routes>
         <Route path="/" element={<AuthGuard user={currentUser} />}>
           <Route index element={<h1>Index</h1>} />

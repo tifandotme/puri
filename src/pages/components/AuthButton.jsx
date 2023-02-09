@@ -1,8 +1,10 @@
 import { Button, HStack, Text } from "@chakra-ui/react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { handleSignOut } from "../firebaseAuthOperations";
 
-function AuthButton({ user, navigate }) {
+function AuthButton({ user }) {
+  const navigate = useNavigate();
+
   return (
     <>
       <HStack justifyContent="center" borderBottom="solid 2px gray">
