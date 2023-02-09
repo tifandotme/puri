@@ -9,11 +9,8 @@ import {
 } from "@chakra-ui/react";
 import { Link } from "react-router-dom";
 
-import AuthContainer from "./components/AuthContainer";
-
 function ForgotPassword() {
   return (
-    <AuthContainer>
       <Stack spacing="6">
         <Stack spacing="5">
           <FormControl>
@@ -35,7 +32,6 @@ function ForgotPassword() {
           </Stack>
         </Stack>
       </Stack>
-    </AuthContainer>
   );
 }
 

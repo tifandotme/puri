@@ -5,7 +5,7 @@ import {
   updateProfile,
 } from "firebase/auth";
 import { ref, set } from "firebase/database";
-import { auth, database, adminApp } from "../config/firebase";
+import { auth, database } from "../config/firebase";
 
 async function handleSignUp(
   { email, password, firstName, lastName, divisi },
@@ -30,10 +30,6 @@ async function handleSignUp(
       firstName,
       ...(lastName && { lastName }),
       email,
-      divisi,
-    });
-
-    adminApp.auth().setCustomUserClaims(userCredential.user.uid, {
       divisi,
     });
 
@@ -70,9 +66,11 @@ async function handleSignIn({ email, password }, setLoading, navigate, toast) {
   }
 }
 
-async function handleSignOut() {
+async function handleSignOut(navigate) {
   try {
     await signOut(auth);
+
+    navigate("/login");
   } catch (error) {
     console.log("SIGN OUT ERROR = " + error.message);
   }
