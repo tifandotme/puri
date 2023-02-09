@@ -5,20 +5,51 @@ import {
   Input,
   Stack,
   HStack,
-  Divider, 
+  Divider,
+  useToast,
+  FormErrorMessage,
 } from "@chakra-ui/react";
 import { Link } from "react-router-dom";
+import { useForm } from "react-hook-form";
+import { handleForgotPassword } from "../firebaseAuthOperations";
+import { useState } from "react";
 
 function ForgotPassword() {
+  const [isLoading, setLoading] = useState(false);
+  const toast = useToast();
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm();
+
   return (
+    <form onSubmit={handleSubmit((data) => handleForgotPassword(data, setLoading, toast))}>
       <Stack spacing="6">
         <Stack spacing="5">
-          <FormControl>
+          <FormControl isInvalid={errors.email ? true : false}>
             <FormLabel htmlFor="email">Email</FormLabel>
-            <Input id="email" type="email" />
+            <Input
+              id="email"
+              type="text"
+              {...register("email", {
+                required: true,
+                pattern: /\S+@\S+\.\S+/,
+              })}
+              focusBorderColor={errors.email && "red.500"}
+            />
+            {errors.email && (
+              <FormErrorMessage>Email tidak valid</FormErrorMessage>
+            )}
           </FormControl>
           <Stack spacing="6">
-            <Button colorScheme="red" variant="solid">
+            <Button
+              type="submit"
+              colorScheme="red"
+              variant="solid"
+              isLoading={isLoading}
+              isDisabled={errors.email ? true : false}
+            >
               Reset Password
             </Button>
             <Divider />
@@ -32,6 +63,7 @@ function ForgotPassword() {
           </Stack>
         </Stack>
       </Stack>
+    </form>
   );
 }
 

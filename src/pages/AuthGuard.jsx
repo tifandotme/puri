@@ -11,7 +11,7 @@ function AuthGuard({ user }) {
   } else {
     return (
       <>
-        <HStack spacing={8} color="blue" p={8}>
+        <HStack spacing={4} color="blue" p={8}>
           <Link to="/">Home</Link>
           <Link to="/customers">Customers</Link>
           <Link to="/orders">Orders</Link>

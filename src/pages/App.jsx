@@ -18,7 +18,7 @@ function Home() {
   // TODO learn more about this
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged((user) => {
-      // console.log(user?.email);
+      console.log("from useEffect: " + user?.email);
       if (user) {
         setCurrentUser(user.email);
       } else {

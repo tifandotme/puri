@@ -1,6 +1,7 @@
 import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
+  sendPasswordResetEmail,
   signOut,
   updateProfile,
 } from "firebase/auth";
@@ -54,7 +55,6 @@ async function handleSignIn({ email, password }, setLoading, navigate, toast) {
 
     navigate("/");
   } catch (error) {
-    console.log(error.code);
     toast({
       title:
         error.code === "auth/user-not-found"
@@ -78,4 +78,27 @@ async function handleSignOut(navigate) {
   }
 }
 
-export { handleSignUp, handleSignIn, handleSignOut };
+async function handleForgotPassword({ email }, setLoading, toast) {
+  try {
+    setLoading(true);
+
+    await sendPasswordResetEmail(auth, email);
+
+    toast({
+      title: "Email reset password telah dikirim",
+      status: "success",
+      duration: 3000,
+    });
+  } catch (error) {
+    console.log(error.message);
+    toast({
+      title: error.code === "auth/invalid-email" && "Email tidak terdaftar",
+      status: "error",
+      duration: 3000,
+    });
+  } finally {
+    setLoading(false);
+  }
+}
+
+export { handleSignUp, handleSignIn, handleSignOut, handleForgotPassword };

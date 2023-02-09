@@ -97,7 +97,7 @@ function SignUp() {
           <FormControl isRequired>
             <FormLabel htmlFor="role">Divisi</FormLabel>
             <Select id="role" {...register("divisi", { required: true })}>
-              <option value="">--</option>
+              <option value="">—</option>
               <option value="sales">Sales</option>
               <option value="logistik">Logistik</option>
             </Select>
