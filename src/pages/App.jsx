@@ -25,7 +25,7 @@ function Home() {
 
   return (
     <ChakraProvider theme={customTheme(location.pathname)}>
-      <AuthButton user={currentUser} navigate={navigate} />
+      {/* <AuthButton user={currentUser} navigate={navigate} /> */}
       <Routes>
         <Route path="/" element={<AuthGuard user={currentUser} />}>
           <Route index element={<h1>Index</h1>} />
