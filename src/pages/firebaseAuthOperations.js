@@ -35,6 +35,7 @@ async function handleSignUp(
 
     navigate("/");
   } catch (error) {
+    console.log(error.code);
     toast({
       title: "Email sudah terdaftar",
       status: "error",
@@ -53,6 +54,7 @@ async function handleSignIn({ email, password }, setLoading, navigate, toast) {
 
     navigate("/");
   } catch (error) {
+    console.log(error.code);
     toast({
       title:
         error.code === "auth/user-not-found"

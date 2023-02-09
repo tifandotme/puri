@@ -25,11 +25,10 @@ function AuthContainer() {
     <Container
       maxW="lg"
       h="100vh"
-      pt={8}
-      pb={{ base: "24", md: "24" }}
+      pt={10} // top logo
       px={{ base: "0", sm: "8" }}
     >
-      <Stack spacing={10} pb={4}>
+      <Stack spacing={{ base: "5", sm: "20" }} pb={70}>
         <Stack alignItems="center" spacing={4}>
           <Image src={logo} alt="logo" maxW={{ base: "60%", sm: "70%" }} />
           <Text
