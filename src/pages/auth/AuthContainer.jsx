@@ -1,28 +1,23 @@
 import { Box, Container, Stack, Heading, Image, Text } from "@chakra-ui/react";
-import { useEffect, useState } from "react";
-import { useLocation, Outlet } from "react-router-dom";
+import { Outlet } from "react-router-dom";
 import logo from "../../assets/logo.svg";
 
-function AuthContainer() {
-  const [authTitle, setAuthTitle] = useState("");
-  const location = useLocation().pathname;
-
-  useEffect(() => {
-    switch (location) {
-      case "/login":
-        window.scrollTo(0, 0);
-        setAuthTitle("Login");
-        break;
-      case "/signup":
-        window.scrollTo(0, 0);
-        setAuthTitle("Daftar");
-        break;
-      case "/forgotpassword":
-        window.scrollTo(0, 0);
-        setAuthTitle("Lupa Password");
-        break;
-    }
-  }, [location]);
+function AuthContainer({ location }) {
+  let authTitle;
+  switch (location) {
+    case "/login":
+      window.scrollTo(0, 0);
+      authTitle = "Login";
+      break;
+    case "/signup":
+      window.scrollTo(0, 0);
+      authTitle = "Daftar";
+      break;
+    case "/forgotpassword":
+      window.scrollTo(0, 0);
+      authTitle = "Lupa Passwrd";
+      break;
+  }
 
   return (
     <Container

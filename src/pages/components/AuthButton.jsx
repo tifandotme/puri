@@ -7,24 +7,22 @@ function AuthButton({ user }) {
 
   return (
     <>
-      <HStack justifyContent="center" borderBottom="solid 2px gray">
+      <HStack p="2">
+        {user && (
+          <Button
+            onClick={() => handleSignOut(navigate)}
+            variant="solid"
+            colorScheme="red"
+          >
+            <Text fontWeight="bold">Sign Out</Text>
+          </Button>
+        )}
         <Link to="/">
           <Button colorScheme="messenger">Home</Button>
         </Link>
         <Link to="/login">
           <Button colorScheme="green">Login</Button>
         </Link>
-        <Link to="/signup">
-          <Button colorScheme="red">Sign up</Button>
-        </Link>
-        <Button
-          onClick={() => handleSignOut(navigate)}
-          variant="outline"
-          colorScheme="blue"
-        >
-          Sign Out
-        </Button>
-        <Text fontWeight="bold">User: {user}</Text>
       </HStack>
     </>
   );
