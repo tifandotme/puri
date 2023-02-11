@@ -4,29 +4,33 @@ import background from "../assets/background.webp";
 
 /**
  * Custom theme for Chakra UI to modify or extend the default theme
- * 
- * @param {string} path - take the current path from the useLocation hook 
+ *
+ * @param {string} path - take the current path from the useLocation hook
+ * @param {boolean} fullscreenLoading - take the fullscreenLoading state
  * @returns {object} - return the custom theme
  */
-function customTheme(path) {
+function customTheme(path, fullscreenLoading) {
   const isOnAuthPage = ["/login", "/signup", "/forgotpassword"].includes(path);
 
   return extendTheme({
-    ...(isOnAuthPage && { // Add the background image only on the auth pages
-      styles: {
-        global: {
-          body: {
-            bgImage: { base: "null", sm: `url('${background}')` },
-            bgRepeat: "no-repeat",
-            bgSize: "cover",
-            bgPosition: "center",
-            bgAttachment: "fixed",
+    // Add the background image only on the auth pages & when the app is not loading
+    ...(isOnAuthPage &&
+      !fullscreenLoading && {
+        styles: {
+          global: {
+            body: {
+              bgImage: { base: "null", sm: `url('${background}')` },
+              bgRepeat: "no-repeat",
+              bgSize: "cover",
+              bgPosition: "center",
+              bgAttachment: "fixed",
+            },
           },
         },
-      },
-    }),
+      }),
     colors: {
-      brand: { // For used  in colorScheme style prop
+      brand: {
+        // For used  in colorScheme style prop
         50: "#FDE8E8",
         100: "#F9BEBE",
         200: "#F59494",

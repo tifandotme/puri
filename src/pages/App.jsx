@@ -7,39 +7,47 @@ import Login from "./auth/Login";
 import SignUp from "./auth/SignUp";
 import { auth } from "../config/firebase";
 import { useState, useEffect } from "react";
-import AuthGuard from "./AuthGuard";
+import MainContainer from "./MainContainer";
+import BlankHomeNavigation from "./BlankHomeNavigation";
+import MainNavigation from "./MainNavigation";
 
 function Home() {
   const location = useLocation().pathname;
   const [currentUser, setCurrentUser] = useState(null);
-  const [loading, setLoading] = useState(true);
+  const [fullscreenLoading, setFullscreenLoading] = useState(true);
 
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged((user) => {
-      if (user) {
-        setCurrentUser(user.email);
-      } else {
-        setCurrentUser("");
-      }
-      setLoading(false);
+      user ? setCurrentUser(user.email) : setCurrentUser("");
+      setFullscreenLoading(false);
     });
 
     return () => unsubscribe();
   }, []);
 
   return (
-    <ChakraProvider theme={customTheme(location)}>
+    <ChakraProvider theme={customTheme(location, fullscreenLoading)}>
       <Routes>
         <Route
           path="/"
-          element={<AuthGuard user={currentUser} loading={loading} />}
+          element={
+            <MainContainer user={currentUser} loading={fullscreenLoading} />
+          }
         >
           <Route index element={<h1>Index</h1>} />
-          <Route path="customers" element={<h1>Customers</h1>} />
-          <Route path="orders" element={<h1>Orders</h1>} />
+          <Route path="customers" element={<BlankHomeNavigation />} />
+          <Route path="orders" element={<MainNavigation />} />
           <Route path="profile" element={<h1>Profile</h1>} />
         </Route>
-        <Route element={<AuthContainer location={location} />}>
+        <Route
+          element={
+            <AuthContainer
+              user={currentUser}
+              loading={fullscreenLoading}
+              location={location}
+            />
+          }
+        >
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<SignUp />} />
           <Route path="/forgotpassword" element={<ForgotPassword />} />

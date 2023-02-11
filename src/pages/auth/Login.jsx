@@ -1,11 +1,7 @@
 import {
   Button,
   Divider,
-  FormControl,
-  FormErrorMessage,
-  FormLabel,
   HStack,
-  Input,
   Stack,
   Text,
   useToast,
@@ -13,8 +9,8 @@ import {
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
-import { handleSignIn } from "../firebaseAuthOperations";
-import { PasswordField } from "./PasswordField";
+import { handleSignIn } from "./handleAuth";
+import { EmailField, PasswordField } from "./AuthFields";
 
 function Login() {
   const [isLoading, setLoading] = useState(false);
@@ -34,26 +30,10 @@ function Login() {
     >
       <Stack spacing="6">
         <Stack spacing="5">
-          <FormControl isInvalid={errors.email ? true : false}>
-            <FormLabel htmlFor="email">Email</FormLabel>
-            <Input
-              id="email"
-              type="text"
-              {...register("email", {
-                required: true,
-                pattern: /\S+@\S+\.\S+/,
-              })}
-              focusBorderColor={errors.email && "red.500"}
-            />
-            {errors.email && (
-              <FormErrorMessage>Email tidak valid</FormErrorMessage>
-            )}
-          </FormControl>
-
-          <FormControl>
-            <PasswordField {...register("password", { required: true })} />
-          </FormControl>
+          <EmailField register={register} errors={errors} />
+          <PasswordField register={register} errors={errors} />
         </Stack>
+
         <HStack justify="flex-end">
           <Link to="/forgotpassword" tabIndex="-1">
             <Button variant="link" colorScheme="blue" size="sm">
@@ -61,6 +41,7 @@ function Login() {
             </Button>
           </Link>
         </HStack>
+
         <Stack spacing="6">
           <Button
             type="submit"

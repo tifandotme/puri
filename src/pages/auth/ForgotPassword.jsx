@@ -1,18 +1,9 @@
-import {
-  Button,
-  FormControl,
-  FormLabel,
-  Input,
-  Stack,
-  HStack,
-  Divider,
-  useToast,
-  FormErrorMessage,
-} from "@chakra-ui/react";
-import { Link } from "react-router-dom";
-import { useForm } from "react-hook-form";
-import { handleForgotPassword } from "../firebaseAuthOperations";
+import { Button, Divider, HStack, Stack, useToast } from "@chakra-ui/react";
 import { useState } from "react";
+import { useForm } from "react-hook-form";
+import { Link } from "react-router-dom";
+import { handleForgotPassword } from "./handleAuth";
+import { EmailField } from "./AuthFields";
 
 function ForgotPassword() {
   const [isLoading, setLoading] = useState(false);
@@ -24,24 +15,15 @@ function ForgotPassword() {
   } = useForm();
 
   return (
-    <form onSubmit={handleSubmit((data) => handleForgotPassword(data, setLoading, toast))}>
+    <form
+      onSubmit={handleSubmit((data) =>
+        handleForgotPassword(data, setLoading, toast)
+      )}
+    >
       <Stack spacing="6">
         <Stack spacing="5">
-          <FormControl isInvalid={errors.email ? true : false}>
-            <FormLabel htmlFor="email">Email</FormLabel>
-            <Input
-              id="email"
-              type="text"
-              {...register("email", {
-                required: true,
-                pattern: /\S+@\S+\.\S+/,
-              })}
-              focusBorderColor={errors.email && "red.500"}
-            />
-            {errors.email && (
-              <FormErrorMessage>Email tidak valid</FormErrorMessage>
-            )}
-          </FormControl>
+          <EmailField register={register} errors={errors} required={true} />
+
           <Stack spacing="6">
             <Button
               type="submit"
@@ -52,9 +34,11 @@ function ForgotPassword() {
             >
               Reset Password
             </Button>
+
             <Divider />
+
             <HStack spacing="1" justify="center">
-              <Link to="/login">
+              <Link to="/login" tabIndex="-1">
                 <Button variant="link" colorScheme="blue">
                   Kembali ke login
                 </Button>

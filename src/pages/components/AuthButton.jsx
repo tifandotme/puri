@@ -1,6 +1,6 @@
 import { Button, HStack, Text } from "@chakra-ui/react";
 import { Link, useNavigate } from "react-router-dom";
-import { handleSignOut } from "../firebaseAuthOperations";
+import { handleSignOut } from "../auth/handleAuth";
 
 function AuthButton({ user }) {
   const navigate = useNavigate();

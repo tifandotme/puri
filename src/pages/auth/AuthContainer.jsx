@@ -1,8 +1,9 @@
 import { Box, Container, Stack, Heading, Image, Text } from "@chakra-ui/react";
-import { Outlet } from "react-router-dom";
+import { Outlet, Navigate } from "react-router-dom";
 import logo from "../../assets/logo.svg";
+import FullscreenLoading from "../components/FullscreenLoading";
 
-function AuthContainer({ location }) {
+function AuthContainer({ user, loading, location }) {
   let authTitle;
   switch (location) {
     case "/login":
@@ -15,8 +16,14 @@ function AuthContainer({ location }) {
       break;
     case "/forgotpassword":
       window.scrollTo(0, 0);
-      authTitle = "Lupa Passwrd";
+      authTitle = "Lupa Password";
       break;
+  }
+
+  if (loading) return <FullscreenLoading loading={loading} />;
+
+  if (user) {
+    return <Navigate to="/" replace />;
   }
 
   return (

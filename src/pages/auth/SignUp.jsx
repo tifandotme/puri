@@ -2,7 +2,6 @@ import {
   Button,
   Divider,
   FormControl,
-  FormErrorMessage,
   FormHelperText,
   FormLabel,
   HStack,
@@ -15,8 +14,8 @@ import {
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
-import { handleSignUp } from "../firebaseAuthOperations";
-import { PasswordField } from "./PasswordField";
+import { handleSignUp } from "./handleAuth";
+import { EmailField, PasswordField } from "./AuthFields";
 
 function SignUp() {
   const [isLoading, setLoading] = useState(false);
@@ -44,10 +43,7 @@ function SignUp() {
                 type="text"
                 {...register("firstName", { required: true, maxLength: 80 })}
               />
-              {}
-              <FormErrorMessage>Harus ada nama boss</FormErrorMessage>
             </FormControl>
-
             <FormControl>
               <FormLabel htmlFor="lname">Nama Belakang</FormLabel>
               <Input
@@ -58,41 +54,13 @@ function SignUp() {
             </FormControl>
           </HStack>
 
-          <FormControl isRequired isInvalid={errors.email ? true : false}>
-            <FormLabel htmlFor="email">Email</FormLabel>
-            <Input
-              id="email"
-              type="text"
-              {...register("email", {
-                required: true,
-                pattern: /\S+@\S+\.\S+/,
-              })}
-              focusBorderColor={errors.email && "red.500"}
-            />
-            {errors.email && (
-              <FormErrorMessage>Email tidak valid</FormErrorMessage>
-            )}
-          </FormControl>
-
-          <FormControl isRequired isInvalid={errors.password ? true : false}>
-            <PasswordField
-              {...register("password", {
-                required: true,
-                minLength: {
-                  value: 6,
-                  message: "Password minimal 6 karakter",
-                },
-                maxLength: {
-                  value: 20,
-                  message: "Password maksimal 20 karakter",
-                },
-              })}
-              focusBorderColor={errors.password && "red.500"}
-            />
-            {errors.password && (
-              <FormErrorMessage>{errors.password.message}</FormErrorMessage>
-            )}
-          </FormControl>
+          <EmailField register={register} errors={errors} showAsterisk={true} />
+          <PasswordField
+            register={register}
+            errors={errors}
+            showAsterisk={true}
+            isConstrained={true}
+          />
 
           <FormControl isRequired>
             <FormLabel htmlFor="role">Divisi</FormLabel>
@@ -107,6 +75,7 @@ function SignUp() {
             </FormHelperText>
           </FormControl>
         </Stack>
+
         <Stack spacing="6">
           <Button
             type="submit"
@@ -117,16 +86,18 @@ function SignUp() {
           >
             Daftar
           </Button>
+
+          <Divider />
+
+          <HStack spacing="1" justify="center">
+            <Text color="muted">Sudah punya akun?</Text>
+            <Link to="/login" tabIndex="-1">
+              <Button variant="link" colorScheme="blue">
+                Login
+              </Button>
+            </Link>
+          </HStack>
         </Stack>
-        <Divider />
-        <HStack spacing="1" justify="center">
-          <Text color="muted">Sudah punya akun?</Text>
-          <Link to="/login">
-            <Button variant="link" colorScheme="blue" tabIndex="-1">
-              Login
-            </Button>
-          </Link>
-        </HStack>
       </Stack>
     </form>
   );
