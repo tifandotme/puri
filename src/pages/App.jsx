@@ -9,7 +9,6 @@ import { auth } from "../config/firebase";
 import { useState, useEffect } from "react";
 import MainContainer from "./MainContainer";
 import BlankHomeNavigation from "./BlankHomeNavigation";
-import MainNavigation from "./MainNavigation";
 
 function Home() {
   const location = useLocation().pathname;
@@ -34,11 +33,12 @@ function Home() {
             <MainContainer user={currentUser} loading={fullscreenLoading} />
           }
         >
-          <Route index element={<h1>Index</h1>} />
-          <Route path="customers" element={<BlankHomeNavigation />} />
-          <Route path="orders" element={<MainNavigation />} />
+          <Route index element={<h1>Home</h1>} />
+          <Route path="customers" element={<h1>customers</h1>} />
+          <Route path="orders" element={<h1>orders</h1>} />
           <Route path="profile" element={<h1>Profile</h1>} />
         </Route>
+        <Route path="sidebar" element={<BlankHomeNavigation />} />
         <Route
           element={
             <AuthContainer

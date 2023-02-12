@@ -69,11 +69,9 @@ async function handleSignIn({ email, password }, setLoading, navigate, toast) {
   }
 }
 
-async function handleSignOut(navigate) {
+async function handleSignOut() {
   try {
     await signOut(auth);
-
-    navigate("/login");
   } catch (error) {
     console.log("SIGN OUT ERROR = " + error.message);
   }

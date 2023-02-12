@@ -27,12 +27,13 @@ function SignUp() {
     formState: { errors },
   } = useForm();
 
+  // used in select field and submt button
+  const onSubmit = handleSubmit((data) =>
+    handleSignUp(data, setLoading, navigate, toast)
+  );
+
   return (
-    <form
-      onSubmit={handleSubmit((data) =>
-        handleSignUp(data, setLoading, navigate, toast)
-      )}
-    >
+    <form onSubmit={onSubmit}>
       <Stack spacing="6">
         <Stack spacing="5">
           <HStack spacing="1" justify="center">
@@ -62,12 +63,15 @@ function SignUp() {
             isConstrained={true}
           />
 
-          <FormControl isRequired>
+          <FormControl
+            isRequired
+            onKeyDown={(e) => e.key === "Enter" && onSubmit()}
+          >
             <FormLabel htmlFor="role">Divisi</FormLabel>
             <Select id="role" {...register("divisi", { required: true })}>
               <option value="">—</option>
-              <option value="sales">Sales</option>
-              <option value="logistik">Logistik</option>
+              <option value="Sales">Sales</option>
+              <option value="Logistik">Logistik</option>
             </Select>
             <FormHelperText>
               Pilihan divisi akan mempengaruhi fitur yang tersedia untuk akun

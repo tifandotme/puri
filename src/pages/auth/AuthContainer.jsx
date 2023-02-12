@@ -20,11 +20,14 @@ function AuthContainer({ user, loading, location }) {
       break;
   }
 
-  if (loading) return <FullscreenLoading loading={loading} />;
+  if (loading) return <FullscreenLoading />;
 
   if (user) {
     return <Navigate to="/" replace />;
   }
+
+  // TODO: add gradient effect logo?
+  // TODO: add shadow to logo? https://box-shadow.dev/
 
   return (
     <Container
