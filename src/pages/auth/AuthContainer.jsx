@@ -1,4 +1,13 @@
-import { Box, Container, Stack, Heading, Image, Text } from "@chakra-ui/react";
+import {
+  Box,
+  Container,
+  Stack,
+  Heading,
+  Image,
+  Text,
+  Button,
+} from "@chakra-ui/react";
+import { BiCode } from "react-icons/bi";
 import { Outlet, Navigate } from "react-router-dom";
 import logo from "../../assets/logo.svg";
 import FullscreenLoading from "../components/FullscreenLoading";
@@ -36,7 +45,7 @@ function AuthContainer({ user, loading, location }) {
       pt={10} // top logo
       px={{ base: "4", sm: "8" }}
     >
-      <Stack spacing={{ base: "5", sm: "20" }} pb={70}>
+      <Stack spacing={{ base: "5", sm: "20" }} pb={10}>
         <Stack alignItems="center" spacing={4}>
           <Image src={logo} alt="logo" maxW={{ base: "60%", sm: "70%" }} />
           <Text
@@ -60,6 +69,17 @@ function AuthContainer({ user, loading, location }) {
           <Outlet />
         </Box>
       </Stack>
+      <Box display={{ base: "none", sm: "block" }} align="center">
+        <Button size="sm" color="gray.400" variant="link" my={4}>
+          <a
+            href="https://github.com/tifandotme/puri"
+            rel="noreferrer"
+            target="_blank"
+          >
+            View Source Code
+          </a>
+        </Button>
+      </Box>
     </Container>
   );
 }
