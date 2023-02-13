@@ -19,6 +19,7 @@ import {
   Skeleton,
   AvatarBadge,
   Image,
+  Tooltip,
 } from "@chakra-ui/react";
 import {
   HiOutlineInbox,
@@ -29,7 +30,6 @@ import {
   HiUserGroup,
   HiBars3,
   HiChevronDown,
-  HiOutlineCube,
 } from "react-icons/hi2";
 import { useEffect, useState } from "react";
 import { Link, Navigate, Outlet } from "react-router-dom";
@@ -159,10 +159,11 @@ function Sidebar({ onClose, location, ...rest }) {
           </Flex>
         </Link>
       ))}
-
+      <Tooltip hasArrow color="gray.700" bg="gray.300" label="Versi aplikasi" aria-label='app version'>
       <Text color="gray.400" fontSize="xs" pos="absolute" bottom="0" mx="4" p="4">
         v{appVersion}
       </Text>
+      </Tooltip>
     </Box>
   );
 }
