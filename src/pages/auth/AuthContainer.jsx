@@ -36,7 +36,7 @@ function AuthContainer({ user, loading, location }) {
       pt={10} // top logo
       px={{ base: "4", sm: "8" }}
     >
-      <Stack spacing={{ base: "5", sm: "20" }} pb={8}>
+      <Stack spacing={{ base: "5", sm: "16" }} pb={8}>
         <Stack alignItems="center" spacing={4}>
           <Image
             src={logo}

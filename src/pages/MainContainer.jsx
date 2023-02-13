@@ -29,8 +29,9 @@ import {
   HiUserGroup,
   HiBars3,
   HiChevronDown,
+  HiOutlineCube,
 } from "react-icons/hi2";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Link, Navigate, Outlet } from "react-router-dom";
 import FullscreenLoading from "./components/FullscreenLoading";
 import { auth, database } from "../config/firebase";
@@ -101,6 +102,13 @@ export default function MainContainer({ user, loading, location }) {
 }
 
 function Sidebar({ onClose, location, ...rest }) {
+  const [appVersion, setAppVersion] = useState("");
+  useEffect(() => {
+    fetch("https://raw.githubusercontent.com/tifandotme/puri/main/package.json")
+      .then((res) => res.json())
+      .then((data) => setAppVersion(data.version));
+  }, []);
+
   return (
     <Box
       bg="white"
@@ -119,6 +127,8 @@ function Sidebar({ onClose, location, ...rest }) {
           display={{ base: "flex", md: "none" }}
           onClick={onClose}
           mb={1}
+          fontSize={12}
+          boxSize={12}
         />
       </Flex>
 
@@ -149,6 +159,10 @@ function Sidebar({ onClose, location, ...rest }) {
           </Flex>
         </Link>
       ))}
+
+      <Text color="gray.400" fontSize="xs" pos="absolute" bottom="0" mx="4" p="4">
+        v{appVersion}
+      </Text>
     </Box>
   );
 }
@@ -173,7 +187,7 @@ function Header({ onOpen }) {
     <Flex
       ml={{ base: 0, md: 60 }}
       px={{ base: 4, md: 4 }}
-      height="20"
+      height={{ base: "16", md: "20" }}
       alignItems="center"
       bg="white"
       borderBottom="1px solid"
@@ -186,11 +200,12 @@ function Header({ onOpen }) {
         onClick={onOpen}
         variant="outline"
         aria-label="open menu"
+        fontSize={22}
         icon={<HiBars3 />}
       />
 
-      <Flex h="20" align="center" display={{ base: "flex", md: "none" }}>
-        <Image src={logo} alt="logo" h="55%" draggable={false} />
+      <Flex h="16" align="center" display={{ base: "flex", md: "none" }}>
+        <Image src={logo} alt="logo" h="50%" draggable={false} />
       </Flex>
 
       <Menu autoSelect={false}>
@@ -228,6 +243,7 @@ function Header({ onOpen }) {
             py={2}
             bg="green.100"
             borderRadius={7}
+            cursor="context-menu"
           >
             <Text fontSize="sm">{auth.currentUser?.displayName}</Text>
             <Text fontSize="xs" color="gray.600">
