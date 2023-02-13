@@ -16,20 +16,27 @@ import {
   Text,
   useDisclosure,
   VStack,
+  Skeleton,
+  AvatarBadge,
+  Image,
 } from "@chakra-ui/react";
 import {
-  BiHomeAlt,
-  BiMenu,
-  BiChevronDown,
-  BiUser,
-  BiReceipt,
-} from "react-icons/bi";
+  HiOutlineInbox,
+  HiInbox,
+  HiHome,
+  HiOutlineHome,
+  HiOutlineUserGroup,
+  HiUserGroup,
+  HiBars3,
+  HiChevronDown,
+} from "react-icons/hi2";
 import { useState } from "react";
 import { Link, Navigate, Outlet } from "react-router-dom";
 import FullscreenLoading from "./components/FullscreenLoading";
 import { auth, database } from "../config/firebase";
 import { ref, child, get } from "firebase/database";
 import { handleSignOut } from "./auth/handleAuth";
+import logo from "../assets/logo.png";
 
 // TODO: include isAllowed prop to check if user is allowed to access the routes
 // https://www.robinwieruch.de/react-router-private-routes/
@@ -37,12 +44,27 @@ import { handleSignOut } from "./auth/handleAuth";
 // TODO: add dark mode?
 
 const navLinks = [
-  { name: "Home", path: "/", icon: BiHomeAlt },
-  { name: "Customers", path: "/customers", icon: BiUser },
-  { name: "Orders", path: "/orders", icon: BiReceipt },
+  {
+    name: "Home",
+    path: "/",
+    icon: HiOutlineHome,
+    iconActive: HiHome,
+  },
+  {
+    name: "Customers",
+    path: "/customers",
+    icon: HiOutlineUserGroup,
+    iconActive: HiUserGroup,
+  },
+  {
+    name: "Orders",
+    path: "/orders",
+    icon: HiOutlineInbox,
+    iconActive: HiInbox,
+  },
 ];
 
-export default function MainContainer({ user, loading }) {
+export default function MainContainer({ user, loading, location }) {
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   if (loading) return <FullscreenLoading />;
@@ -51,7 +73,11 @@ export default function MainContainer({ user, loading }) {
 
   return (
     <Box bg="gray.100" minH="100vh">
-      <Sidebar onClose={onClose} display={{ base: "none", md: "block" }} />
+      <Sidebar
+        onClose={onClose}
+        location={location}
+        display={{ base: "none", md: "block" }}
+      />
 
       <Header onOpen={onOpen} />
 
@@ -63,18 +89,18 @@ export default function MainContainer({ user, loading }) {
         onClose={onClose}
       >
         <DrawerContent>
-          <Sidebar onClose={onClose} />
+          <Sidebar onClose={onClose} location={location} />
         </DrawerContent>
       </Drawer>
 
-      <Box border="2px solid red" ml={{ base: 0, md: 60 }} p={4}>
+      <Box ml={{ base: 0, md: 60 }} p={4}>
         <Outlet />
       </Box>
     </Box>
   );
 }
 
-function Sidebar({ onClose, ...rest }) {
+function Sidebar({ onClose, location, ...rest }) {
   return (
     <Box
       bg="white"
@@ -87,44 +113,43 @@ function Sidebar({ onClose, ...rest }) {
       role="group"
       {...rest}
     >
-      <Flex h="20" mx="8" justify="space-between" align="center">
-        <Text fontSize="2xl" fontFamily="monospace" fontWeight="bold">
-          PURI
-        </Text>
-        <CloseButton display={{ base: "flex", md: "none" }} onClick={onClose} />
+      <Flex h="20" mx="8" justify="space-between" align="flex-end" mb={8}>
+        <Image src={logo} alt="logo" h="70%" draggable={false} />
+        <CloseButton
+          display={{ base: "flex", md: "none" }}
+          onClick={onClose}
+          mb={1}
+        />
       </Flex>
 
-      {navLinks.map((link) => (
-        <NavItem
-          key={link.name}
-          path={link.path}
-          icon={link.icon}
-          onClose={onClose}
-        >
-          {link.name}
-        </NavItem>
+      {navLinks.map(({ name, path, icon, iconActive }) => (
+        <Link to={path} onClick={onClose} key={name} draggable={false}>
+          <Flex
+            p="4"
+            mx="4"
+            _hover={{
+              bg: "secondary",
+              color: "white",
+            }}
+            borderRadius="md"
+            align="flex-end"
+          >
+            <Icon
+              mr="4"
+              as={location === path ? iconActive : icon}
+              boxSize={5}
+            />
+            <Text
+              as="span"
+              lineHeight={4}
+              fontWeight={location === path ? "bold" : "normal"}
+            >
+              {name}
+            </Text>
+          </Flex>
+        </Link>
       ))}
     </Box>
-  );
-}
-
-function NavItem({ path, icon, onClose, children }) {
-  return (
-    <Link to={path} onClick={onClose}>
-      <Flex
-        p="4"
-        mx="4"
-        _hover={{
-          bg: "gray.500",
-          color: "white",
-        }}
-        borderRadius="md"
-        align="center"
-      >
-        {icon && <Icon mr="4" as={icon} boxSize={5} />}
-        <Text>{children}</Text>
-      </Flex>
-    </Link>
   );
 }
 
@@ -136,7 +161,6 @@ function Header({ onOpen }) {
     .then((snapshot) => {
       if (snapshot.exists()) {
         setDivisi(snapshot.val());
-        console.log("exists");
       } else {
         console.log("No data available");
       }
@@ -162,31 +186,25 @@ function Header({ onOpen }) {
         onClick={onOpen}
         variant="outline"
         aria-label="open menu"
-        icon={<BiMenu />}
+        icon={<HiBars3 />}
       />
 
-      <Text
-        display={{ base: "flex", md: "none" }}
-        fontSize="2xl"
-        fontFamily="monospace"
-        fontWeight="bold"
-      >
-        PURI
-      </Text>
+      <Flex h="20" align="center" display={{ base: "flex", md: "none" }}>
+        <Image src={logo} alt="logo" h="55%" draggable={false} />
+      </Flex>
 
-      <Menu>
+      <Menu autoSelect={false}>
         <MenuButton py={2}>
           <HStack spacing={3}>
             <Avatar // TODO: set default avatar and make it possible to upload custom avatar
               size="sm"
-              src={
-                "https://images.unsplash.com/photo-1619946794135-5bc917a27793?ixlib=rb-0.3.5&q=80&fm=jpg&crop=faces&fit=crop&h=200&w=200&s=b616b2c5b373a80ffc9636ba24f7a4a9"
-              }
-            />
+            >
+              <AvatarBadge boxSize={4} bg="green.500" />
+            </Avatar>
             <VStack
               display={{ base: "none", md: "flex" }}
               alignItems="flex-start"
-              spacing="1px"
+              spacing={0.5}
               ml="2"
             >
               <Text fontSize="sm">{auth.currentUser?.displayName}</Text>
@@ -195,11 +213,27 @@ function Header({ onOpen }) {
               </Text>
             </VStack>
             <Box display={{ base: "none", md: "flex" }}>
-              <Icon as={BiChevronDown} boxSize={5} />
+              <Icon as={HiChevronDown} boxSize={4} />
             </Box>
           </HStack>
         </MenuButton>
         <MenuList borderColor="gray.200">
+          <VStack
+            display={{ base: "flex", md: "none" }}
+            align="flex-start"
+            spacing={0.5}
+            mx={2}
+            mb={2}
+            px={3}
+            py={2}
+            bg="green.100"
+            borderRadius={7}
+          >
+            <Text fontSize="sm">{auth.currentUser?.displayName}</Text>
+            <Text fontSize="xs" color="gray.600">
+              {divisi}
+            </Text>
+          </VStack>
           <MenuItem>Edit Profile</MenuItem>
           <MenuItem>Settings</MenuItem>
           <MenuDivider />

@@ -1,15 +1,6 @@
-import {
-  Box,
-  Container,
-  Stack,
-  Heading,
-  Image,
-  Text,
-  Button,
-} from "@chakra-ui/react";
-import { BiCode } from "react-icons/bi";
+import { Box, Container, Stack, Heading, Image, Text } from "@chakra-ui/react";
 import { Outlet, Navigate } from "react-router-dom";
-import logo from "../../assets/logo.svg";
+import logo from "../../assets/logo.png";
 import FullscreenLoading from "../components/FullscreenLoading";
 
 function AuthContainer({ user, loading, location }) {
@@ -45,12 +36,17 @@ function AuthContainer({ user, loading, location }) {
       pt={10} // top logo
       px={{ base: "4", sm: "8" }}
     >
-      <Stack spacing={{ base: "5", sm: "20" }} pb={10}>
+      <Stack spacing={{ base: "5", sm: "20" }} pb={8}>
         <Stack alignItems="center" spacing={4}>
-          <Image src={logo} alt="logo" maxW={{ base: "60%", sm: "70%" }} />
+          <Image
+            src={logo}
+            alt="logo"
+            maxW={{ base: "45%", sm: "50%" }}
+            draggable={false}
+          />
           <Text
             fontSize={{ base: "md", sm: "lg" }}
-            color="gray.500"
+            color="secondary"
             fontWeight="bold"
           >
             Order Management System
@@ -69,17 +65,27 @@ function AuthContainer({ user, loading, location }) {
           <Outlet />
         </Box>
       </Stack>
-      <Box display={{ base: "none", sm: "block" }} align="center">
-        <Button size="sm" color="gray.400" variant="link" my={4}>
-          <a
-            href="https://github.com/tifandotme/puri"
-            rel="noreferrer"
-            target="_blank"
+      <Stack
+        display={{ base: "none", sm: "Flex" }}
+        align="center"
+        justify="center"
+        h={10}
+      >
+        <a
+          href="https://github.com/tifandotme/puri"
+          rel="noreferrer"
+          target="_blank"
+        >
+          <Text
+            as="span"
+            fontSize="sm"
+            color="gray.500"
+            _hover={{ textDecoration: "underline" }}
           >
             View Source Code
-          </a>
-        </Button>
-      </Box>
+          </Text>
+        </a>
+      </Stack>
     </Container>
   );
 }
