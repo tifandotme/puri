@@ -142,7 +142,7 @@ function Sidebar({ onClose, location, ...rest }) {
               color: "white",
             }}
             borderRadius="md"
-            align="flex-end"
+            align="center"
           >
             <Icon
               mr="4"
