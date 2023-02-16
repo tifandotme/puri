@@ -16,10 +16,8 @@ import {
   Text,
   useDisclosure,
   VStack,
-  Skeleton,
   AvatarBadge,
   Image,
-  Tooltip,
 } from "@chakra-ui/react";
 import {
   HiOutlineInbox,
@@ -46,7 +44,7 @@ import logo from "../assets/logo.png";
 
 const navLinks = [
   {
-    name: "Home",
+    name: "Dashboard",
     path: "/",
     icon: HiOutlineHome,
     iconActive: HiHome,
@@ -122,7 +120,7 @@ function Sidebar({ onClose, location, ...rest }) {
       {...rest}
     >
       <Flex h="20" mx="8" justify="space-between" align="flex-end" mb={8}>
-        <Image src={logo} alt="logo" h="70%" draggable={false} />
+        <Image src={logo} alt="logo" h="65%" draggable={false} />
         <CloseButton
           display={{ base: "flex", md: "none" }}
           onClick={onClose}
@@ -141,8 +139,10 @@ function Sidebar({ onClose, location, ...rest }) {
               bg: "secondary",
               color: "white",
             }}
-            borderRadius="md"
+            transition="all 0.05s"
+            borderRadius="3xl"
             align="center"
+            userSelect="none"
           >
             <Icon
               mr="4"
@@ -159,11 +159,17 @@ function Sidebar({ onClose, location, ...rest }) {
           </Flex>
         </Link>
       ))}
-      <Tooltip hasArrow color="gray.700" bg="gray.300" label="Versi aplikasi" aria-label='app version'>
-      <Text color="gray.400" fontSize="xs" pos="absolute" bottom="0" mx="4" p="4">
+      <Text
+        color="gray.400"
+        fontSize="xs"
+        pos="absolute"
+        bottom="0"
+        mx="4"
+        p="4"
+        userSelect="none"
+      >
         v{appVersion}
       </Text>
-      </Tooltip>
     </Box>
   );
 }
@@ -243,8 +249,10 @@ function Header({ onOpen }) {
             px={3}
             py={2}
             bg="green.100"
+            boxShadow="rgba(0, 0, 0, 0.06) 0px 2px 4px 0px inset"
             borderRadius={7}
-            cursor="context-menu"
+            userSelect="none"
+            cursor="not-allowed"
           >
             <Text fontSize="sm">{auth.currentUser?.displayName}</Text>
             <Text fontSize="xs" color="gray.600">

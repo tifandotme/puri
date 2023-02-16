@@ -8,6 +8,7 @@ import SignUp from "./auth/SignUp";
 import { auth } from "../config/firebase";
 import { useState, useEffect } from "react";
 import MainContainer from "./MainContainer";
+import Customers from "./customers/Customers";
 
 function Home() {
   const location = useLocation().pathname;
@@ -37,7 +38,7 @@ function Home() {
           }
         >
           <Route index element={<h1>Home</h1>} />
-          <Route path="customers" element={<h1>customers</h1>} />
+          <Route path="customers" element={<Customers />} />
           <Route path="orders" element={<h1>orders</h1>} />
           <Route path="profile" element={<h1>Profile</h1>} />
         </Route>
