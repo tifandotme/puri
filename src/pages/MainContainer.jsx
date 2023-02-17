@@ -243,7 +243,7 @@ function Header({ onOpen }) {
         />
 
         <Flex h="16" align="center" display={{ base: "flex", md: "none" }}>
-          <Image src={logo} alt="logo" h="50%" draggable={false} />
+          <Image src={logo} alt="logo" h="50%" mr="4" draggable={false} />
         </Flex>
 
         <Menu autoSelect={false}>
