@@ -222,7 +222,7 @@ function Header({ onOpen }) {
     >
       <Flex
         overflow="hidden"
-        // height={visible ? { base: "16", md: "20" } : "0"}
+        height={{ base: "16", md: "20" }}
 
         ml={{ base: 0, md: 60 }}
         px={{ base: 4, md: 4 }}
