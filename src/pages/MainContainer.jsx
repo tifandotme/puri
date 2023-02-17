@@ -29,6 +29,7 @@ import {
   HiBars3,
   HiChevronDown,
 } from "react-icons/hi2";
+import { BsQuestionCircle, BsQuestionCircleFill } from "react-icons/bs";
 import { useEffect, useState } from "react";
 import { Link, Navigate, Outlet } from "react-router-dom";
 import FullscreenLoading from "./components/FullscreenLoading";
@@ -61,9 +62,15 @@ const navLinks = [
     icon: HiOutlineInbox,
     iconActive: HiInbox,
   },
+  {
+    name: "Bantuan",
+    path: "/help",
+    icon: BsQuestionCircle,
+    iconActive: BsQuestionCircleFill,
+  },
 ];
 
-export default function MainContainer({ user, loading, location }) {
+export default function MainBox({ user, loading, location }) {
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   if (loading) return <FullscreenLoading />;
@@ -92,7 +99,7 @@ export default function MainContainer({ user, loading, location }) {
         </DrawerContent>
       </Drawer>
 
-      <Box ml={{ base: 0, md: 60 }} p={4}>
+      <Box ml={{ base: 0, md: 60 }} p={4} pt={{ base: "20", md: "24" }}>
         <Outlet />
       </Box>
     </Box>
@@ -112,7 +119,6 @@ function Sidebar({ onClose, location, ...rest }) {
       bg="white"
       borderRight="1px solid"
       borderRightColor="gray.200"
-      boxSizing="content-box" // supaya border nya diluar div
       pos="fixed"
       h="full"
       w={{ base: "full", md: 60 }} // lebar sidebar
@@ -177,6 +183,20 @@ function Sidebar({ onClose, location, ...rest }) {
 function Header({ onOpen }) {
   const dbRef = ref(database);
   const [divisi, setDivisi] = useState("");
+  const [prevScrollPos, setPrevScrollPos] = useState(0);
+  const [visible, setVisible] = useState(true);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const currentScrollPos = window.pageYOffset;
+      setVisible(prevScrollPos > currentScrollPos || currentScrollPos < 10);
+      setPrevScrollPos(currentScrollPos);
+    };
+    window.addEventListener("scroll", handleScroll);
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, [prevScrollPos]);
 
   get(child(dbRef, `users/${auth.currentUser?.uid}/divisi`))
     .then((snapshot) => {
@@ -190,83 +210,95 @@ function Header({ onOpen }) {
       console.error(error);
     });
 
+  console.log(visible);
+
   return (
-    <Flex
-      ml={{ base: 0, md: 60 }}
-      px={{ base: 4, md: 4 }}
-      height={{ base: "16", md: "20" }}
-      alignItems="center"
-      bg="white"
-      borderBottom="1px solid"
-      borderBottomColor="gray.200"
-      boxSizing="content-box"
-      justify={{ base: "space-between", md: "flex-end" }}
+    <Box
+      pos="fixed"
+      top={!visible ? "-16" : "0"}
+      transition="top 0.3s linear"
+      w="full"
+      zIndex="sticky"
     >
-      <IconButton
-        display={{ base: "flex", md: "none" }}
-        onClick={onOpen}
-        variant="outline"
-        aria-label="open menu"
-        fontSize={22}
-        icon={<HiBars3 />}
-      />
+      <Flex
+        overflow="hidden"
+        // height={visible ? { base: "16", md: "20" } : "0"}
 
-      <Flex h="16" align="center" display={{ base: "flex", md: "none" }}>
-        <Image src={logo} alt="logo" h="50%" draggable={false} />
-      </Flex>
+        ml={{ base: 0, md: 60 }}
+        px={{ base: 4, md: 4 }}
+        alignItems="center"
+        bg="white"
+        borderBottom="1px solid"
+        borderBottomColor="gray.200"
+        boxSizing="content-box"
+        justify={{ base: "space-between", md: "flex-end" }}
+      >
+        <IconButton
+          display={{ base: "flex", md: "none" }}
+          onClick={onOpen}
+          variant="outline"
+          aria-label="open menu"
+          fontSize={22}
+          icon={<HiBars3 />}
+        />
 
-      <Menu autoSelect={false}>
-        <MenuButton py={2}>
-          <HStack spacing={3}>
-            <Avatar // TODO: set default avatar and make it possible to upload custom avatar
-              size="sm"
-            >
-              <AvatarBadge boxSize={4} bg="green.500" />
-            </Avatar>
+        <Flex h="16" align="center" display={{ base: "flex", md: "none" }}>
+          <Image src={logo} alt="logo" h="50%" draggable={false} />
+        </Flex>
+
+        <Menu autoSelect={false}>
+          <MenuButton py={2}>
+            <HStack spacing={3}>
+              <Avatar // TODO: set default avatar and make it possible to upload custom avatar
+                size="sm"
+              >
+                <AvatarBadge boxSize={4} bg="green.500" />
+              </Avatar>
+              <VStack
+                display={{ base: "none", md: "flex" }}
+                alignItems="flex-start"
+                spacing={0.5}
+                ml="2"
+              >
+                <Text fontSize="sm">{auth.currentUser?.displayName}</Text>
+                <Text fontSize="xs" color="gray.600">
+                  {divisi}
+                </Text>
+              </VStack>
+              <Box display={{ base: "none", md: "flex" }}>
+                <Icon as={HiChevronDown} boxSize={4} />
+              </Box>
+            </HStack>
+          </MenuButton>
+          <MenuList borderColor="gray.200">
             <VStack
-              display={{ base: "none", md: "flex" }}
-              alignItems="flex-start"
+              display={{ base: "flex", md: "none" }}
+              align="flex-start"
               spacing={0.5}
-              ml="2"
+              mx={2}
+              mb={2}
+              px={3}
+              py={2}
+              bg="green.100"
+              boxShadow="rgba(0, 0, 0, 0.06) 0px 2px 4px 0px inset"
+              borderRadius={7}
+              userSelect="none"
+              cursor="not-allowed"
             >
               <Text fontSize="sm">{auth.currentUser?.displayName}</Text>
               <Text fontSize="xs" color="gray.600">
                 {divisi}
               </Text>
             </VStack>
-            <Box display={{ base: "none", md: "flex" }}>
-              <Icon as={HiChevronDown} boxSize={4} />
-            </Box>
-          </HStack>
-        </MenuButton>
-        <MenuList borderColor="gray.200">
-          <VStack
-            display={{ base: "flex", md: "none" }}
-            align="flex-start"
-            spacing={0.5}
-            mx={2}
-            mb={2}
-            px={3}
-            py={2}
-            bg="green.100"
-            boxShadow="rgba(0, 0, 0, 0.06) 0px 2px 4px 0px inset"
-            borderRadius={7}
-            userSelect="none"
-            cursor="not-allowed"
-          >
-            <Text fontSize="sm">{auth.currentUser?.displayName}</Text>
-            <Text fontSize="xs" color="gray.600">
-              {divisi}
-            </Text>
-          </VStack>
-          <MenuItem>Edit Profile</MenuItem>
-          <MenuItem>Settings</MenuItem>
-          <MenuDivider />
-          <MenuItem color="red.600" onClick={handleSignOut}>
-            Sign Out
-          </MenuItem>
-        </MenuList>
-      </Menu>
-    </Flex>
+            <MenuItem>Edit Profile</MenuItem>
+            <MenuItem>Settings</MenuItem>
+            <MenuDivider />
+            <MenuItem color="red.600" onClick={handleSignOut}>
+              Sign Out
+            </MenuItem>
+          </MenuList>
+        </Menu>
+      </Flex>
+    </Box>
   );
 }

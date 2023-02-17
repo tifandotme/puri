@@ -1,6 +1,28 @@
 import { extendTheme } from "@chakra-ui/react";
+import { selectAnatomy } from "@chakra-ui/anatomy";
+import { createMultiStyleConfigHelpers, defineStyle } from "@chakra-ui/react";
 
 import background from "../assets/background.webp";
+
+const { definePartsStyle, defineMultiStyleConfig } =
+  createMultiStyleConfigHelpers(selectAnatomy.keys);
+
+const outline = definePartsStyle({
+  field: {
+    fontFamily: "mono",
+    fontWeight: "bold",
+    borderRadius: 0,
+    borderColor: "purple.100",
+
+    _focusWithin: {
+      ringColor: "purple.200",
+      ring: "2px",
+      ringOffset: "1px",
+      ringOffsetColor: "purple.100",
+      borderColor: "purple.50",
+    },
+  },
+});
 
 /**
  * Custom theme for Chakra UI to modify or extend the default theme
@@ -9,7 +31,7 @@ import background from "../assets/background.webp";
  * @param {boolean} fullscreenLoading - take the fullscreenLoading state
  * @returns {object} - return the custom theme
  */
-function customTheme(path, fullscreenLoading) {
+export default function customTheme(path, fullscreenLoading) {
   const isOnAuthPage = ["/login", "/signup", "/forgotpassword"].includes(path);
 
   return extendTheme({
@@ -28,6 +50,32 @@ function customTheme(path, fullscreenLoading) {
           },
         },
       }),
+    components: {
+      Select: {
+        variants: {
+          outline: {
+            field: {
+              borderColor: "gray.400",
+              _hover: {
+                borderColor: "gray.700",
+              },
+            },
+          },
+        },
+      },
+      Input: {
+        variants: {
+          outline: {
+            field: {
+              borderColor: "gray.400",
+              _hover: {
+                borderColor: "gray.700",
+              },
+            },
+          },
+        },
+      },
+    },
     colors: {
       // https://coolors.co/palette/e63946-f1faee-a8dadc-457b9d-1d3557
       black: "#0a0d12",
@@ -160,5 +208,3 @@ function customTheme(path, fullscreenLoading) {
     },
   });
 }
-
-export { customTheme };

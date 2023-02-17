@@ -1,6 +1,6 @@
 import { ChakraProvider } from "@chakra-ui/react";
 import { Route, Routes, useLocation } from "react-router-dom";
-import { customTheme } from "../config/theme";
+import customTheme from "../config/theme";
 import AuthContainer from "./auth/AuthContainer";
 import ForgotPassword from "./auth/ForgotPassword";
 import Login from "./auth/Login";
@@ -41,6 +41,10 @@ function Home() {
           <Route path="customers" element={<Customers />} />
           <Route path="orders" element={<h1>orders</h1>} />
           <Route path="profile" element={<h1>Profile</h1>} />
+          <Route
+            path="help"
+            element={<h1>Bantuan TODO: dokumentasi lengkap cara penggunaan</h1>}
+          />
         </Route>
         <Route
           element={
