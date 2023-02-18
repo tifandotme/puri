@@ -32,6 +32,9 @@ import {
   HiOutlineInbox,
   HiOutlineUserGroup,
   HiUserGroup,
+  HiArrowRightOnRectangle,
+  HiOutlineCog6Tooth,
+  HiOutlineUserCircle,
 } from "react-icons/hi2";
 
 import logo from "../assets/logo.png";
@@ -143,13 +146,14 @@ function Sidebar({ onClose, location, ...rest }) {
       {navLinks.map(({ name, path, icon, iconActive }) => (
         <Link to={path} onClick={onClose} key={name} draggable={false}>
           <Flex
-            p="4"
+            my="1"
             mx="4"
+            p="4"
             _hover={{
               bg: "secondary",
               color: "white",
             }}
-            transition="all 0.05s"
+            transition="all 0.1s"
             borderRadius="3xl"
             align="center"
             userSelect="none"
@@ -204,8 +208,6 @@ function Header({ onOpen }) {
     };
   }, []);
 
-  const [tooltip, setTooltip] = useState(false);
-
   return (
     <Box
       pos="fixed"
@@ -239,19 +241,28 @@ function Header({ onOpen }) {
         </Flex>
 
         <Menu autoSelect={false}>
-          <MenuButton py={2}>
+          <MenuButton
+            py={3}
+            mx={-2}
+            px={2}
+            borderRadius="xl"
+            _hover={{
+              base: null,
+              md: {
+                bg: "gray.100",
+              },
+            }}
+            _active={{ bg: "gray.100" }}
+          >
             <HStack spacing={3}>
               <Avatar
                 // TODO: make it possible to upload custom avatar
                 size="sm"
                 m="1"
                 pointerEvents="auto"
-                onMouseEnter={() => setTooltip(true)}
-                onMouseLeave={() => setTooltip(false)}
               >
                 <Tooltip
                   hasArrow
-                  isOpen={tooltip}
                   label={isOnline ? "Online" : "Tidak ada koneksi internet"}
                   fontSize="sm"
                   bg="gray.600"
@@ -298,10 +309,18 @@ function Header({ onOpen }) {
                 {divisi}
               </Text>
             </VStack>
-            <MenuItem>Edit Profile</MenuItem>
-            <MenuItem>Settings</MenuItem>
+            <MenuItem icon={<HiOutlineUserCircle size={18} />}>
+              Edit Profile
+            </MenuItem>
+            <MenuItem icon={<HiOutlineCog6Tooth size={18} />}>
+              Settings
+            </MenuItem>
             <MenuDivider />
-            <MenuItem color="red.600" onClick={handleSignOut}>
+            <MenuItem
+              color="red.600"
+              onClick={handleSignOut}
+              icon={<HiArrowRightOnRectangle size={18} />}
+            >
               Sign Out
             </MenuItem>
           </MenuList>
