@@ -1,5 +1,8 @@
+import { useEffect, useState } from "react";
+import { Link, Navigate, Outlet } from "react-router-dom";
 import {
   Avatar,
+  AvatarBadge,
   Box,
   CloseButton,
   Drawer,
@@ -8,35 +11,35 @@ import {
   HStack,
   Icon,
   IconButton,
+  Image,
   Menu,
   MenuButton,
   MenuDivider,
   MenuItem,
   MenuList,
   Text,
+  Tooltip,
   useDisclosure,
   VStack,
-  AvatarBadge,
-  Image,
 } from "@chakra-ui/react";
+import { BsQuestionCircle, BsQuestionCircleFill } from "react-icons/bs";
 import {
-  HiOutlineInbox,
-  HiInbox,
-  HiHome,
-  HiOutlineHome,
-  HiOutlineUserGroup,
-  HiUserGroup,
   HiBars3,
   HiChevronDown,
+  HiHome,
+  HiInbox,
+  HiOutlineHome,
+  HiOutlineInbox,
+  HiOutlineUserGroup,
+  HiUserGroup,
 } from "react-icons/hi2";
-import { BsQuestionCircle, BsQuestionCircleFill } from "react-icons/bs";
-import { useEffect, useState } from "react";
-import { Link, Navigate, Outlet } from "react-router-dom";
-import FullscreenLoading from "./components/FullscreenLoading";
-import { auth, database } from "../config/firebase";
-import { ref, child, get } from "firebase/database";
-import { handleSignOut } from "./auth/handleAuth";
+
 import logo from "../assets/logo.png";
+import { auth } from "../config/firebase";
+import { handleSignOut } from "./auth/handleAuth";
+import FullscreenLoading from "./components/FullscreenLoading";
+import useTopValue from "../hooks/useTopValue";
+import useDivisi from "../hooks/useDivisi";
 
 // TODO: include isAllowed prop to check if user is allowed to access the routes
 // https://www.robinwieruch.de/react-router-private-routes/
@@ -63,14 +66,14 @@ const navLinks = [
     iconActive: HiInbox,
   },
   {
-    name: "Bantuan",
+    name: "Help",
     path: "/help",
     icon: BsQuestionCircle,
     iconActive: BsQuestionCircleFill,
   },
 ];
 
-export default function MainBox({ user, loading, location }) {
+function MainContainer({ user, loading, location }) {
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   if (loading) return <FullscreenLoading />;
@@ -78,7 +81,7 @@ export default function MainBox({ user, loading, location }) {
   if (!user) return <Navigate to="/login" replace />;
 
   return (
-    <Box bg="gray.100" minH="100vh">
+    <Box bg="gray.50" minH="100vh">
       <Sidebar
         onClose={onClose}
         location={location}
@@ -109,6 +112,7 @@ export default function MainBox({ user, loading, location }) {
 function Sidebar({ onClose, location, ...rest }) {
   const [appVersion, setAppVersion] = useState("");
   useEffect(() => {
+    // is there a better way to get the version without fetching the package.json?
     fetch("https://raw.githubusercontent.com/tifandotme/puri/main/package.json")
       .then((res) => res.json())
       .then((data) => setAppVersion(data.version));
@@ -181,56 +185,44 @@ function Sidebar({ onClose, location, ...rest }) {
 }
 
 function Header({ onOpen }) {
-  const dbRef = ref(database);
-  const [divisi, setDivisi] = useState("");
-  const [prevScrollPos, setPrevScrollPos] = useState(0);
-  const [visible, setVisible] = useState(true);
+  const divisi = useDivisi();
+  const topValue = useTopValue(16, "md");
 
+  // check if user is online
+  const [isOnline, setIsOnline] = useState(navigator.onLine);
   useEffect(() => {
-    const handleScroll = () => {
-      const currentScrollPos = window.pageYOffset;
-      setVisible(prevScrollPos > currentScrollPos || currentScrollPos < 10);
-      setPrevScrollPos(currentScrollPos);
+    const handleStatusChange = () => {
+      setIsOnline(navigator.onLine);
     };
-    window.addEventListener("scroll", handleScroll);
+
+    window.addEventListener("online", handleStatusChange);
+    window.addEventListener("offline", handleStatusChange);
+
     return () => {
-      window.removeEventListener("scroll", handleScroll);
+      window.removeEventListener("online", handleStatusChange);
+      window.removeEventListener("offline", handleStatusChange);
     };
-  }, [prevScrollPos]);
+  }, []);
 
-  get(child(dbRef, `users/${auth.currentUser?.uid}/divisi`))
-    .then((snapshot) => {
-      if (snapshot.exists()) {
-        setDivisi(snapshot.val());
-      } else {
-        console.log("No data available");
-      }
-    })
-    .catch((error) => {
-      console.error(error);
-    });
-
-  console.log(visible);
+  const [tooltip, setTooltip] = useState(false);
 
   return (
     <Box
       pos="fixed"
-      top={!visible ? "-16" : "0"}
       transition="top 0.3s linear"
-      w="full"
       zIndex="sticky"
+      w="full"
+      top={topValue}
     >
       <Flex
         overflow="hidden"
         height={{ base: "16", md: "20" }}
-
         ml={{ base: 0, md: 60 }}
         px={{ base: 4, md: 4 }}
         alignItems="center"
         bg="white"
         borderBottom="1px solid"
         borderBottomColor="gray.200"
-        boxSizing="content-box"
         justify={{ base: "space-between", md: "flex-end" }}
       >
         <IconButton
@@ -243,16 +235,32 @@ function Header({ onOpen }) {
         />
 
         <Flex h="16" align="center" display={{ base: "flex", md: "none" }}>
-          <Image src={logo} alt="logo" h="50%" mr="4" draggable={false} />
+          <Image src={logo} alt="logo" h="50%" draggable={false} />
         </Flex>
 
         <Menu autoSelect={false}>
           <MenuButton py={2}>
             <HStack spacing={3}>
-              <Avatar // TODO: set default avatar and make it possible to upload custom avatar
+              <Avatar
+                // TODO: make it possible to upload custom avatar
                 size="sm"
+                m="1"
+                pointerEvents="auto"
+                onMouseEnter={() => setTooltip(true)}
+                onMouseLeave={() => setTooltip(false)}
               >
-                <AvatarBadge boxSize={4} bg="green.500" />
+                <Tooltip
+                  hasArrow
+                  isOpen={tooltip}
+                  label={isOnline ? "Online" : "Tidak ada koneksi internet"}
+                  fontSize="sm"
+                  bg="gray.600"
+                >
+                  <AvatarBadge
+                    boxSize={4}
+                    bg={isOnline ? "green.500" : "red.500"}
+                  />
+                </Tooltip>
               </Avatar>
               <VStack
                 display={{ base: "none", md: "flex" }}
@@ -302,3 +310,5 @@ function Header({ onOpen }) {
     </Box>
   );
 }
+
+export default MainContainer;

@@ -3,47 +3,17 @@ import {
   FormControl,
   FormLabel,
   Heading,
-  HStack,
   Input,
-  Stack,
-  Tab,
-  TabList,
-  TabPanel,
-  TabPanels,
-  Tabs,
   Select,
-  Text,
+  Stack,
+  Textarea,
   VStack,
 } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import indonesia from "territory-indonesia";
 
-export default function Customers() {
-  return (
-    <Stack spacing="6">
-      {/* <Tabs variant="line" colorScheme="blue" defaultIndex={1}>
-        <TabList>
-          <Tab>Perorangan</Tab>
-          <Tab>Toko Bangunan</Tab>
-        </TabList>
-        <TabPanels>
-          <TabPanel>asdasdasdasd</TabPanel>
-          <TabPanel>asdasd</TabPanel>
-        </TabPanels>
-      </Tabs> */}
-      <Heading>Customers</Heading>
-      <HStack>
-        <Button colorScheme="green" variant="solid">
-          Tambah
-        </Button>
-      </HStack>
-      <AddCustomer />
-    </Stack>
-  );
-}
-
-function AddCustomer() {
+export default function AddCustomer() {
   const [isLoading, setLoading] = useState(false);
 
   const [regencies, setRegencies] = useState([]);
@@ -58,7 +28,7 @@ function AddCustomer() {
   const {
     register,
     handleSubmit,
-    // formState: { errors },
+    formState: { errors },
   } = useForm();
 
   const handleAddCustomer = (data) => {
@@ -66,34 +36,51 @@ function AddCustomer() {
   };
 
   useEffect(() => {
-    setTimeout(() => {
-      indonesia.getRegenciesOfProvinceId("33").then((data) => {
-        setRegencies(data);
-      });
-    }, 1000);
+    indonesia.getRegenciesOfProvinceId("33").then((data) => {
+      setRegencies(data);
+    });
   }, []);
 
   useEffect(() => {
-    chosenRegency &&
+    if (chosenRegency) {
       indonesia.getDistrictsOfRegencyName(chosenRegency).then((data) => {
         setDistricts(data);
       });
+    } else {
+      setDistricts([]);
+      // setChosenRegency will be an empty string from onChange
+    }
+
+    // cleanup regardless of chosenRegency
+    setChosenDistrict("");
+    setChosenVillage("");
+    setVillages([]);
   }, [chosenRegency]);
 
   useEffect(() => {
-    chosenDistrict &&
+    if (chosenDistrict) {
       indonesia.getVillagesOfDistrictName(chosenDistrict).then((data) => {
         setVillages(data);
       });
+    } else {
+      setVillages([]);
+    }
+
+    // cleanup regardless of chosenDistrict
+    setChosenVillage("");
   }, [chosenDistrict]);
 
   return (
     <form onSubmit={handleSubmit(handleAddCustomer)}>
+      <VStack>
+        <Heading size="lg">Add Customer</Heading>
+      </VStack>
       <Stack spacing="6">
         <Stack
           direction={{ base: "column", lg: "row" }}
           justify="space-between"
           gap="4"
+          mx={{ base: "0", lg: "20" }}
         >
           <VStack w="full">
             <FormControl>
@@ -108,29 +95,34 @@ function AddCustomer() {
             <FormControl>
               <FormLabel htmlFor="phone">Telp</FormLabel>
               <Input
+                placeholder="+62800000000"
                 id="phone"
                 type="number"
                 isRequired
                 {...register("phone", { required: true })}
               />
             </FormControl>
+            <FormControl>
+              <FormLabel htmlFor="phone2">Telp (Opsional)</FormLabel>
+              <Input
+                placeholder="+62800000000"
+                id="phone2"
+                type="number"
+                isRequired
+                {...register("phone2", { required: false })}
+              />
+            </FormControl>
           </VStack>
           <VStack w="full">
             <FormControl>
               <FormLabel htmlFor="address">Alamat</FormLabel>
-              <VStack spacing="4">
-                <Input
-                  id="address"
-                  type="text"
-                  placeholder="Nama Jalan"
-                  {...register("alamat.jalan", { required: true })}
-                />
-
+              <VStack spacing="2">
                 <Select
+                  id="address"
                   isDisabled={regencies.length === 0}
                   {...register("alamat.kota", { required: true })}
                   onChange={(e) => setChosenRegency(e.target.value)}
-                  placeholder="Kota/Kabupaten"
+                  placeholder="—Kota/Kabupaten—"
                 >
                   {regencies.map((item) => (
                     <option key={item.id} value={item.name}>
@@ -143,40 +135,40 @@ function AddCustomer() {
                   isDisabled={chosenRegency.length === 0}
                   {...register("alamat.kecamatan", { required: true })}
                   onChange={(e) => setChosenDistrict(e.target.value)}
-                  placeholder="Kecamatan"
+                  placeholder="—Kecamatan—"
                 >
-                  {districts.map((item) => (
-                    <option key={item.id} value={item.name}>
-                      {item.name}
-                    </option>
-                  ))}
+                  {districts &&
+                    districts.map((item) => (
+                      <option key={item.id} value={item.name}>
+                        {item.name}
+                      </option>
+                    ))}
                 </Select>
 
                 <Select
                   isDisabled={chosenDistrict.length === 0}
                   {...register("alamat.kelurahan", { required: true })}
                   onChange={(e) => setChosenVillage(e.target.value)}
-                  placeholder="Kelurahan"
+                  placeholder="—Kelurahan—"
                 >
-                  {villages.map((item) => (
-                    <option key={item.id} value={item.name}>
-                      {item.name}
-                    </option>
-                  ))}
+                  {villages &&
+                    villages.map((item) => (
+                      <option key={item.id} value={item.name}>
+                        {item.name}
+                      </option>
+                    ))}
                 </Select>
+
+                <Textarea
+                  isDisabled={chosenVillage.length === 0}
+                  placeholder="Nama Jalan (Nomor/Patokan)"
+                  {...register("alamat.jalan", { required: true })}
+                />
               </VStack>
             </FormControl>
           </VStack>
         </Stack>
-        <Text>{chosenRegency}</Text>
-        <Text>{chosenDistrict}</Text>
-        <Text>{chosenVillage}</Text>
-        <Button
-          type="submit"
-          colorScheme="red"
-          variant="solid"
-          isLoading={isLoading}
-        >
+        <Button type="submit" colorScheme="red" isLoading={isLoading}>
           Tambah
         </Button>
       </Stack>

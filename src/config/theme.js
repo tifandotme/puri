@@ -1,25 +1,37 @@
-import { extendTheme } from "@chakra-ui/react";
-import { selectAnatomy } from "@chakra-ui/anatomy";
-import { createMultiStyleConfigHelpers, defineStyle } from "@chakra-ui/react";
-
+import { extendTheme, defineStyleConfig } from "@chakra-ui/react";
 import background from "../assets/background.webp";
 
-const { definePartsStyle, defineMultiStyleConfig } =
-  createMultiStyleConfigHelpers(selectAnatomy.keys);
+const inputMultiPart = defineStyleConfig({
+  variants: {
+    outline: {
+      field: {
+        bg: "white",
+        borderColor: "gray.500",
+        _hover: {
+          borderColor: "gray.900",
+        },
+        _disabled: {
+          opacity: 0.5,
+        },
+      },
+    },
+  },
+});
 
-const outline = definePartsStyle({
-  field: {
-    fontFamily: "mono",
-    fontWeight: "bold",
-    borderRadius: 0,
-    borderColor: "purple.100",
-
-    _focusWithin: {
-      ringColor: "purple.200",
-      ring: "2px",
-      ringOffset: "1px",
-      ringOffsetColor: "purple.100",
-      borderColor: "purple.50",
+const inputSinglePart = defineStyleConfig({
+  variants: {
+    outline: {
+      bg: "white",
+      borderColor: "gray.500",
+      _hover: {
+        borderColor: "gray.900",
+      },
+      _disabled: {
+        _placeholder: {
+          color: "black",
+          opacity: 1,
+        },
+      },
     },
   },
 });
@@ -35,7 +47,11 @@ export default function customTheme(path, fullscreenLoading) {
   const isOnAuthPage = ["/login", "/signup", "/forgotpassword"].includes(path);
 
   return extendTheme({
-    // Add the background image only on the auth pages & when the app is not loading
+    components: {
+      Textarea: inputSinglePart,
+      Input: inputMultiPart,
+      Select: inputMultiPart,
+    },
     ...(isOnAuthPage &&
       !fullscreenLoading && {
         styles: {
@@ -50,32 +66,6 @@ export default function customTheme(path, fullscreenLoading) {
           },
         },
       }),
-    components: {
-      Select: {
-        variants: {
-          outline: {
-            field: {
-              borderColor: "gray.400",
-              _hover: {
-                borderColor: "gray.700",
-              },
-            },
-          },
-        },
-      },
-      Input: {
-        variants: {
-          outline: {
-            field: {
-              borderColor: "gray.400",
-              _hover: {
-                borderColor: "gray.700",
-              },
-            },
-          },
-        },
-      },
-    },
     colors: {
       // https://coolors.co/palette/e63946-f1faee-a8dadc-457b9d-1d3557
       black: "#0a0d12",

@@ -41,11 +41,11 @@ function AuthContainer({ user, loading, location }) {
           <Image
             src={logo}
             alt="logo"
-            maxW={{ base: "45%", sm: "50%" }}
+            maxW={{ base: "40%", sm: "45%" }}
             draggable={false}
           />
           <Text
-            fontSize={{ base: "md", sm: "lg" }}
+            fontSize={{ base: "sm", sm: "md" }}
             color="secondary"
             fontWeight="bold"
           >

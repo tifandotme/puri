@@ -1,16 +1,19 @@
+import { useState, useEffect } from "react";
 import { ChakraProvider } from "@chakra-ui/react";
 import { Route, Routes, useLocation } from "react-router-dom";
+
+import { auth } from "../config/firebase";
 import customTheme from "../config/theme";
+
 import AuthContainer from "./auth/AuthContainer";
-import ForgotPassword from "./auth/ForgotPassword";
 import Login from "./auth/Login";
 import SignUp from "./auth/SignUp";
-import { auth } from "../config/firebase";
-import { useState, useEffect } from "react";
-import MainContainer from "./MainContainer";
-import Customers from "./customers/Customers";
+import ForgotPassword from "./auth/ForgotPassword";
 
-function Home() {
+import MainContainer from "./MainContainer";
+import AddCustomer from "./customers/AddCustomer";
+
+export default function App() {
   const location = useLocation().pathname;
   const [currentUser, setCurrentUser] = useState(null);
   const [fullscreenLoading, setFullscreenLoading] = useState(true);
@@ -37,8 +40,8 @@ function Home() {
             />
           }
         >
-          <Route index element={<h1>Home</h1>} />
-          <Route path="customers" element={<Customers />} />
+          <Route index element={<h1>App</h1>} />
+          <Route path="customers" element={<AddCustomer />} />
           <Route path="orders" element={<h1>orders</h1>} />
           <Route path="profile" element={<h1>Profile</h1>} />
           <Route
@@ -64,5 +67,3 @@ function Home() {
     </ChakraProvider>
   );
 }
-
-export default Home;
