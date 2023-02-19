@@ -263,6 +263,7 @@ function Header({ onOpen }) {
               >
                 <Tooltip
                   hasArrow
+                  openDelay={250}
                   label={isOnline ? "Online" : "Tidak ada koneksi internet"}
                   fontSize="sm"
                   bg="gray.600"
