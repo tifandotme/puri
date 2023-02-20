@@ -1,6 +1,9 @@
 import { extendTheme, defineStyleConfig } from "@chakra-ui/react";
 import background from "../assets/background.webp";
 
+import "@fontsource/inter/variable.css";
+import "@fontsource/raleway/variable.css";
+
 const inputMultiPart = defineStyleConfig({
   variants: {
     outline: {
@@ -47,6 +50,10 @@ export default function customTheme(path, fullscreenLoading) {
   const isOnAuthPage = ["/login", "/signup", "/forgotpassword"].includes(path);
 
   return extendTheme({
+    fonts: {
+      body: "InterVariable, sans-serif",
+      heading: "RalewayVariable, sans-serif",
+    },
     components: {
       Textarea: inputSinglePart,
       Input: inputMultiPart,

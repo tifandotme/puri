@@ -19,9 +19,9 @@ const database = getDatabase(
 );
 
 // Do not use emulator in production! delete this line before deploying
-// import { connectAuthEmulator } from "firebase/auth";
-// import { connectDatabaseEmulator } from "firebase/database";
-// connectAuthEmulator(auth, "http://localhost:9099", { disableWarnings: true });
-// connectDatabaseEmulator(database, "localhost", 9000);
+import { connectAuthEmulator } from "firebase/auth";
+import { connectDatabaseEmulator } from "firebase/database";
+connectAuthEmulator(auth, "http://localhost:9099", { disableWarnings: true });
+connectDatabaseEmulator(database, "localhost", 9000);
 
 export { auth, database };
