@@ -52,7 +52,7 @@ export default function customTheme(path, fullscreenLoading) {
   return extendTheme({
     fonts: {
       body: "InterVariable, sans-serif",
-      heading: "RalewayVariable, sans-serif",
+      heading: "InterVariable, sans-serif",
     },
     components: {
       Textarea: inputSinglePart,

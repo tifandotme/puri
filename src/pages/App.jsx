@@ -12,6 +12,7 @@ import ForgotPassword from "./auth/ForgotPassword";
 
 import MainContainer from "./MainContainer";
 import AddCustomer from "./customers/AddCustomer";
+import OrderList from "./orders/OrderList";
 
 export default function App() {
   const location = useLocation().pathname;
@@ -42,7 +43,7 @@ export default function App() {
         >
           <Route index element={<h1>App</h1>} />
           <Route path="customers" element={<AddCustomer />} />
-          <Route path="orders" element={<h1>orders</h1>} />
+          <Route path="orders" element={<OrderList />} />
           <Route path="profile" element={<h1>Profile</h1>} />
           <Route
             path="help"

@@ -4,10 +4,13 @@ import {
   Avatar,
   AvatarBadge,
   Box,
+  Button,
   CloseButton,
+  Container,
   Drawer,
   DrawerContent,
   Flex,
+  Heading,
   HStack,
   Icon,
   IconButton,
@@ -105,7 +108,7 @@ function MainContainer({ user, loading, location }) {
         </DrawerContent>
       </Drawer>
 
-      <Box ml={{ base: 0, md: 60 }} p={4} pt={{ base: "20", md: "24" }}>
+      <Box ml={{ base: 0, md: 60 }} pt={{ base: 16, md: 20 }}>
         <Outlet />
       </Box>
     </Box>
@@ -252,7 +255,12 @@ function Header({ onOpen }) {
                 bg: "gray.100",
               },
             }}
-            _active={{ bg: "gray.100" }}
+            _active={{
+              base: null,
+              md: {
+                bg: "gray.100",
+              },
+            }}
           >
             <HStack spacing={3}>
               <Avatar

@@ -1,5 +1,6 @@
 import {
   Button,
+  Container,
   FormControl,
   FormLabel,
   Heading,
@@ -12,8 +13,9 @@ import {
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import indonesia from "territory-indonesia";
+import ContentWrapper from "../components/ContentWrapper";
 
-export default function AddCustomer() {
+function AddCustomer() {
   const [isLoading, setLoading] = useState(false);
 
   const [regencies, setRegencies] = useState([]);
@@ -71,107 +73,111 @@ export default function AddCustomer() {
   }, [chosenDistrict]);
 
   return (
-    <form onSubmit={handleSubmit(handleAddCustomer)}>
-      <VStack>
-        <Heading size="lg">Add Customer</Heading>
-      </VStack>
-      <Stack spacing="6">
-        <Stack
-          direction={{ base: "column", lg: "row" }}
-          justify="space-between"
-          gap="4"
-          mx={{ base: "0", lg: "20" }}
-        >
-          <VStack w="full">
-            <FormControl>
-              <FormLabel htmlFor="name">Nama</FormLabel>
-              <Input
-                id="name"
-                type="text"
-                isRequired
-                {...register("name", { required: true })}
-              />
-            </FormControl>
-            <FormControl>
-              <FormLabel htmlFor="phone">Telp</FormLabel>
-              <Input
-                placeholder="+62800000000"
-                id="phone"
-                type="number"
-                isRequired
-                {...register("phone", { required: true })}
-              />
-            </FormControl>
-            <FormControl>
-              <FormLabel htmlFor="phone2">Telp (Opsional)</FormLabel>
-              <Input
-                placeholder="+62800000000"
-                id="phone2"
-                type="number"
-                isRequired
-                {...register("phone2", { required: false })}
-              />
-            </FormControl>
-          </VStack>
-          <VStack w="full">
-            <FormControl>
-              <FormLabel htmlFor="address">Alamat</FormLabel>
-              <VStack spacing="2">
-                <Select
-                  id="address"
-                  isDisabled={regencies.length === 0}
-                  {...register("alamat.kota", { required: true })}
-                  onChange={(e) => setChosenRegency(e.target.value)}
-                  placeholder="—Kota/Kabupaten—"
-                >
-                  {regencies.map((item) => (
-                    <option key={item.id} value={item.name}>
-                      {item.name}
-                    </option>
-                  ))}
-                </Select>
-
-                <Select
-                  isDisabled={chosenRegency.length === 0}
-                  {...register("alamat.kecamatan", { required: true })}
-                  onChange={(e) => setChosenDistrict(e.target.value)}
-                  placeholder="—Kecamatan—"
-                >
-                  {districts &&
-                    districts.map((item) => (
-                      <option key={item.id} value={item.name}>
-                        {item.name}
-                      </option>
-                    ))}
-                </Select>
-
-                <Select
-                  isDisabled={chosenDistrict.length === 0}
-                  {...register("alamat.kelurahan", { required: true })}
-                  onChange={(e) => setChosenVillage(e.target.value)}
-                  placeholder="—Kelurahan—"
-                >
-                  {villages &&
-                    villages.map((item) => (
-                      <option key={item.id} value={item.name}>
-                        {item.name}
-                      </option>
-                    ))}
-                </Select>
-
-                <Textarea
-                  isDisabled={chosenVillage.length === 0}
-                  placeholder="Nama Jalan (Nomor/Patokan)"
-                  {...register("alamat.jalan", { required: true })}
-                />
+    <ContentWrapper title="Add New Customer">
+      <Container maxW={{ base: "full", lg: "3xl" }} border="1px solid red">
+        <form onSubmit={handleSubmit(handleAddCustomer)}>
+          <VStack spacing="6" border="1px solid green" align="stretch">
+            <Stack
+              direction={{ base: "column", lg: "row" }}
+              justify="space-between"
+              gap="4"
+              maxW={{ base: "lg", lg: "full" }}
+              margin="auto"
+            >
+              <VStack w="full">
+                <FormControl>
+                  <FormLabel htmlFor="name">Nama</FormLabel>
+                  <Input
+                    id="name"
+                    type="text"
+                    isRequired
+                    {...register("name", { required: true })}
+                  />
+                </FormControl>
+                <FormControl>
+                  <FormLabel htmlFor="phone">Telp</FormLabel>
+                  <Input
+                    placeholder="+62800000000"
+                    id="phone"
+                    type="number"
+                    isRequired
+                    {...register("phone", { required: true })}
+                  />
+                </FormControl>
+                <FormControl>
+                  <FormLabel htmlFor="phone2">Telp (Opsional)</FormLabel>
+                  <Input
+                    placeholder="+62800000000"
+                    id="phone2"
+                    type="number"
+                    isRequired
+                    {...register("phone2", { required: false })}
+                  />
+                </FormControl>
               </VStack>
-            </FormControl>
+              <VStack w="full">
+                <FormControl>
+                  <FormLabel htmlFor="address">Alamat</FormLabel>
+                  <VStack spacing="2">
+                    <Select
+                      id="address"
+                      isDisabled={regencies.length === 0}
+                      {...register("alamat.kota", { required: true })}
+                      onChange={(e) => setChosenRegency(e.target.value)}
+                      placeholder="—Kota/Kabupaten—"
+                    >
+                      {regencies.map((item) => (
+                        <option key={item.id} value={item.name}>
+                          {item.name}
+                        </option>
+                      ))}
+                    </Select>
+
+                    <Select
+                      isDisabled={chosenRegency.length === 0}
+                      {...register("alamat.kecamatan", { required: true })}
+                      onChange={(e) => setChosenDistrict(e.target.value)}
+                      placeholder="—Kecamatan—"
+                    >
+                      {districts &&
+                        districts.map((item) => (
+                          <option key={item.id} value={item.name}>
+                            {item.name}
+                          </option>
+                        ))}
+                    </Select>
+
+                    <Select
+                      isDisabled={chosenDistrict.length === 0}
+                      {...register("alamat.kelurahan", { required: true })}
+                      onChange={(e) => setChosenVillage(e.target.value)}
+                      placeholder="—Kelurahan—"
+                    >
+                      {villages &&
+                        villages.map((item) => (
+                          <option key={item.id} value={item.name}>
+                            {item.name}
+                          </option>
+                        ))}
+                    </Select>
+
+                    <Textarea
+                      isDisabled={chosenVillage.length === 0}
+                      placeholder="Nama Jalan (Nomor/Patokan)"
+                      {...register("alamat.jalan", { required: true })}
+                    />
+                  </VStack>
+                </FormControl>
+              </VStack>
+            </Stack>
+            <Button type="submit" colorScheme="red" isLoading={isLoading}>
+              Tambah
+            </Button>
           </VStack>
-        </Stack>
-        <Button type="submit" colorScheme="red" isLoading={isLoading}>
-          Tambah
-        </Button>
-      </Stack>
-    </form>
+        </form>
+      </Container>
+    </ContentWrapper>
   );
 }
+
+export default AddCustomer;
