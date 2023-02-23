@@ -3,16 +3,16 @@ import { Heading, HStack, Box, Button } from "@chakra-ui/react";
 function ContentWrapper({ children, title }) {
   return (
     <>
-      <Box
+      <Box // header
         bg="white"
         borderBottom="1px solid"
         borderBottomColor="gray.200"
         py="40px"
-        pl="20px"
-        pr="30px"
+        pl="30px"
+        pr="50px"
       >
         <HStack justify="space-between">
-          <Heading size="lg" fontWeight="500">
+          <Heading fontSize="1.5em" fontWeight="500">
             {title}
           </Heading>
           <Button>Add Customer</Button>

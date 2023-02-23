@@ -9,6 +9,7 @@ import {
   Stack,
   Textarea,
   VStack,
+  Flex,
 } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
@@ -74,108 +75,114 @@ function AddCustomer() {
 
   return (
     <ContentWrapper title="Add New Customer">
-      <Container maxW={{ base: "full", lg: "3xl" }} border="1px solid red">
-        <form onSubmit={handleSubmit(handleAddCustomer)}>
-          <VStack spacing="6" border="1px solid green" align="stretch">
-            <Stack
-              direction={{ base: "column", lg: "row" }}
-              justify="space-between"
-              gap="4"
-              maxW={{ base: "lg", lg: "full" }}
-              margin="auto"
-            >
-              <VStack w="full">
-                <FormControl>
-                  <FormLabel htmlFor="name">Nama</FormLabel>
-                  <Input
-                    id="name"
-                    type="text"
-                    isRequired
-                    {...register("name", { required: true })}
-                  />
-                </FormControl>
-                <FormControl>
-                  <FormLabel htmlFor="phone">Telp</FormLabel>
-                  <Input
-                    placeholder="+62800000000"
-                    id="phone"
-                    type="number"
-                    isRequired
-                    {...register("phone", { required: true })}
-                  />
-                </FormControl>
-                <FormControl>
-                  <FormLabel htmlFor="phone2">Telp (Opsional)</FormLabel>
-                  <Input
-                    placeholder="+62800000000"
-                    id="phone2"
-                    type="number"
-                    isRequired
-                    {...register("phone2", { required: false })}
-                  />
-                </FormControl>
-              </VStack>
-              <VStack w="full">
-                <FormControl>
-                  <FormLabel htmlFor="address">Alamat</FormLabel>
-                  <VStack spacing="2">
-                    <Select
-                      id="address"
-                      isDisabled={regencies.length === 0}
-                      {...register("alamat.kota", { required: true })}
-                      onChange={(e) => setChosenRegency(e.target.value)}
-                      placeholder="—Kota/Kabupaten—"
-                    >
-                      {regencies.map((item) => (
+      <form onSubmit={handleSubmit(handleAddCustomer)}>
+        <Stack
+          spacing="6"
+          maxW="3xl"
+          mx="auto"
+          my={{ base: 0, lg: 5 }}
+          borderRadius={{ base: 0, lg: 10 }}
+          p={10}
+          bg="white"
+          borderWidth={{ base: null, lg: 1 }}
+          borderColor="gray.200"
+        >
+          <Stack
+            direction={{ base: "column", lg: "row" }}
+            gap={{ base: 0, lg: 7 }}
+            alignItems={{ base: "center", lg: "stretch" }}
+          >
+            <Stack w="full" maxW="sm">
+              <FormControl>
+                <FormLabel htmlFor="name">Nama</FormLabel>
+                <Input
+                  id="name"
+                  type="text"
+                  isRequired
+                  {...register("name", { required: true })}
+                />
+              </FormControl>
+              <FormControl>
+                <FormLabel htmlFor="phone">Telp</FormLabel>
+                <Input
+                  placeholder="+62800000000"
+                  id="phone"
+                  type="number"
+                  isRequired
+                  {...register("phone", { required: true })}
+                />
+              </FormControl>
+              <FormControl>
+                <FormLabel htmlFor="phone2">Telp (Opsional)</FormLabel>
+                <Input
+                  placeholder="+62800000000"
+                  id="phone2"
+                  type="number"
+                  isRequired
+                  {...register("phone2", { required: false })}
+                />
+              </FormControl>
+            </Stack>
+            <Stack w="full" maxW="sm">
+              <FormControl>
+                <FormLabel htmlFor="address">Alamat</FormLabel>
+                <VStack spacing="2">
+                  <Select
+                    id="address"
+                    isDisabled={regencies.length === 0}
+                    {...register("alamat.kota", { required: true })}
+                    onChange={(e) => setChosenRegency(e.target.value)}
+                    placeholder="—Kota/Kabupaten—"
+                  >
+                    {regencies.map((item) => (
+                      <option key={item.id} value={item.name}>
+                        {item.name}
+                      </option>
+                    ))}
+                  </Select>
+
+                  <Select
+                    isDisabled={chosenRegency.length === 0}
+                    {...register("alamat.kecamatan", { required: true })}
+                    onChange={(e) => setChosenDistrict(e.target.value)}
+                    placeholder="—Kecamatan—"
+                  >
+                    {districts &&
+                      districts.map((item) => (
                         <option key={item.id} value={item.name}>
                           {item.name}
                         </option>
                       ))}
-                    </Select>
+                  </Select>
 
-                    <Select
-                      isDisabled={chosenRegency.length === 0}
-                      {...register("alamat.kecamatan", { required: true })}
-                      onChange={(e) => setChosenDistrict(e.target.value)}
-                      placeholder="—Kecamatan—"
-                    >
-                      {districts &&
-                        districts.map((item) => (
-                          <option key={item.id} value={item.name}>
-                            {item.name}
-                          </option>
-                        ))}
-                    </Select>
+                  <Select
+                    isDisabled={chosenDistrict.length === 0}
+                    {...register("alamat.kelurahan", { required: true })}
+                    onChange={(e) => setChosenVillage(e.target.value)}
+                    placeholder="—Kelurahan—"
+                  >
+                    {villages &&
+                      villages.map((item) => (
+                        <option key={item.id} value={item.name}>
+                          {item.name}
+                        </option>
+                      ))}
+                  </Select>
 
-                    <Select
-                      isDisabled={chosenDistrict.length === 0}
-                      {...register("alamat.kelurahan", { required: true })}
-                      onChange={(e) => setChosenVillage(e.target.value)}
-                      placeholder="—Kelurahan—"
-                    >
-                      {villages &&
-                        villages.map((item) => (
-                          <option key={item.id} value={item.name}>
-                            {item.name}
-                          </option>
-                        ))}
-                    </Select>
-
-                    <Textarea
-                      isDisabled={chosenVillage.length === 0}
-                      placeholder="Nama Jalan (Nomor/Patokan)"
-                      {...register("alamat.jalan", { required: true })}
-                    />
-                  </VStack>
-                </FormControl>
-              </VStack>
+                  <Textarea
+                    isDisabled={chosenVillage.length === 0}
+                    placeholder="Nama Jalan (Nomor/Patokan)"
+                    {...register("alamat.jalan", { required: true })}
+                  />
+                </VStack>
+              </FormControl>
             </Stack>
-            <Button type="submit" colorScheme="red" isLoading={isLoading}>
-              Tambah
-            </Button>
-          </VStack>
-        </form>
-      </Container>
+          </Stack>
+          <Button type="submit" colorScheme="red" isLoading={isLoading}>
+            Tambah
+          </Button>
+        </Stack>
+      </form>
     </ContentWrapper>
   );
 }

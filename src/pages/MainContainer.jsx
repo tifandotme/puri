@@ -20,6 +20,7 @@ import {
   MenuDivider,
   MenuItem,
   MenuList,
+  Skeleton,
   Text,
   Tooltip,
   useDisclosure,
@@ -87,15 +88,14 @@ function MainContainer({ user, loading, location }) {
   if (!user) return <Navigate to="/login" replace />;
 
   return (
-    <Box bg="gray.50" minH="100vh">
+    <Box bg="gray.50" minH="100vh" pb="1px">
+      {/* without pb, setting mb on content would mess up the background color */}
       <Sidebar
         onClose={onClose}
         location={location}
         display={{ base: "none", md: "block" }}
       />
-
       <Header onOpen={onOpen} />
-
       <Drawer // mobile sidebar using drawer
         placement="left"
         returnFocusOnClose={false}
@@ -107,7 +107,6 @@ function MainContainer({ user, loading, location }) {
           <Sidebar onClose={onClose} location={location} />
         </DrawerContent>
       </Drawer>
-
       <Box ml={{ base: 0, md: 60 }} pt={{ base: 16, md: 20 }}>
         <Outlet />
       </Box>
@@ -289,9 +288,12 @@ function Header({ onOpen }) {
                 ml="2"
               >
                 <Text fontSize="sm">{auth.currentUser?.displayName}</Text>
-                <Text fontSize="xs" color="gray.600">
-                  {divisi}
-                </Text>
+
+                <Skeleton isLoaded={divisi}>
+                  <Text fontSize="xs" color="gray.600" >
+                    {divisi ? divisi : "loading"}
+                  </Text>
+                </Skeleton>
               </VStack>
               <Box display={{ base: "none", md: "flex" }}>
                 <Icon as={HiChevronDown} boxSize={4} />
@@ -313,10 +315,12 @@ function Header({ onOpen }) {
               userSelect="none"
               cursor="not-allowed"
             >
-              <Text fontSize="sm">{auth.currentUser?.displayName}</Text>
+              <Text fontSize="sm">{auth.currentUser?.displayName}s</Text>
+              {/* <Skeleton isLoaded={false} fitContent={true}> */}
               <Text fontSize="xs" color="gray.600">
-                {divisi}
+                sasdasd
               </Text>
+              {/* </Skeleton */}
             </VStack>
             <MenuItem icon={<HiOutlineUserCircle size={18} />}>
               Edit Profile
