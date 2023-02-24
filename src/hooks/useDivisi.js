@@ -8,7 +8,7 @@ import { auth, database } from "../config/firebase";
  * @returns {string} The user's divisi
  */
 function useDivisi() {
-  const [divisi, setDivisi] = useState("");
+  const [divisi, setDivisi] = useState(undefined);
   const dbRef = ref(database);
 
   get(child(dbRef, `users/${auth.currentUser?.uid}/divisi`))

@@ -1,20 +1,21 @@
 import {
   Button,
-  Container,
   FormControl,
   FormLabel,
-  Heading,
   Input,
+  Radio,
+  RadioGroup,
   Select,
   Stack,
   Textarea,
-  VStack,
-  Flex,
+  Text,
+  Divider,
 } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import indonesia from "territory-indonesia";
 import ContentWrapper from "../components/ContentWrapper";
+import CustomerTypeRadio from "./CustomerTypeRadio";
 
 function AddCustomer() {
   const [isLoading, setLoading] = useState(false);
@@ -79,6 +80,7 @@ function AddCustomer() {
         <Stack
           spacing="6"
           maxW="3xl"
+          minH="100vh"
           mx="auto"
           my={{ base: 0, lg: 5 }}
           borderRadius={{ base: 0, lg: 10 }}
@@ -87,6 +89,7 @@ function AddCustomer() {
           borderWidth={{ base: null, lg: 1 }}
           borderColor="gray.200"
         >
+          <CustomerTypeRadio />
           <Stack
             direction={{ base: "column", lg: "row" }}
             gap={{ base: 0, lg: 7 }}
@@ -113,7 +116,7 @@ function AddCustomer() {
                 />
               </FormControl>
               <FormControl>
-                <FormLabel htmlFor="phone2">Telp (Opsional)</FormLabel>
+                <FormLabel htmlFor="phone2">Telp 2 (Opsional)</FormLabel>
                 <Input
                   placeholder="+62800000000"
                   id="phone2"
@@ -125,56 +128,66 @@ function AddCustomer() {
             </Stack>
             <Stack w="full" maxW="sm">
               <FormControl>
-                <FormLabel htmlFor="address">Alamat</FormLabel>
-                <VStack spacing="2">
-                  <Select
-                    id="address"
-                    isDisabled={regencies.length === 0}
-                    {...register("alamat.kota", { required: true })}
-                    onChange={(e) => setChosenRegency(e.target.value)}
-                    placeholder="—Kota/Kabupaten—"
-                  >
-                    {regencies.map((item) => (
+                <FormLabel htmlFor="city">Kota/Kabupaten</FormLabel>
+                <Select
+                  id="city"
+                  isDisabled={regencies.length === 0}
+                  {...register("alamat.kota", { required: true })}
+                  onChange={(e) => setChosenRegency(e.target.value)}
+                  placeholder="—Kota/Kabupaten—"
+                >
+                  {regencies.map((item) => (
+                    <option key={item.id} value={item.name}>
+                      {item.name}
+                    </option>
+                  ))}
+                </Select>
+              </FormControl>
+
+              <FormControl>
+                <FormLabel htmlFor="regency">Kecamatan</FormLabel>
+                <Select
+                  id="regency"
+                  isDisabled={chosenRegency.length === 0}
+                  {...register("alamat.kecamatan", { required: true })}
+                  onChange={(e) => setChosenDistrict(e.target.value)}
+                  placeholder="—Kecamatan—"
+                >
+                  {districts &&
+                    districts.map((item) => (
                       <option key={item.id} value={item.name}>
                         {item.name}
                       </option>
                     ))}
-                  </Select>
+                </Select>
+              </FormControl>
 
-                  <Select
-                    isDisabled={chosenRegency.length === 0}
-                    {...register("alamat.kecamatan", { required: true })}
-                    onChange={(e) => setChosenDistrict(e.target.value)}
-                    placeholder="—Kecamatan—"
-                  >
-                    {districts &&
-                      districts.map((item) => (
-                        <option key={item.id} value={item.name}>
-                          {item.name}
-                        </option>
-                      ))}
-                  </Select>
+              <FormControl>
+                <FormLabel htmlFor="district">Kelurahan</FormLabel>
+                <Select
+                  id="district"
+                  isDisabled={chosenDistrict.length === 0}
+                  {...register("alamat.kelurahan", { required: true })}
+                  onChange={(e) => setChosenVillage(e.target.value)}
+                  placeholder="—Kelurahan—"
+                >
+                  {villages &&
+                    villages.map((item) => (
+                      <option key={item.id} value={item.name}>
+                        {item.name}
+                      </option>
+                    ))}
+                </Select>
+              </FormControl>
 
-                  <Select
-                    isDisabled={chosenDistrict.length === 0}
-                    {...register("alamat.kelurahan", { required: true })}
-                    onChange={(e) => setChosenVillage(e.target.value)}
-                    placeholder="—Kelurahan—"
-                  >
-                    {villages &&
-                      villages.map((item) => (
-                        <option key={item.id} value={item.name}>
-                          {item.name}
-                        </option>
-                      ))}
-                  </Select>
-
-                  <Textarea
-                    isDisabled={chosenVillage.length === 0}
-                    placeholder="Nama Jalan (Nomor/Patokan)"
-                    {...register("alamat.jalan", { required: true })}
-                  />
-                </VStack>
+              <FormControl>
+                <FormLabel htmlFor="street">Jalan</FormLabel>
+                <Textarea
+                  id="street"
+                  isDisabled={chosenVillage.length === 0}
+                  placeholder="Nama Jalan (No. Rumah/Patokan)"
+                  {...register("alamat.jalan", { required: true })}
+                />
               </FormControl>
             </Stack>
           </Stack>

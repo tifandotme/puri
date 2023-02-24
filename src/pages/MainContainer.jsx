@@ -21,6 +21,7 @@ import {
   MenuItem,
   MenuList,
   Skeleton,
+  SkeletonText,
   Text,
   Tooltip,
   useDisclosure,
@@ -288,10 +289,9 @@ function Header({ onOpen }) {
                 ml="2"
               >
                 <Text fontSize="sm">{auth.currentUser?.displayName}</Text>
-
                 <Skeleton isLoaded={divisi}>
-                  <Text fontSize="xs" color="gray.600" >
-                    {divisi ? divisi : "loading"}
+                  <Text fontSize="xs" color="gray.600">
+                    {divisi ?? "xxxxxxx"}
                   </Text>
                 </Skeleton>
               </VStack>
@@ -315,12 +315,10 @@ function Header({ onOpen }) {
               userSelect="none"
               cursor="not-allowed"
             >
-              <Text fontSize="sm">{auth.currentUser?.displayName}s</Text>
-              {/* <Skeleton isLoaded={false} fitContent={true}> */}
+              <Text fontSize="sm">{auth.currentUser?.displayName}</Text>
               <Text fontSize="xs" color="gray.600">
-                sasdasd
+                {divisi}
               </Text>
-              {/* </Skeleton */}
             </VStack>
             <MenuItem icon={<HiOutlineUserCircle size={18} />}>
               Edit Profile
