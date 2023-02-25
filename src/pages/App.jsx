@@ -10,9 +10,11 @@ import Login from "./auth/Login";
 import SignUp from "./auth/SignUp";
 import ForgotPassword from "./auth/ForgotPassword";
 
-import MainContainer from "./MainContainer";
+import DashboardPanel from "./DashboardPanel";
 import AddCustomer from "./customers/AddCustomer";
 import OrderList from "./orders/OrderList";
+import CustomerList from "./customers/CustomerList";
+import Home from "./home/Home";
 
 export default function App() {
   const location = useLocation().pathname;
@@ -34,17 +36,20 @@ export default function App() {
         <Route
           path="/"
           element={
-            <MainContainer
+            <DashboardPanel
               user={currentUser}
               loading={fullscreenLoading}
               location={location}
             />
           }
         >
-          <Route index element={<h1>App</h1>} />
-          <Route path="customers" element={<AddCustomer />} />
-          <Route path="orders" element={<OrderList />} />
-          <Route path="profile" element={<h1>Profile</h1>} />
+          <Route index element={<Home />} />
+          <Route path="customers">
+            <Route index element={<CustomerList />} />
+            <Route path="new" element={<AddCustomer />} />
+          </Route>
+
+          <Route path="orders" element={<OrderList test="haha"/>} />
           <Route
             path="help"
             element={<h1>Bantuan TODO: dokumentasi lengkap cara penggunaan</h1>}

@@ -16,7 +16,7 @@ function RadioCard(props) {
         borderRadius="md"
         pos="relative"
         color="gray.600"
-        fontSize="1.1em"
+        fontSize="md"
         transition="background-color 0.1s"
         _checked={{
           color: "black",
@@ -49,7 +49,7 @@ function CustomerTypeRadio() {
   const { getRootProps, getRadioProps } = useRadioGroup({
     name: "customer-type",
     defaultValue: "Individual",
-    onChange: console.log("test"),
+    onChange: () => {},
   });
 
   const group = getRootProps();

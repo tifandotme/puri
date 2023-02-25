@@ -3,18 +3,14 @@ import {
   FormControl,
   FormLabel,
   Input,
-  Radio,
-  RadioGroup,
   Select,
   Stack,
   Textarea,
-  Text,
-  Divider,
 } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import indonesia from "territory-indonesia";
-import ContentWrapper from "../components/ContentWrapper";
+import DashboardContentWrapper from "../DashboardContentWrapper";
 import CustomerTypeRadio from "./CustomerTypeRadio";
 
 function AddCustomer() {
@@ -75,7 +71,7 @@ function AddCustomer() {
   }, [chosenDistrict]);
 
   return (
-    <ContentWrapper title="Add New Customer">
+    <DashboardContentWrapper title="Tambah Pelanggan">
       <form onSubmit={handleSubmit(handleAddCustomer)}>
         <Stack
           spacing="6"
@@ -196,7 +192,7 @@ function AddCustomer() {
           </Button>
         </Stack>
       </form>
-    </ContentWrapper>
+    </DashboardContentWrapper>
   );
 }
 

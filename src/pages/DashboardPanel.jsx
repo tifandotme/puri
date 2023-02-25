@@ -1,16 +1,11 @@
-import { useEffect, useState } from "react";
-import { Link, Navigate, Outlet } from "react-router-dom";
 import {
   Avatar,
   AvatarBadge,
   Box,
-  Button,
   CloseButton,
-  Container,
   Drawer,
   DrawerContent,
   Flex,
-  Heading,
   HStack,
   Icon,
   IconButton,
@@ -21,33 +16,34 @@ import {
   MenuItem,
   MenuList,
   Skeleton,
-  SkeletonText,
   Text,
   Tooltip,
   useDisclosure,
   VStack,
 } from "@chakra-ui/react";
+import { useEffect, useState } from "react";
 import { BsQuestionCircle, BsQuestionCircleFill } from "react-icons/bs";
 import {
+  HiArrowRightOnRectangle,
   HiBars3,
   HiChevronDown,
   HiHome,
   HiInbox,
+  HiOutlineCog6Tooth,
   HiOutlineHome,
   HiOutlineInbox,
+  HiOutlineUserCircle,
   HiOutlineUserGroup,
   HiUserGroup,
-  HiArrowRightOnRectangle,
-  HiOutlineCog6Tooth,
-  HiOutlineUserCircle,
 } from "react-icons/hi2";
+import { Link, Navigate, Outlet } from "react-router-dom";
 
 import logo from "../assets/logo.png";
 import { auth } from "../config/firebase";
-import { handleSignOut } from "./auth/handleAuth";
-import FullscreenLoading from "./components/FullscreenLoading";
-import useTopValue from "../hooks/useTopValue";
 import useDivisi from "../hooks/useDivisi";
+import useTopValue from "../hooks/useTopValue";
+import { handleSignOut } from "./auth/handleAuth";
+import FullscreenLoading from "./FullscreenLoading";
 
 // TODO: include isAllowed prop to check if user is allowed to access the routes
 // https://www.robinwieruch.de/react-router-private-routes/
@@ -56,25 +52,25 @@ import useDivisi from "../hooks/useDivisi";
 
 const navLinks = [
   {
-    name: "Dashboard",
+    name: "Beranda",
     path: "/",
     icon: HiOutlineHome,
     iconActive: HiHome,
   },
   {
-    name: "Customers",
+    name: "Pelanggan",
     path: "/customers",
     icon: HiOutlineUserGroup,
     iconActive: HiUserGroup,
   },
   {
-    name: "Orders",
+    name: "Pesanan",
     path: "/orders",
     icon: HiOutlineInbox,
     iconActive: HiInbox,
   },
   {
-    name: "Help",
+    name: "Bantuan",
     path: "/help",
     icon: BsQuestionCircle,
     iconActive: BsQuestionCircleFill,
@@ -146,36 +142,41 @@ function Sidebar({ onClose, location, ...rest }) {
         />
       </Flex>
 
-      {navLinks.map(({ name, path, icon, iconActive }) => (
-        <Link to={path} onClick={onClose} key={name} draggable={false}>
-          <Flex
-            my="1"
-            mx="4"
-            p="4"
-            _hover={{
-              bg: "secondary",
-              color: "white",
-            }}
-            transition="all 0.1s"
-            borderRadius="3xl"
-            align="center"
-            userSelect="none"
-          >
-            <Icon
-              mr="4"
-              as={location === path ? iconActive : icon}
-              boxSize={5}
-            />
-            <Text
-              as="span"
-              lineHeight={4}
-              fontWeight={location === path ? "bold" : "normal"}
+      {navLinks.map(({ name, path, icon, iconActive }) => {
+        let isActive;
+        if (path === "/") {
+          isActive = location === path;
+        } else {
+          isActive = location.startsWith(path);
+        }
+
+        return (
+          <Link to={path} onClick={onClose} key={name} draggable={false}>
+            <Flex
+              my="1"
+              mx="4"
+              p="4"
+              _hover={{
+                bg: "secondary",
+                color: "white",
+              }}
+              transition="all 0.1s"
+              borderRadius="3xl"
+              align="center"
+              userSelect="none"
             >
-              {name}
-            </Text>
-          </Flex>
-        </Link>
-      ))}
+              <Icon mr="4" as={isActive ? iconActive : icon} boxSize={5} />
+              <Text
+                as="span"
+                lineHeight={4}
+                fontWeight={isActive ? "bold" : "normal"}
+              >
+                {name}
+              </Text>
+            </Flex>
+          </Link>
+        );
+      })}
       <Text
         color="gray.400"
         fontSize="xs"

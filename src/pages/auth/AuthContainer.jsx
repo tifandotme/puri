@@ -1,7 +1,7 @@
 import { Box, Container, Stack, Heading, Image, Text } from "@chakra-ui/react";
 import { Outlet, Navigate } from "react-router-dom";
 import logo from "../../assets/logo.png";
-import FullscreenLoading from "../components/FullscreenLoading";
+import FullscreenLoading from "../FullscreenLoading";
 
 function AuthContainer({ user, loading, location }) {
   let authTitle;
