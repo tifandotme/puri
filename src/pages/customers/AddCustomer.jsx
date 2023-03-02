@@ -25,9 +25,12 @@ function AddCustomer() {
   const [villages, setVillages] = useState([]);
   const [chosenVillage, setChosenVillage] = useState("");
 
+  const [customerType, setCustomerType] = useState("");
+
   const {
     register,
     handleSubmit,
+    control,
     formState: { errors },
   } = useForm();
 
@@ -85,7 +88,8 @@ function AddCustomer() {
           borderWidth={{ base: null, lg: 1 }}
           borderColor="gray.200"
         >
-          <CustomerTypeRadio />
+          <CustomerTypeRadio control={control} setType={setCustomerType} />
+
           <Stack
             direction={{ base: "column", lg: "row" }}
             gap={{ base: 0, lg: 7 }}
@@ -93,12 +97,27 @@ function AddCustomer() {
           >
             <Stack w="full" maxW="sm">
               <FormControl>
-                <FormLabel htmlFor="name">Nama</FormLabel>
+                <FormLabel htmlFor="name">
+                  {customerType === "Perusahaan"
+                    ? "Nama Perusahaan"
+                    : "Nama Lengkap"}
+                </FormLabel>
                 <Input
                   id="name"
                   type="text"
                   isRequired
                   {...register("name", { required: true })}
+                />
+              </FormControl>
+              <FormControl>
+                <FormLabel htmlFor="id">
+                  {customerType === "Perusahaan" ? "No NPWP" : "No KTP"}
+                </FormLabel>
+                <Input
+                  id="id"
+                  type="number"
+                  isRequired
+                  {...register("id", { required: true })}
                 />
               </FormControl>
               <FormControl>
@@ -122,13 +141,14 @@ function AddCustomer() {
                 />
               </FormControl>
             </Stack>
+
             <Stack w="full" maxW="sm">
               <FormControl>
                 <FormLabel htmlFor="city">Kota/Kabupaten</FormLabel>
                 <Select
                   id="city"
                   isDisabled={regencies.length === 0}
-                  {...register("alamat.kota", { required: true })}
+                  {...register("address.city", { required: true })}
                   onChange={(e) => setChosenRegency(e.target.value)}
                   placeholder="—Kota/Kabupaten—"
                 >
@@ -145,7 +165,7 @@ function AddCustomer() {
                 <Select
                   id="regency"
                   isDisabled={chosenRegency.length === 0}
-                  {...register("alamat.kecamatan", { required: true })}
+                  {...register("address.regency", { required: true })}
                   onChange={(e) => setChosenDistrict(e.target.value)}
                   placeholder="—Kecamatan—"
                 >
@@ -163,7 +183,7 @@ function AddCustomer() {
                 <Select
                   id="district"
                   isDisabled={chosenDistrict.length === 0}
-                  {...register("alamat.kelurahan", { required: true })}
+                  {...register("address.district", { required: true })}
                   onChange={(e) => setChosenVillage(e.target.value)}
                   placeholder="—Kelurahan—"
                 >
@@ -182,7 +202,7 @@ function AddCustomer() {
                   id="street"
                   isDisabled={chosenVillage.length === 0}
                   placeholder="Nama Jalan (No. Rumah/Patokan)"
-                  {...register("alamat.jalan", { required: true })}
+                  {...register("address.street", { required: true })}
                 />
               </FormControl>
             </Stack>
