@@ -1,6 +1,6 @@
 import { initializeApp } from "firebase/app";
-import { getAuth } from "firebase/auth";
-import { getDatabase } from "firebase/database";
+import { getAuth, connectAuthEmulator } from "firebase/auth";
+import { getDatabase, connectDatabaseEmulator } from "firebase/database";
 
 const firebaseConfig = {
   apiKey: "AIzaSyD6eq4vdO_B0ivZN5oa68W97f_hSd0lMuk",
@@ -18,10 +18,9 @@ const database = getDatabase(
   "https://puri-systems-default-rtdb.asia-southeast1.firebasedatabase.app"
 );
 
-// Do not use emulator in production! delete this line before deploying
-// import { connectAuthEmulator } from "firebase/auth";
-// import { connectDatabaseEmulator } from "firebase/database";
-// connectAuthEmulator(auth, "http://localhost:9099", { disableWarnings: true });
-// connectDatabaseEmulator(database, "localhost", 9000);
+if (import.meta.env.DEV) {
+  connectAuthEmulator(auth, "http://localhost:9099", { disableWarnings: true });
+  connectDatabaseEmulator(database, "localhost", 9000);
+}
 
 export { auth, database };
