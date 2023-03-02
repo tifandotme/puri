@@ -3,18 +3,18 @@ import { ref, get, child } from "firebase/database";
 import { auth, database } from "../config/firebase";
 
 /**
- * This hook is used to get the user's divisi from the database
+ * This hook is used to get the user's division from the database
  *
- * @returns {string} The user's divisi
+ * @returns {string} The user's division
  */
-function useDivisi() {
-  const [divisi, setDivisi] = useState(undefined);
+function useDivision() {
+  const [division, setDivision] = useState(undefined);
   const dbRef = ref(database);
 
-  get(child(dbRef, `users/${auth.currentUser?.uid}/divisi`))
+  get(child(dbRef, `users/${auth.currentUser?.uid}/division`))
     .then((snapshot) => {
       if (snapshot.exists()) {
-        setDivisi(snapshot.val());
+        setDivision(snapshot.val());
       } else {
         console.log("No data available");
       }
@@ -23,7 +23,7 @@ function useDivisi() {
       console.error(error);
     });
 
-  return divisi;
+  return division;
 }
 
-export default useDivisi;
+export default useDivision;

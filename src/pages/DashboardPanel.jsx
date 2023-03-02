@@ -40,7 +40,7 @@ import { Link, Navigate, Outlet } from "react-router-dom";
 
 import logo from "../assets/logo.png";
 import { auth } from "../config/firebase";
-import useDivisi from "../hooks/useDivisi";
+import useDivision from "../hooks/useDivision";
 import useTopValue from "../hooks/useTopValue";
 import { handleSignOut } from "./auth/handleAuth";
 import FullscreenLoading from "./FullscreenLoading";
@@ -193,7 +193,7 @@ function Sidebar({ onClose, location, ...rest }) {
 }
 
 function Header({ onOpen }) {
-  const divisi = useDivisi();
+  const division = useDivision();
   const topValue = useTopValue(16, "md");
 
   // check if user is online
@@ -290,9 +290,9 @@ function Header({ onOpen }) {
                 ml="2"
               >
                 <Text fontSize="sm">{auth.currentUser?.displayName}</Text>
-                <Skeleton isLoaded={divisi}>
+                <Skeleton isLoaded={division}>
                   <Text fontSize="xs" color="gray.600">
-                    {divisi ?? "xxxxxxx"}
+                    {division ?? "xxxxxxx"}
                   </Text>
                 </Skeleton>
               </VStack>
@@ -318,7 +318,7 @@ function Header({ onOpen }) {
             >
               <Text fontSize="sm">{auth.currentUser?.displayName}</Text>
               <Text fontSize="xs" color="gray.600">
-                {divisi}
+                {division}
               </Text>
             </VStack>
             <MenuItem icon={<HiOutlineUserCircle size={18} />}>

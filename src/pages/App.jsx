@@ -49,7 +49,7 @@ export default function App() {
             <Route path="new" element={<AddCustomer />} />
           </Route>
 
-          <Route path="orders" element={<OrderList test="haha"/>} />
+          <Route path="orders" element={<OrderList />} />
           <Route
             path="help"
             element={<h1>Bantuan TODO: dokumentasi lengkap cara penggunaan</h1>}

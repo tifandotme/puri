@@ -68,7 +68,7 @@ function SignUp() {
             onKeyDown={(e) => e.key === "Enter" && onSubmit()}
           >
             <FormLabel htmlFor="role">Divisi</FormLabel>
-            <Select id="role" {...register("divisi", { required: true })}>
+            <Select id="role" {...register("division", { required: true })}>
               <option value="">—</option>
               <option value="Sales">Sales</option>
               <option value="Logistik">Logistik</option>

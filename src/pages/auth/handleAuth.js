@@ -11,7 +11,7 @@ import { auth, database } from "../../config/firebase";
 // TODO: implement Sentry for error logging
 
 async function handleSignUp(
-  { email, password, firstName, lastName, divisi },
+  { email, password, firstName, lastName, division },
   setLoading,
   navigate,
   toast
@@ -33,7 +33,7 @@ async function handleSignUp(
       firstName,
       ...(lastName && { lastName }),
       email,
-      divisi,
+      division,
     });
 
     navigate("/");
