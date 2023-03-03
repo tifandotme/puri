@@ -16,7 +16,7 @@ async function handleAddCustomer(data, setLoading, navigate) {
     //   title: "Email sudah terdaftar",
     //   status: "error",
     //   duration: 3000,
-    // });
+    // });s
     console.log(error);
   } finally {
     setLoading(false);
