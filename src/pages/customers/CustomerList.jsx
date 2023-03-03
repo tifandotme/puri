@@ -1,6 +1,13 @@
 import DashboardContentWrapper from "../DashboardContentWrapper";
+import { database } from "../../config/firebase";
+import { onValue, ref } from "firebase/database";
 
 function CustomerList() {
+  onValue(ref(database, "customers"), (snapshot) => {
+    const data = snapshot.val();
+    console.log(data);
+  });
+
   return (
     <>
       <DashboardContentWrapper

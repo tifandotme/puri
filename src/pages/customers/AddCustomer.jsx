@@ -72,10 +72,9 @@ function AddCustomer() {
     setChosenVillage("");
   }, [chosenDistrict]);
 
-  const onSubmit = handleSubmit(
-    (data) => handleAddCustomer(data, setLoading, navigate)
-    // console.log(data)
-  );
+  const onSubmit = handleSubmit((data) => {
+    return handleAddCustomer(data, setLoading, navigate);
+  });
 
   return (
     <DashboardContentWrapper title="Tambah Pelanggan">
