@@ -9,11 +9,14 @@ import {
 } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
+import { useNavigate } from "react-router-dom";
 import indonesia from "territory-indonesia";
 import DashboardContentWrapper from "../DashboardContentWrapper";
 import CustomerTypeRadio from "./CustomerTypeRadio";
+import handleAddCustomer from "./handleAddCustomer";
 
 function AddCustomer() {
+  const navigate = useNavigate();
   const [isLoading, setLoading] = useState(false);
 
   const [regencies, setRegencies] = useState([]);
@@ -33,10 +36,6 @@ function AddCustomer() {
     control,
     formState: { errors },
   } = useForm();
-
-  const handleAddCustomer = (data) => {
-    console.log(data);
-  };
 
   useEffect(() => {
     indonesia.getRegenciesOfProvinceId("33").then((data) => {
@@ -73,9 +72,14 @@ function AddCustomer() {
     setChosenVillage("");
   }, [chosenDistrict]);
 
+  const onSubmit = handleSubmit(
+    (data) => handleAddCustomer(data, setLoading, navigate)
+    // console.log(data)
+  );
+
   return (
     <DashboardContentWrapper title="Tambah Pelanggan">
-      <form onSubmit={handleSubmit(handleAddCustomer)}>
+      <form onSubmit={onSubmit}>
         <Stack
           spacing="6"
           maxW="3xl"
@@ -96,37 +100,34 @@ function AddCustomer() {
             alignItems={{ base: "center", lg: "stretch" }}
           >
             <Stack w="full" maxW="sm">
-              <FormControl>
+              <FormControl isRequired>
                 <FormLabel htmlFor="name">
-                  {customerType === "Perusahaan"
+                  {customerType === "perusahaan"
                     ? "Nama Perusahaan"
                     : "Nama Lengkap"}
                 </FormLabel>
                 <Input
                   id="name"
                   type="text"
-                  isRequired
                   {...register("name", { required: true })}
                 />
               </FormControl>
-              <FormControl>
+              <FormControl isRequired>
                 <FormLabel htmlFor="id">
-                  {customerType === "Perusahaan" ? "No NPWP" : "No KTP"}
+                  {customerType === "perusahaan" ? "No NPWP" : "No KTP"}
                 </FormLabel>
                 <Input
                   id="id"
                   type="number"
-                  isRequired
                   {...register("id", { required: true })}
                 />
               </FormControl>
-              <FormControl>
+              <FormControl isRequired>
                 <FormLabel htmlFor="phone">Telp</FormLabel>
                 <Input
                   placeholder="+62800000000"
                   id="phone"
                   type="number"
-                  isRequired
                   {...register("phone", { required: true })}
                 />
               </FormControl>
@@ -136,14 +137,13 @@ function AddCustomer() {
                   placeholder="+62800000000"
                   id="phone2"
                   type="number"
-                  isRequired
                   {...register("phone2", { required: false })}
                 />
               </FormControl>
             </Stack>
 
             <Stack w="full" maxW="sm">
-              <FormControl>
+              <FormControl isRequired>
                 <FormLabel htmlFor="city">Kota/Kabupaten</FormLabel>
                 <Select
                   id="city"
@@ -160,7 +160,7 @@ function AddCustomer() {
                 </Select>
               </FormControl>
 
-              <FormControl>
+              <FormControl isRequired>
                 <FormLabel htmlFor="regency">Kecamatan</FormLabel>
                 <Select
                   id="regency"
@@ -178,7 +178,7 @@ function AddCustomer() {
                 </Select>
               </FormControl>
 
-              <FormControl>
+              <FormControl isRequired>
                 <FormLabel htmlFor="district">Kelurahan</FormLabel>
                 <Select
                   id="district"
@@ -196,7 +196,7 @@ function AddCustomer() {
                 </Select>
               </FormControl>
 
-              <FormControl>
+              <FormControl isRequired>
                 <FormLabel htmlFor="street">Jalan</FormLabel>
                 <Textarea
                   id="street"

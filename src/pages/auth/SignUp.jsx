@@ -27,7 +27,7 @@ function SignUp() {
     formState: { errors },
   } = useForm();
 
-  // used in select field and submt button
+  // used in select field and submit button
   const onSubmit = handleSubmit((data) =>
     handleSignUp(data, setLoading, navigate, toast)
   );

@@ -290,7 +290,7 @@ function Header({ onOpen }) {
                 ml="2"
               >
                 <Text fontSize="sm">{auth.currentUser?.displayName}</Text>
-                <Skeleton isLoaded={division}>
+                <Skeleton isLoaded={division} h={4}>
                   <Text fontSize="xs" color="gray.600">
                     {division ?? "xxxxxxx"}
                   </Text>

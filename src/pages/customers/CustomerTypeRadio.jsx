@@ -45,7 +45,7 @@ function RadioCard(props) {
 }
 
 function CustomerTypeRadio({ control, setType }) {
-  const options = ["Individual", "Perusahaan"];
+  const options = ["individual", "perusahaan"];
 
   const { getRootProps, getRadioProps } = useRadioGroup({
     name: "type",
@@ -62,13 +62,14 @@ function CustomerTypeRadio({ control, setType }) {
       <Controller
         name="type"
         control={control}
+        defaultValue={options[0]}
         render={({ field }) => (
           <HStack {...group} {...field} justify="center" spacing={2}>
             {options.map((value) => {
               const radio = getRadioProps({ value });
               return (
                 <RadioCard key={value} {...radio}>
-                  {value}
+                  {value.charAt(0).toUpperCase() + value.slice(1)}
                 </RadioCard>
               );
             })}
