@@ -253,13 +253,13 @@ function Header({ onOpen }) {
             _hover={{
               base: null,
               md: {
-                bg: "gray.100",
+                bg: "gray.50",
               },
             }}
             _active={{
               base: null,
               md: {
-                bg: "gray.100",
+                bg: "gray.50",
               },
             }}
           >
@@ -292,7 +292,7 @@ function Header({ onOpen }) {
                 <Text fontSize="sm">{auth.currentUser?.displayName}</Text>
                 <Skeleton isLoaded={division} h={4}>
                   <Text fontSize="xs" color="gray.600">
-                    {division ?? "xxxxxxx"}
+                    {division || "xxxxxxx"}
                   </Text>
                 </Skeleton>
               </VStack>
@@ -317,9 +317,9 @@ function Header({ onOpen }) {
               cursor="not-allowed"
             >
               <Text fontSize="sm">{auth.currentUser?.displayName}</Text>
-              <Text fontSize="xs" color="gray.600">
+              {/* <Text fontSize="xs" color="gray.600">
                 {division}
-              </Text>
+              </Text> */}
             </VStack>
             <MenuItem icon={<HiOutlineUserCircle size={18} />}>
               Edit Profile
