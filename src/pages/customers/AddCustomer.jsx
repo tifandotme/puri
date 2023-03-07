@@ -2,6 +2,7 @@ import {
   Button,
   FormControl,
   FormLabel,
+  HStack,
   Input,
   Select,
   Stack,
@@ -74,6 +75,7 @@ function AddCustomer() {
 
   const onSubmit = handleSubmit((data) =>
     handleAddCustomer(data, setLoading, navigate)
+    // console.log(data)
   );
 
   return (
@@ -105,11 +107,24 @@ function AddCustomer() {
                     ? "Nama Perusahaan"
                     : "Nama Lengkap"}
                 </FormLabel>
-                <Input
-                  id="name"
-                  type="text"
-                  {...register("name", { required: true })}
-                />
+                <HStack>
+                  {customerType === "perusahaan" && (
+                    <Select
+                      defaultValue="pt"
+                      w="28"
+                      {...register("prefixName", { required: true })}
+                    >
+                      <option value="PT">PT</option>
+                      <option value="CV">CV</option>
+                      <option value="UD">UD</option>
+                    </Select>
+                  )}
+                  <Input
+                    id="name"
+                    type="text"
+                    {...register("name", { required: true })}
+                  />
+                </HStack>
               </FormControl>
               <FormControl isRequired>
                 <FormLabel htmlFor="id">
@@ -124,18 +139,18 @@ function AddCustomer() {
               <FormControl isRequired>
                 <FormLabel htmlFor="phone">Telp</FormLabel>
                 <Input
-                  placeholder="+62800000000"
+                  placeholder="081122223333"
                   id="phone"
-                  type="number"
+                  type="tel"
                   {...register("phone", { required: true })}
                 />
               </FormControl>
               <FormControl>
                 <FormLabel htmlFor="phone2">Telp 2 (Opsional)</FormLabel>
                 <Input
-                  placeholder="+62800000000"
+                  placeholder="081122223333"
                   id="phone2"
-                  type="number"
+                  type="tel"
                   {...register("phone2", { required: false })}
                 />
               </FormControl>

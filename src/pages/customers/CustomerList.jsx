@@ -21,22 +21,43 @@ import { off, onValue, ref } from "firebase/database";
 import { useEffect, useState, memo } from "react";
 import { database } from "../../config/firebase";
 import DashboardContentWrapper from "../DashboardContentWrapper";
+import { useQuery } from "@tanstack/react-query";
 
 function CustomerList() {
   const { isOpen, onOpen, onClose } = useDisclosure();
 
-  const [customerList, setCustomerList] = useState(undefined);
+  const { data, isLoading, error } = useQuery(
+    ["customerList"],
+    () => {
+      const customersRef = ref(database, "customers");
+
+      return new Promise((resolve, reject) => {
+        onValue(customersRef, (snapshot) => {
+          resolve(snapshot.val() || {});
+        });
+
+        // return () => off(customersRef);
+      });
+    },
+    { cacheTime: 5 * 60 * 1000 }
+  );
+
+  // const [customerList, setCustomerList] = useState(undefined);
   const [selectedCustomer, setSelectedCustomer] = useState(undefined);
 
-  useEffect(() => {
-    const customersRef = ref(database, "customers");
+  // useEffect(() => {
+  //   const customersRef = ref(database, "customers");
 
-    onValue(customersRef, (snapshot) => {
-      setCustomerList(snapshot.val() || {});
-    });
+  //   console.log("buat efek bosque");
 
-    return () => off(customersRef);
-  }, []);
+  //   onValue(customersRef, (snapshot) => {
+  //     setCustomerList(snapshot.val() || {});
+  //   });
+
+  //   return () => off(customersRef);
+  // }, []);
+
+  // data && console.log(data);
 
   return (
     <>
@@ -44,7 +65,9 @@ function CustomerList() {
         title="Daftar Pelanggan"
         button={{ name: "Tambah", path: "new" }}
       >
-        {customerList ? (
+        {isLoading ? (
+          <Spinner />
+        ) : (
           <TableContainer>
             <Table variant="striped">
               <Thead>
@@ -54,7 +77,7 @@ function CustomerList() {
                 </Tr>
               </Thead>
               <Tbody>
-                {Object.entries(customerList).map(([key, value]) => (
+                {Object.entries(data).map(([key, value]) => (
                   <Tr key={key}>
                     <Td>{value.name}</Td>
                     <Td isNumeric>
@@ -72,8 +95,6 @@ function CustomerList() {
               </Tbody>
             </Table>
           </TableContainer>
-        ) : (
-          <Spinner />
         )}
         {selectedCustomer && (
           <DetailModal

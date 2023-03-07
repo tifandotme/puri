@@ -45,7 +45,7 @@ function RadioCard(props) {
 }
 
 function CustomerTypeRadio({ control, setType }) {
-  const options = ["individual", "perusahaan"];
+  const options = ["individu", "perusahaan"];
 
   const { getRootProps, getRadioProps } = useRadioGroup({
     name: "type",
