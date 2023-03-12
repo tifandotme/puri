@@ -50,7 +50,7 @@ import FullscreenLoading from "./FullscreenLoading";
 
 // TODO: add dark mode?
 
-const navLinks = [
+const navLinks: NavLink = [
   {
     name: "Beranda",
     path: "/",

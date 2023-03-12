@@ -1,5 +1,5 @@
 import { extendTheme, defineStyleConfig } from "@chakra-ui/react";
-import background from "../assets/background.webp";
+import * as background from "../assets/background.webp";
 
 import "@fontsource/inter/variable.css";
 import "@fontsource/raleway/variable.css";

@@ -2,7 +2,7 @@ import { set, ref, push, serverTimestamp } from "firebase/database";
 import { database } from "../../config/firebase";
 
 function capitalizeWords(str) {
-  // usage: 🫡 (CAP-italize) words, function name is not enough, so additional comment is needed, myess
+  // usage: 🫡 (CAP-italize) words, function name is not enough, so additional comment is needed, hehe
   let words = str.split(" ");
 
   for (let i = 0; i < words.length; i++) {
