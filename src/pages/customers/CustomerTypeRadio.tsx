@@ -1,7 +1,17 @@
-import { Box, useRadio, useRadioGroup, HStack } from "@chakra-ui/react";
-import { Controller } from "react-hook-form";
+import {
+  Box,
+  useRadio,
+  useRadioGroup,
+  HStack,
+  UseRadioProps,
+} from "@chakra-ui/react";
+import { Control, Controller } from "react-hook-form";
 
-function RadioCard(props) {
+type RCProps = UseRadioProps & {
+  children: React.ReactNode;
+};
+
+function RadioCard(props: RCProps) {
   const { getInputProps, getCheckboxProps } = useRadio(props);
 
   const input = getInputProps();
@@ -44,14 +54,19 @@ function RadioCard(props) {
   );
 }
 
-function CustomerTypeRadio({ control, setType }) {
+type CTRProps = {
+  control: Control;
+  setCustomerType: (value: string) => void;
+};
+
+function CustomerTypeRadio({ control, setCustomerType }: CTRProps) {
   const options = ["individu", "perusahaan"];
 
   const { getRootProps, getRadioProps } = useRadioGroup({
     name: "type",
     defaultValue: options[0],
     onChange: (value) => {
-      setType(value);
+      setCustomerType(value);
     },
   });
 

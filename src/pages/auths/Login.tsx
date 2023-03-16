@@ -6,28 +6,26 @@ import {
   Text,
   useToast,
 } from "@chakra-ui/react";
-import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
 import { handleSignIn } from "./handleAuth";
 import { EmailField, PasswordField } from "./AuthFields";
 
 function Login() {
-  const [isLoading, setLoading] = useState(false);
-  const navigate = useNavigate();
   const toast = useToast();
+
+  const navigate = useNavigate();
+
   const {
     register,
     handleSubmit,
-    formState: { errors },
+    formState: { errors, isSubmitting },
   } = useForm();
 
+  const onSubmit = handleSubmit((data) => handleSignIn(data, navigate, toast));
+
   return (
-    <form
-      onSubmit={handleSubmit((data) =>
-        handleSignIn(data, setLoading, navigate, toast)
-      )}
-    >
+    <form onSubmit={onSubmit}>
       <Stack spacing="6">
         <Stack spacing="5">
           <EmailField register={register} errors={errors} />
@@ -35,7 +33,7 @@ function Login() {
         </Stack>
 
         <HStack justify="flex-end">
-          <Link to="/forgotpassword" tabIndex="-1">
+          <Link to="/forgotpassword" tabIndex={-1}>
             <Button variant="link" colorScheme="blue" size="sm">
               Lupa password?
             </Button>
@@ -47,7 +45,7 @@ function Login() {
             type="submit"
             colorScheme="red"
             variant="solid"
-            isLoading={isLoading}
+            isLoading={isSubmitting}
             isDisabled={errors.password || errors.email ? true : false}
           >
             Masuk
@@ -55,7 +53,7 @@ function Login() {
           <Divider />
           <HStack spacing="1" justify="center">
             <Text color="muted">Belum punya akun?</Text>
-            <Link to="/signup" tabIndex="-1">
+            <Link to="/signup" tabIndex={-1}>
               <Button variant="link" colorScheme="blue">
                 Buat baru
               </Button>

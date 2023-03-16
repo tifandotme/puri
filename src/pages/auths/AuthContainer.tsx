@@ -1,33 +1,36 @@
 import { Box, Container, Stack, Heading, Image, Text } from "@chakra-ui/react";
+import { User } from "firebase/auth";
 import { Outlet, Navigate } from "react-router-dom";
 import logo from "../../assets/logo.png";
 import FullscreenLoading from "../FullscreenLoading";
 
-function AuthContainer({ user, loading, location }) {
-  let authTitle;
-  switch (location) {
-    case "/login":
-      window.scrollTo(0, 0);
-      authTitle = "Login";
-      break;
-    case "/signup":
-      window.scrollTo(0, 0);
-      authTitle = "Daftar";
-      break;
-    case "/forgotpassword":
-      window.scrollTo(0, 0);
-      authTitle = "Lupa Password";
-      break;
-  }
+type ACProps = {
+  currentUser: User | null;
+  isPageLoading: boolean;
+  currentPath: string;
+};
 
-  if (loading) return <FullscreenLoading />;
+function AuthContainer({ currentUser, isPageLoading, currentPath }: ACProps) {
 
-  if (user) {
-    return <Navigate to="/" replace />;
+  // set page title to follow current path
+  const titleMap: Record<string, string> = {
+    "/login": "Login",
+    "/signup": "Daftar",
+    "/forgotpassword": "Lupa Password",
+  };
+  const pageTitle = titleMap[currentPath];
+
+  // scroll to top when path changes
+  if (currentPath) {
+    window.scrollTo(0, 0);
   }
 
   // TODO: add gradient effect logo?
   // TODO: add shadow to logo? https://box-shadow.dev/
+
+  if (isPageLoading) return <FullscreenLoading />;
+
+  if (currentUser) return <Navigate to="/" replace />;
 
   return (
     <Container
@@ -60,7 +63,7 @@ function AuthContainer({ user, loading, location }) {
           backgroundColor="white"
         >
           <Heading textAlign="center" pb={12} size="md">
-            {authTitle}
+            {pageTitle}
           </Heading>
           <Outlet />
         </Box>

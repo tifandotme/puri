@@ -1,7 +1,16 @@
 import { Heading, Stack, HStack, Box, Button } from "@chakra-ui/react";
 import { Link } from "react-router-dom";
 
-function DashboardContentWrapper({ title, children, button }) {
+type CWProps = {
+  title: string;
+  button?: {
+    name: string;
+    path: string;
+  };
+  children: React.ReactNode;
+};
+
+function ContentWrapper({ title, button, children }: CWProps) {
   return (
     <>
       <Box // header
@@ -35,4 +44,4 @@ function DashboardContentWrapper({ title, children, button }) {
   );
 }
 
-export default DashboardContentWrapper;
+export default ContentWrapper;

@@ -2,18 +2,18 @@ import { useState, useEffect } from "react";
 import { useBreakpointValue } from "@chakra-ui/react";
 
 /**
- * This hook is used to determine the top value for the header based on
- * the scroll position and the breakpoint value. It is used to hide
- * the header when the user is scrolling down.
+ * Determine the top value for the header based on scroll position and
+ * breakpoint value. It is used to dynamically hide the header
+ * when the user is scrolling down.
  *
  * Make sure to have header position set to fixed and transition set to top
  *
- * @param {number} headerHeight - The height of the header
- * @param {string} breakpoint - The breakpoint value (e.g. "sm", "md", "lg")
+ * @param headerHeight The height of the header
+ * @param breakpoint The breakpoint value (e.g. "sm", "md", "lg")
  *
- * @returns {number} The top value for the header
+ * @returns The top value for the header
  */
-function useTopValue(headerHeight, breakpoint) {
+function useTopValue(headerHeight: number, breakpoint: string): number {
   const [prevScrollPos, setPrevScrollPos] = useState(0);
   const [visible, setVisible] = useState(true);
 
@@ -23,6 +23,7 @@ function useTopValue(headerHeight, breakpoint) {
       setVisible(prevScrollPos > currentScrollPos || currentScrollPos < 60);
       setPrevScrollPos(currentScrollPos);
     };
+
     window.addEventListener("scroll", handleScroll);
     return () => {
       window.removeEventListener("scroll", handleScroll);
@@ -36,8 +37,9 @@ function useTopValue(headerHeight, breakpoint) {
 
   if (topValue === undefined) {
     return 0;
+  } else {
+    return topValue;
   }
-  return topValue;
 }
 
 export default useTopValue;

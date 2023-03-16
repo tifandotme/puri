@@ -11,26 +11,24 @@ import {
   Text,
   useToast,
 } from "@chakra-ui/react";
-import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
 import { handleSignUp } from "./handleAuth";
 import { EmailField, PasswordField } from "./AuthFields";
 
 function SignUp() {
-  const [isLoading, setLoading] = useState(false);
-  const navigate = useNavigate();
   const toast = useToast();
+
+  const navigate = useNavigate();
+
   const {
     register,
     handleSubmit,
-    formState: { errors },
+    formState: { errors, isSubmitting },
   } = useForm();
 
-  // used in select field and submit button
-  const onSubmit = handleSubmit((data) =>
-    handleSignUp(data, setLoading, navigate, toast)
-  );
+  // used in select field (onKeyDown) and submit button
+  const onSubmit = handleSubmit((data) => handleSignUp(data, navigate, toast));
 
   return (
     <form onSubmit={onSubmit}>
@@ -55,12 +53,12 @@ function SignUp() {
             </FormControl>
           </HStack>
 
-          <EmailField register={register} errors={errors} showAsterisk={true} />
+          <EmailField register={register} errors={errors} showAsterisk />
           <PasswordField
             register={register}
             errors={errors}
-            showAsterisk={true}
-            isConstrained={true}
+            showAsterisk
+            isConstrained
           />
 
           <FormControl
@@ -85,7 +83,7 @@ function SignUp() {
             type="submit"
             colorScheme="red"
             variant="solid"
-            isLoading={isLoading}
+            isLoading={isSubmitting}
             isDisabled={errors.password || errors.email ? true : false}
           >
             Daftar
@@ -95,7 +93,7 @@ function SignUp() {
 
           <HStack spacing="1" justify="center">
             <Text color="muted">Sudah punya akun?</Text>
-            <Link to="/login" tabIndex="-1">
+            <Link to="/login" tabIndex={-1}>
               <Button variant="link" colorScheme="blue">
                 Login
               </Button>

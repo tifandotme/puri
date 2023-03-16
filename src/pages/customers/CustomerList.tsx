@@ -17,51 +17,60 @@ import {
   Tr,
   useDisclosure,
 } from "@chakra-ui/react";
-import { off, onValue, ref } from "firebase/database";
-import { useEffect, useState, memo } from "react";
-import { database } from "../../config/firebase";
-import DashboardContentWrapper from "../DashboardContentWrapper";
+import { onValue, ref } from "firebase/database";
 import { useQuery } from "@tanstack/react-query";
+import { useState, memo } from "react";
+import { database } from "../../config/firebase";
+import ContentWrapper from "../dashboard/ContentWrapper";
+
+type Customer = {
+  createdAt: number;
+  address: {
+    city: string;
+    district: string;
+    regency: string;
+    street: string;
+  };
+  id: number;
+  name: string;
+  phone: number;
+  phone2?: number;
+  type: "individu" | "perusahaan";
+};
+
+type CustomerList = Record<string, Customer>;
 
 function CustomerList() {
   const { isOpen, onOpen, onClose } = useDisclosure();
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const { data, isLoading, error } = useQuery(
     ["customerList"],
-    () => {
+    async () => {
       const customersRef = ref(database, "customers");
 
-      return new Promise((resolve, reject) => {
-        onValue(customersRef, (snapshot) => {
-          resolve(snapshot.val() || {});
-        });
-
-        // return () => off(customersRef);
+      return new Promise<CustomerList>((resolve, reject) => {
+        onValue(
+          customersRef,
+          (snapshot) => {
+            resolve(snapshot.val() || {});
+          },
+          (error) => {
+            reject(error);
+          }
+        );
       });
     },
     { cacheTime: 5 * 60 * 1000 }
   );
 
-  // const [customerList, setCustomerList] = useState(undefined);
-  const [selectedCustomer, setSelectedCustomer] = useState(undefined);
-
-  // useEffect(() => {
-  //   const customersRef = ref(database, "customers");
-
-  //   console.log("buat efek bosque");
-
-  //   onValue(customersRef, (snapshot) => {
-  //     setCustomerList(snapshot.val() || {});
-  //   });
-
-  //   return () => off(customersRef);
-  // }, []);
-
-  // data && console.log(data);
+  const [selectedCustomer, setSelectedCustomer] = useState<Customer | null>(
+    null
+  );
 
   return (
     <>
-      <DashboardContentWrapper
+      <ContentWrapper
         title="Daftar Pelanggan"
         button={{ name: "Tambah", path: "new" }}
       >
@@ -77,21 +86,23 @@ function CustomerList() {
                 </Tr>
               </Thead>
               <Tbody>
-                {Object.entries(data).map(([key, value]) => (
-                  <Tr key={key}>
-                    <Td>{value.name}</Td>
-                    <Td isNumeric>
-                      <Button
-                        onClick={() => {
-                          setSelectedCustomer(value);
-                          onOpen();
-                        }}
-                      >
-                        Detail
-                      </Button>
-                    </Td>
-                  </Tr>
-                ))}
+                {Object.entries(data as Record<string, Customer>).map(
+                  ([key, value]) => (
+                    <Tr key={key}>
+                      <Td>{value.name}</Td>
+                      <Td isNumeric>
+                        <Button
+                          onClick={() => {
+                            setSelectedCustomer(value);
+                            onOpen();
+                          }}
+                        >
+                          Detail
+                        </Button>
+                      </Td>
+                    </Tr>
+                  )
+                )}
               </Tbody>
             </Table>
           </TableContainer>
@@ -103,12 +114,18 @@ function CustomerList() {
             customer={selectedCustomer}
           />
         )}
-      </DashboardContentWrapper>
+      </ContentWrapper>
     </>
   );
 }
 
-const DetailModal = memo(function DetailModal({ isOpen, onClose, customer }) {
+type DMProps = {
+  isOpen: boolean;
+  onClose: () => void;
+  customer: Customer;
+};
+
+const DetailModal = memo(function DM({ isOpen, onClose, customer }: DMProps) {
   return (
     <Modal isOpen={isOpen} onClose={onClose}>
       <ModalOverlay />

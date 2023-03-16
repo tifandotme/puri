@@ -7,79 +7,86 @@ import {
   Select,
   Stack,
   Textarea,
+  useToast,
 } from "@chakra-ui/react";
+import {
+  District,
+  getDistrictsOfRegencyName,
+  getRegenciesOfProvinceId,
+  getVillagesOfDistrictName,
+  Regency,
+  Village,
+} from "territory-indonesia";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
-import indonesia from "territory-indonesia";
-import DashboardContentWrapper from "../DashboardContentWrapper";
-import CustomerTypeRadio from "./CustomerTypeRadio";
+
+import ContentWrapper from "../dashboard/ContentWrapper";
 import handleAddCustomer from "./handleAddCustomer";
+import CustomerTypeRadio from "./CustomerTypeRadio";
 
 function AddCustomer() {
+  const toast = useToast();
+
   const navigate = useNavigate();
-  const [isLoading, setLoading] = useState(false);
-
-  const [regencies, setRegencies] = useState([]);
-  const [chosenRegency, setChosenRegency] = useState("");
-
-  const [districts, setDistricts] = useState([]);
-  const [chosenDistrict, setChosenDistrict] = useState("");
-
-  const [villages, setVillages] = useState([]);
-  const [chosenVillage, setChosenVillage] = useState("");
-
-  const [customerType, setCustomerType] = useState("");
 
   const {
     register,
     handleSubmit,
     control,
-    formState: { errors },
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    formState: { errors, isSubmitting },
   } = useForm();
 
+  const [customerType, setCustomerType] = useState("");
+
+  const [regencies, setRegencies] = useState<Regency[] | undefined>(undefined);
+  const [chosenRegency, setChosenRegency] = useState("");
+
+  const [districts, setDistricts] = useState<District[] | undefined>(undefined);
+  const [chosenDistrict, setChosenDistrict] = useState("");
+
+  const [villages, setVillages] = useState<Village[] | undefined>(undefined);
+  const [chosenVillage, setChosenVillage] = useState("");
+
   useEffect(() => {
-    indonesia.getRegenciesOfProvinceId("33").then((data) => {
+    getRegenciesOfProvinceId("33").then((data) => {
       setRegencies(data);
     });
   }, []);
 
   useEffect(() => {
     if (chosenRegency) {
-      indonesia.getDistrictsOfRegencyName(chosenRegency).then((data) => {
+      getDistrictsOfRegencyName(chosenRegency).then((data) => {
         setDistricts(data);
       });
     } else {
-      setDistricts([]);
-      // setChosenRegency will be an empty string from onChange
+      setDistricts(undefined);
     }
 
     // cleanup regardless of chosenRegency
     setChosenDistrict("");
     setChosenVillage("");
-    setVillages([]);
+    setVillages(undefined);
   }, [chosenRegency]);
 
   useEffect(() => {
     if (chosenDistrict) {
-      indonesia.getVillagesOfDistrictName(chosenDistrict).then((data) => {
+      getVillagesOfDistrictName(chosenDistrict).then((data) => {
         setVillages(data);
       });
     } else {
-      setVillages([]);
+      setVillages(undefined);
     }
 
     // cleanup regardless of chosenDistrict
     setChosenVillage("");
   }, [chosenDistrict]);
 
-  const onSubmit = handleSubmit((data) =>
-    handleAddCustomer(data, setLoading, navigate)
-    // console.log(data)
-  );
+  const onSubmit = handleSubmit((data) => handleAddCustomer(data, navigate, toast));
 
   return (
-    <DashboardContentWrapper title="Tambah Pelanggan">
+    <ContentWrapper title="Tambah Pelanggan">
       <form onSubmit={onSubmit}>
         <Stack
           spacing="6"
@@ -90,10 +97,13 @@ function AddCustomer() {
           borderRadius={{ base: 0, lg: 10 }}
           p={10}
           bg="white"
-          borderWidth={{ base: null, lg: 1 }}
+          borderWidth={{ base: 0, lg: 10 }}
           borderColor="gray.200"
         >
-          <CustomerTypeRadio control={control} setType={setCustomerType} />
+          <CustomerTypeRadio
+            control={control}
+            setCustomerType={setCustomerType}
+          />
 
           <Stack
             direction={{ base: "column", lg: "row" }}
@@ -161,16 +171,17 @@ function AddCustomer() {
                 <FormLabel htmlFor="city">Kota/Kabupaten</FormLabel>
                 <Select
                   id="city"
-                  isDisabled={regencies.length === 0}
+                  isDisabled={!regencies}
                   {...register("address.city", { required: true })}
                   onChange={(e) => setChosenRegency(e.target.value)}
                   placeholder="—Kota/Kabupaten—"
                 >
-                  {regencies.map((item) => (
-                    <option key={item.id} value={item.name}>
-                      {item.name}
-                    </option>
-                  ))}
+                  {regencies &&
+                    regencies.map((item) => (
+                      <option key={item.id} value={item.name}>
+                        {item.name}
+                      </option>
+                    ))}
                 </Select>
               </FormControl>
 
@@ -178,7 +189,7 @@ function AddCustomer() {
                 <FormLabel htmlFor="regency">Kecamatan</FormLabel>
                 <Select
                   id="regency"
-                  isDisabled={chosenRegency.length === 0}
+                  isDisabled={!chosenRegency}
                   {...register("address.regency", { required: true })}
                   onChange={(e) => setChosenDistrict(e.target.value)}
                   placeholder="—Kecamatan—"
@@ -196,7 +207,7 @@ function AddCustomer() {
                 <FormLabel htmlFor="district">Kelurahan</FormLabel>
                 <Select
                   id="district"
-                  isDisabled={chosenDistrict.length === 0}
+                  isDisabled={!chosenDistrict}
                   {...register("address.district", { required: true })}
                   onChange={(e) => setChosenVillage(e.target.value)}
                   placeholder="—Kelurahan—"
@@ -214,19 +225,19 @@ function AddCustomer() {
                 <FormLabel htmlFor="street">Jalan</FormLabel>
                 <Textarea
                   id="street"
-                  isDisabled={chosenVillage.length === 0}
+                  isDisabled={!chosenVillage}
                   placeholder="Nama Jalan (No. Rumah/Patokan)"
                   {...register("address.street", { required: true })}
                 />
               </FormControl>
             </Stack>
           </Stack>
-          <Button type="submit" colorScheme="red" isLoading={isLoading}>
+          <Button type="submit" colorScheme="red" isLoading={isSubmitting}>
             Tambah
           </Button>
         </Stack>
       </form>
-    </DashboardContentWrapper>
+    </ContentWrapper>
   );
 }
 

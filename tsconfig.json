@@ -1,20 +1,30 @@
 {
   "compilerOptions": {
     "target": "ESNext",
-    "useDefineForClassFields": true,
-    "lib": ["DOM", "DOM.Iterable", "ESNext"],
-    "allowJs": false,
-    "skipLibCheck": true,
-    "esModuleInterop": false,
-    "allowSyntheticDefaultImports": true,
-    "strict": true,
-    "forceConsistentCasingInFileNames": true,
     "module": "ESNext",
-    "moduleResolution": "node",
+    "moduleResolution": "Node",
+
+    "strict": true, // will automatically emit "use strict" on source files
+
+    "useDefineForClassFields": true, // https://backbencher.dev/javascript-class-field-declarations
+    "noImplicitReturns": true,
+    "allowUnreachableCode": false,
+    "allowJs": false, // allow js modules, on deno this is true
+    "lib": ["DOM", "DOM.Iterable", "ESNext"],
+    "skipLibCheck": true,
+    "jsx": "react-jsx", // https://reactjs.org/blog/2020/09/22/introducing-the-new-jsx-transform.html
+
+    "esModuleInterop": true, // on Deno this is true
+    "allowSyntheticDefaultImports": true,
+    "forceConsistentCasingInFileNames": true,
     "resolveJsonModule": true,
+
     "isolatedModules": true,
+
     "noEmit": true,
-    "jsx": "react-jsx"
+
+    "noErrorTruncation": false,
+    // "noEmitOnError": true
   },
   "include": ["src"],
   "references": [{ "path": "./tsconfig.node.json" }]

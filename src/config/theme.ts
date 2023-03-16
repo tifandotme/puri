@@ -1,5 +1,5 @@
 import { extendTheme, defineStyleConfig } from "@chakra-ui/react";
-import * as background from "../assets/background.webp";
+import background from "../assets/background.webp";
 
 import "@fontsource/inter/variable.css";
 import "@fontsource/raleway/variable.css";
@@ -41,13 +41,9 @@ const inputSinglePart = defineStyleConfig({
 
 /**
  * Custom theme for Chakra UI to modify or extend the default theme
- *
- * @param {string} path - take the current path from the useLocation hook
- * @param {boolean} fullscreenLoading - take the fullscreenLoading state
- * @returns {object} - return the custom theme
  */
-export default function customTheme(path, fullscreenLoading) {
-  const isOnAuthPage = ["/login", "/signup", "/forgotpassword"].includes(path);
+export default function customTheme(path: string, isPageLoading: boolean) {
+  const isAuthPage = ["/login", "/signup", "/forgotpassword"].includes(path);
 
   return extendTheme({
     fonts: {
@@ -59,8 +55,8 @@ export default function customTheme(path, fullscreenLoading) {
       Input: inputMultiPart,
       Select: inputMultiPart,
     },
-    ...(isOnAuthPage &&
-      !fullscreenLoading && {
+    ...(isAuthPage &&
+      !isPageLoading && {
         styles: {
           global: {
             body: {
