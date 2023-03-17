@@ -72,7 +72,7 @@ function CustomerList() {
     <>
       <ContentWrapper
         title="Daftar Pelanggan"
-        button={{ name: "Tambah", path: "new" }}
+        button={{ name: "Tambah Baru", path: "new" }}
       >
         {isLoading ? (
           <Spinner />
