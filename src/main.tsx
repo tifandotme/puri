@@ -1,5 +1,5 @@
 import ReactDOM from "react-dom/client";
-import { StrictMode } from "react";
+// import { StrictMode } from "react";
 
 import { BrowserRouter } from "react-router-dom";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
@@ -12,12 +12,12 @@ const queryClient = new QueryClient();
 const rootElement = document.getElementById("root") as Element;
 
 ReactDOM.createRoot(rootElement).render(
-  <StrictMode>
+  // <StrictMode>
     <BrowserRouter>
       <QueryClientProvider client={queryClient}>
         <App />
         <ReactQueryDevtools initialIsOpen={false} />
       </QueryClientProvider>
     </BrowserRouter>
-  </StrictMode>
+  // </StrictMode>
 );
