@@ -1,20 +1,22 @@
 import { useState } from "react";
 import { ref, get, child } from "firebase/database";
+
 import { auth, database } from "../config/firebase";
+import { capitalizeWords } from "../utils/capitalize-words";
 
 /**
  * Get the division of the current user
  */
-function useDivision(): string {
+function useDivision() {
   const [division, setDivision] = useState("");
 
   const path = `users/${auth.currentUser?.uid}/division`;
 
-  get(child(ref(database), path)).then((snapshot) =>
-    setDivision(snapshot.val())
-  );
+  get(child(ref(database), path))
+    .then((snapshot) => setDivision(snapshot.val()))
+    .catch((error) => console.error(error.message));
 
-  return division;
+  return capitalizeWords(division);
 }
 
 export default useDivision;

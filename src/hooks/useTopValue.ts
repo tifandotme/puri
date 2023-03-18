@@ -8,10 +8,10 @@ import { useBreakpointValue } from "@chakra-ui/react";
  *
  * Make sure to have header position set to fixed and transition set to top
  *
- * @param headerHeight The height of the header
- * @param breakpoint The breakpoint value (e.g. "sm", "md", "lg")
+ * @param headerHeight - The height of the header
+ * @param breakpoint - The breakpoint value (e.g. "sm", "md", "lg")
  *
- * @returns The top value for the header
+ * @returns - The top value for the header
  */
 function useTopValue(headerHeight: number, breakpoint: string): number {
   const [prevScrollPos, setPrevScrollPos] = useState(0);
