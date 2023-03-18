@@ -4,7 +4,9 @@
 
 An Order Management System (OMS) that manages orders from customers and process them internally at the company. This app is built specifically to meet the needs at [PT. WPU](http://ptwpu.com).
 
-I submitted this app as a final year project of my Bachelor thesis.
+For a working demo, visit [puri.systems](https://puri.systems) or [puri-systems.web.app](https://puri-systems.web.app)
+
+> I submitted this app as a final year project of my Bachelor thesis.
 
 ## Run Locally
 
@@ -12,24 +14,9 @@ Clone the project
 
 ```bash
   git clone https://github.com/tifandotme/puri
-```
-
-Go to the project directory
-
-```bash
   cd puri
-```
-
-Install dependencies
-
-```bash
-  pnpm install
-```
-
-Start the server
-
-```bash
-  pnpm dev
+  pnpm/npm install
+  pnpm/npm run dev
 ```
 
 ## Tech Stack
