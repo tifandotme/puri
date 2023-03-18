@@ -1,5 +1,5 @@
 tabWidth: 2
-useTabs: false
-semi: true
 singleQuote: false
+semi: true
+useTabs: false
 printWidth: 80

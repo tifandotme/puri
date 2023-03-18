@@ -24,7 +24,6 @@
     "noEmit": true,
 
     "noErrorTruncation": false,
-    // "noEmitOnError": true
   },
   "include": ["src"],
   "references": [{ "path": "./tsconfig.node.json" }]
