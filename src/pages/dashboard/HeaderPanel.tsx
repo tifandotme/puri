@@ -29,7 +29,7 @@ import logo from "../../assets/logo.png";
 import { auth } from "../../config/firebase";
 import useDivision from "../../hooks/useDivision";
 import useTopValue from "../../hooks/useTopValue";
-import { handleSignOut } from "../auths/handleAuth";
+import { handleSignOut } from "../auths/handle-auths";
 
 type HPProps = {
   onOpen: () => void;
@@ -161,9 +161,12 @@ function HeaderPanel({ onOpen }: HPProps) {
               cursor="not-allowed"
             >
               <Text fontSize="sm">{auth.currentUser?.displayName}</Text>
+              {division && (
               <Text fontSize="xs" color="gray.600">
                 {division}
               </Text>
+                
+)}
             </VStack>
             <MenuItem icon={<HiOutlineUserCircle size={18} />}>
               Edit Profile

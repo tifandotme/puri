@@ -22,8 +22,8 @@ import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 
 import ContentWrapper from "../dashboard/ContentWrapper";
-import handleAddCustomer from "./handleAddCustomer";
 import CustomerTypeRadio from "./CustomerTypeRadio";
+import handleAddCustomer from "./handle-add-customer";
 
 function AddCustomer() {
   const toast = useToast();
@@ -83,7 +83,9 @@ function AddCustomer() {
     setChosenVillage("");
   }, [chosenDistrict]);
 
-  const onSubmit = handleSubmit((data) => handleAddCustomer(data, navigate, toast));
+  const onSubmit = handleSubmit((data) =>
+    handleAddCustomer(data, navigate, toast)
+  );
 
   return (
     <ContentWrapper title="Tambah Pelanggan">
@@ -97,7 +99,7 @@ function AddCustomer() {
           borderRadius={{ base: 0, lg: 10 }}
           p={10}
           bg="white"
-          borderWidth={{ base: 0, lg: 10 }}
+          borderWidth={{ base: 0, lg: 1 }}
           borderColor="gray.200"
         >
           <CustomerTypeRadio

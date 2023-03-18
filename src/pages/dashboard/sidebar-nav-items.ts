@@ -9,14 +9,14 @@ import {
   HiUserGroup,
 } from "react-icons/hi2";
 
-type NavLink = {
+type NavItem = {
   name: string;
   path: string;
   icon: IconType;
   iconActive: IconType;
 }[];
 
-const navLinks: NavLink = [
+const navItems: NavItem = [
   {
     name: "Beranda",
     path: "/",
@@ -43,4 +43,4 @@ const navLinks: NavLink = [
   },
 ];
 
-export default navLinks;
+export default navItems;

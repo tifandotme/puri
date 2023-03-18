@@ -64,9 +64,9 @@ function CustomerList() {
     { cacheTime: 5 * 60 * 1000 }
   );
 
-  const [selectedCustomer, setSelectedCustomer] = useState<Customer | null>(
-    null
-  );
+  const [selectedCustomer, setSelectedCustomer] = useState<
+    Customer | undefined
+  >(undefined);
 
   return (
     <>

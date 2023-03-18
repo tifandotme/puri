@@ -2,7 +2,7 @@ import { Box, CloseButton, Flex, Icon, Image, Text } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import logo from "../../assets/logo.png";
-import navLinks from "./sidebarMenuItems";
+import navItems from "./sidebar-nav-items";
 
 type SPProps = {
   onClose: () => void;
@@ -41,7 +41,7 @@ function SidebarPanel({ onClose, currentPath, display }: SPProps) {
         />
       </Flex>
 
-      {navLinks.map(({ name, path, icon, iconActive }) => {
+      {navItems.map(({ name, path, icon, iconActive }) => {
         let isActive;
         if (path === "/") {
           isActive = currentPath === path;

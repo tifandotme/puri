@@ -13,7 +13,7 @@ import {
 } from "@chakra-ui/react";
 import { useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
-import { handleSignUp } from "./handleAuth";
+import { handleSignUp } from "./handle-auths";
 import { EmailField, PasswordField } from "./AuthFields";
 
 function SignUp() {
@@ -68,8 +68,8 @@ function SignUp() {
             <FormLabel htmlFor="role">Divisi</FormLabel>
             <Select id="role" {...register("division", { required: true })}>
               <option value="">—</option>
-              <option value="Sales">Sales</option>
-              <option value="Logistik">Logistik</option>
+              <option value="sales">Sales</option>
+              <option value="logistik">Logistik</option>
             </Select>
             <FormHelperText>
               Pilihan divisi akan mempengaruhi fitur yang tersedia untuk akun

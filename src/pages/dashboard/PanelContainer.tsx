@@ -13,7 +13,7 @@ import HeaderPanel from "./HeaderPanel";
 // TODO: add dark mode?
 
 type MCProps = {
-  currentUser: User | null;
+  currentUser: User | undefined;
   isPageLoading: boolean;
   currentPath: string;
 };

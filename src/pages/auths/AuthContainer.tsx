@@ -5,7 +5,7 @@ import logo from "../../assets/logo.png";
 import FullscreenLoading from "../FullscreenLoading";
 
 type ACProps = {
-  currentUser: User | null;
+  currentUser: User | undefined;
   isPageLoading: boolean;
   currentPath: string;
 };

@@ -3,6 +3,7 @@ import { FieldValues } from "react-hook-form";
 import { useToast } from "@chakra-ui/react";
 import { NavigateFunction } from "react-router-dom";
 import { database } from "../../config/firebase";
+import { capitalizeWords } from "../../utils/capitalize-words";
 
 async function handleAddCustomer(
   data: FieldValues,
@@ -34,17 +35,6 @@ async function handleAddCustomer(
       });
     }
   }
-}
-
-function capitalizeWords(str: string): string {
-  // usage: 🫡 (CAP-italize) words, function name is not enough, so additional comment is needed, hehe
-  const words = str.split(" ");
-
-  for (let i = 0; i < words.length; i++) {
-    words[i] = words[i].charAt(0).toUpperCase() + words[i].slice(1);
-  }
-
-  return words.join(" ");
 }
 
 export default handleAddCustomer;

@@ -1,7 +1,7 @@
 import { Button, Divider, HStack, Stack, useToast } from "@chakra-ui/react";
 import { useForm } from "react-hook-form";
 import { Link } from "react-router-dom";
-import { handleForgotPassword } from "./handleAuth";
+import { handleForgotPassword } from "./handle-auths";
 import { EmailField } from "./AuthFields";
 
 function ForgotPassword() {

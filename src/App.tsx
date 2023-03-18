@@ -20,12 +20,12 @@ import Home from "./pages/home/Home";
 function App() {
   const currentPath = useLocation().pathname;
 
-  const [currentUser, setCurrentUser] = useState<User | null>(null);
+  const [currentUser, setCurrentUser] = useState<User | undefined>(undefined);
   const [isPageLoading, setPageLoading] = useState(true);
 
   useEffect(() => {
     const authState = auth.onAuthStateChanged((user) => {
-      user ? setCurrentUser(user) : setCurrentUser(null);
+      user ? setCurrentUser(user) : setCurrentUser(undefined);
 
       setPageLoading(false);
     });
