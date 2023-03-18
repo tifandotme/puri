@@ -2,6 +2,9 @@ import { FirebaseApp, initializeApp } from "firebase/app";
 import { Auth, getAuth } from "firebase/auth";
 import { Database, getDatabase } from "firebase/database";
 
+import { connectAuthEmulator } from "firebase/auth";
+import { connectDatabaseEmulator } from "firebase/database";
+
 // IN CASE ACCESS FROM LOCALHOST IS BLOCKED:
 // https://stackoverflow.com/questions/43850238/localhost-requests-from-referer-are-blocked
 
@@ -22,12 +25,10 @@ const database: Database = getDatabase(
   "https://puri-systems-default-rtdb.asia-southeast1.firebasedatabase.app"
 );
 
-// LOCAL EMULATOR
-// import { connectAuthEmulator } from "firebase/auth";
-// import { connectDatabaseEmulator } from "firebase/database";
-// if (import.meta.env.DEV) {
-//   connectAuthEmulator(auth, "http://localhost:9099", { disableWarnings: true });
-//   connectDatabaseEmulator(database, "localhost", 9000);
-// }
+// local emulator in development mode
+if (import.meta.env.DEV) {
+  connectAuthEmulator(auth, "http://localhost:9099", { disableWarnings: true });
+  connectDatabaseEmulator(database, "localhost", 9000);
+}
 
 export { auth, database };
