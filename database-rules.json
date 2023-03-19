@@ -2,13 +2,13 @@
   "rules": {
     "users": {
       "$uid": {
-        ".read": "$uid === auth.uid",
-        ".write": "$uid === auth.uid"
+        ".read": "auth !== null && auth.uid === $uid",
+        ".write": "auth !== null && auth.uid === $uid"
       }
     },
     "customers": {
       ".read": "auth.uid !== null",
-      ".write": "auth.uid !== null"
+      ".write": "root.child('users').child(auth.uid).child('division').val() === 'sales'"
     }
   }
 }
