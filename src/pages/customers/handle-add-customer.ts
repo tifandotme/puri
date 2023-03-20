@@ -1,19 +1,19 @@
 import { set, ref, push, serverTimestamp } from "firebase/database";
-import { FieldValues } from "react-hook-form";
 import { useToast } from "@chakra-ui/react";
 import { NavigateFunction } from "react-router-dom";
 import { database } from "../../config/firebase";
 import { capitalizeWords } from "../../utils/capitalize-words";
+import { FieldValues } from "react-hook-form";
 
 async function handleAddCustomer(
   data: FieldValues,
   navigate: NavigateFunction,
-  toast: ReturnType<typeof useToast>
+  toast: ReturnType<typeof useToast>,
 ) {
   try {
     const { name, id, phone, phone2, address, type, prefixName } = data;
 
-    const customer = {
+    const customer: Customer = {
       name: (prefixName ? prefixName + ". " : "") + capitalizeWords(name),
       id,
       phone,
