@@ -17,56 +17,43 @@ import {
   Tr,
   useDisclosure,
 } from "@chakra-ui/react";
-import { onValue, ref } from "firebase/database";
-import { useQuery } from "@tanstack/react-query";
-import { useState, memo } from "react";
-import { database } from "../../config/firebase";
+import { memo, useState } from "react";
 import ContentWrapper from "../dashboard/ContentWrapper";
-
-type Customer = {
-  createdAt: number;
-  address: {
-    city: string;
-    district: string;
-    regency: string;
-    street: string;
-  };
-  id: number;
-  name: string;
-  phone: number;
-  phone2?: number;
-  type: "individu" | "perusahaan";
-};
-
-type CustomerList = Record<string, Customer>;
+import useCustomerList from "../../hooks/useCustomerList";
 
 function CustomerList() {
   const { isOpen, onOpen, onClose } = useDisclosure();
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const { data, isLoading, error } = useQuery(
-    ["customerList"],
-    async () => {
-      const customersRef = ref(database, "customers");
-
-      return new Promise<CustomerList>((resolve, reject) => {
-        onValue(
-          customersRef,
-          (snapshot) => {
-            resolve(snapshot.val() || {});
-          },
-          (error) => {
-            reject(error);
-          }
-        );
-      });
-    },
-    { cacheTime: 5 * 60 * 1000 }
-  );
+  const { customerList, isLoading } = useCustomerList();
 
   const [selectedCustomer, setSelectedCustomer] = useState<
     Customer | undefined
   >(undefined);
+
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  // const { data, isLoading, error } = useQuery(
+  //   ["customers"],
+  //   async () => {
+  //     return new Promise<CustomerList>((resolve, reject) => {
+  //       const customersRef = ref(database, "customers");
+
+  //       onValue(
+  //         customersRef,
+  //         (snapshot) => {
+  //           resolve(snapshot.val() || {});
+  //           console.log("fetched");
+  //         },
+  //         (error) => {
+  //           reject(error);
+  //         }
+  //       );
+  //     });
+  //   },
+  //   {
+  //     // staleTime: 3000,
+  //     // notifyOnChangeProps: ["data"],
+  //   }
+  // );
 
   return (
     <>
@@ -86,8 +73,8 @@ function CustomerList() {
                 </Tr>
               </Thead>
               <Tbody>
-                {Object.entries(data as Record<string, Customer>).map(
-                  ([key, value]) => (
+                {customerList &&
+                  Object.entries(customerList).map(([key, value]) => (
                     <Tr key={key}>
                       <Td>{value.name}</Td>
                       <Td isNumeric>
@@ -101,8 +88,7 @@ function CustomerList() {
                         </Button>
                       </Td>
                     </Tr>
-                  )
-                )}
+                  ))}
               </Tbody>
             </Table>
           </TableContainer>
