@@ -71,7 +71,9 @@ async function handleSignIn(
         title:
           error.code === "auth/user-not-found"
             ? "Email tidak terdaftar"
-            : "Password salah",
+            : error.code === "auth/wrong-password"
+            ? "Password salah"
+            : error.message,
         status: "error",
         duration: 3000,
       });
