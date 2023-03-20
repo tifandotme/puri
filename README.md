@@ -10,8 +10,6 @@ For a working demo, visit [puri.systems](https://puri.systems) or [puri-systems.
 
 ## Run Locally
 
-Clone the project
-
 ```bash
   git clone https://github.com/tifandotme/puri
   cd puri

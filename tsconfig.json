@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "target": "ESNext",
+    "target": "ES5",
     "module": "ESNext",
     "moduleResolution": "Node",
 
@@ -24,6 +24,8 @@
     "noEmit": true,
 
     "noErrorTruncation": false,
+
+    "incremental": true
   },
   "include": ["src"],
   "references": [{ "path": "./tsconfig.node.json" }]
