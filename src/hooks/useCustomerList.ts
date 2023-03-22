@@ -1,13 +1,11 @@
 import { onValue, ref } from "firebase/database";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 import { database } from "../config/firebase";
 
 function useCustomerList() {
   const [customerList, setCustomerList] = useState<CustomerList | undefined>(
     undefined
   );
-
-  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     const customersRef = ref(database, "customers");
@@ -16,19 +14,16 @@ function useCustomerList() {
       customersRef,
       (snapshot) => {
         setCustomerList(snapshot.val());
-        setIsLoading(false);
       },
       (error) => {
         console.error(error);
       }
     );
 
-    return () => {
-      unsubscribe();
-    };
+    return unsubscribe;
   }, []);
 
-  return { customerList, isLoading };
+  return customerList;
 }
 
 export default useCustomerList;
