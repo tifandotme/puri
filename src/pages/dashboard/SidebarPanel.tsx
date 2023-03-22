@@ -1,16 +1,15 @@
 import { Box, CloseButton, Flex, Icon, Image, Text } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import logo from "../../assets/logo.png";
 import navItems from "./sidebar-nav-items";
 
 type SPProps = {
   onClose: () => void;
-  currentPath: string;
   display?: Record<"base" | "md", string>;
 };
 
-function SidebarPanel({ onClose, currentPath, display }: SPProps) {
+function SidebarPanel({ onClose, display }: SPProps) {
   const [appVersion, setAppVersion] = useState("");
   useEffect(() => {
     // is there a better way to get the version without fetching the package.json?
@@ -42,38 +41,42 @@ function SidebarPanel({ onClose, currentPath, display }: SPProps) {
       </Flex>
 
       {navItems.map(({ name, path, icon, iconActive }) => {
-        let isActive;
-        if (path === "/") {
-          isActive = currentPath === path;
-        } else {
-          isActive = currentPath.startsWith(path);
-        }
-
+        // was using <Link> and just realized react-router provide <NavLink> to handle active link
+        // gonna leave this here as a reminder to read the docs more carefully
+        //
+        // let isActive;
+        // if (path === "/") {
+        //   isActive = currentPath === path;
+        // } else {
+        //   isActive = currentPath.startsWith(path);
+        // }
         return (
-          <Link to={path} onClick={onClose} key={name} draggable={false}>
-            <Flex
-              my="1"
-              mx="4"
-              p="4"
-              _hover={{
-                bg: "secondary",
-                color: "white",
-              }}
-              transition="all 0.1s"
-              borderRadius="3xl"
-              align="center"
-              userSelect="none"
-            >
-              <Icon mr="4" as={isActive ? iconActive : icon} boxSize={5} />
-              <Text
-                as="span"
-                lineHeight={4}
-                fontWeight={isActive ? "bold" : "normal"}
+          <NavLink to={path} onClick={onClose} key={name} draggable={false}>
+            {({ isActive }) => (
+              <Flex
+                my="1"
+                mx="4"
+                p="4"
+                _hover={{
+                  bg: "secondary",
+                  color: "white",
+                }}
+                transition="all 0.1s"
+                borderRadius="3xl"
+                align="center"
+                userSelect="none"
               >
-                {name}
-              </Text>
-            </Flex>
-          </Link>
+                <Icon mr="4" as={isActive ? iconActive : icon} boxSize={5} />
+                <Text
+                  as="span"
+                  lineHeight={4}
+                  fontWeight={isActive ? "bold" : "normal"}
+                >
+                  {name}
+                </Text>
+              </Flex>
+            )}
+          </NavLink>
         );
       })}
       <Text

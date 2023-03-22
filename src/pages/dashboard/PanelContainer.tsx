@@ -15,10 +15,9 @@ import HeaderPanel from "./HeaderPanel";
 type MCProps = {
   currentUser: User | undefined;
   isPageLoading: boolean;
-  currentPath: string;
 };
 
-function PanelContainer({ currentUser, isPageLoading, currentPath }: MCProps) {
+function PanelContainer({ currentUser, isPageLoading }: MCProps) {
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   if (isPageLoading) return <FullscreenLoading />;
@@ -28,11 +27,7 @@ function PanelContainer({ currentUser, isPageLoading, currentPath }: MCProps) {
   return (
     <Box bg="gray.50" minH="100vh" pb="1px">
       {/* without pb, setting mb on content would mess up the background color */}
-      <SidebarPanel
-        onClose={onClose}
-        currentPath={currentPath}
-        display={{ base: "none", md: "block" }}
-      />
+      <SidebarPanel onClose={onClose} display={{ base: "none", md: "block" }} />
       <HeaderPanel onOpen={onOpen} />
       <Drawer
         placement="left"
@@ -42,7 +37,7 @@ function PanelContainer({ currentUser, isPageLoading, currentPath }: MCProps) {
         onClose={onClose}
       >
         <DrawerContent>
-          <SidebarPanel onClose={onClose} currentPath={currentPath} />
+          <SidebarPanel onClose={onClose} />
         </DrawerContent>
       </Drawer>
       <Box ml={{ base: 0, md: 60 }} pt={{ base: 16, md: 20 }}>
