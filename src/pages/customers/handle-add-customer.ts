@@ -1,14 +1,14 @@
 import { set, ref, push, serverTimestamp } from "firebase/database";
 import { useToast } from "@chakra-ui/react";
 import { NavigateFunction } from "react-router-dom";
-import { database } from "../../config/firebase";
+import { auth, database } from "../../config/firebase";
 import { capitalizeWords } from "../../utils/capitalize-words";
 import { FieldValues } from "react-hook-form";
 
 async function handleAddCustomer(
   data: FieldValues,
   navigate: NavigateFunction,
-  toast: ReturnType<typeof useToast>,
+  toast: ReturnType<typeof useToast>
 ) {
   try {
     const { name, id, phone, phone2, address, type, prefixName } = data;
@@ -20,7 +20,8 @@ async function handleAddCustomer(
       ...(phone2 && { phone2 }),
       address,
       type,
-      CreatedAt: serverTimestamp(),
+      createdAt: serverTimestamp(),
+      sales: auth.currentUser?.uid,
     };
 
     await set(push(ref(database, "customers")), customer);
