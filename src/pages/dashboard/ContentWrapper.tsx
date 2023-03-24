@@ -1,4 +1,4 @@
-import { Heading, Stack, HStack, Box, Button } from "@chakra-ui/react";
+import { Heading, Stack, Box, Button, ButtonGroup } from "@chakra-ui/react";
 import { Link } from "react-router-dom";
 
 type CWProps = {
@@ -6,7 +6,9 @@ type CWProps = {
   button?: {
     name: string;
     path: string;
-  };
+    colorScheme?: string;
+    variant?: string;
+  }[];
   children: React.ReactNode;
 };
 
@@ -31,11 +33,18 @@ function ContentWrapper({ title, button, children }: CWProps) {
             {title}
           </Heading>
           {button && (
-            <HStack gap={1} justify="flex-start">
-              <Link to={button.path}>
-                <Button colorScheme="gray">{button.name}</Button>
-              </Link>
-            </HStack>
+            <ButtonGroup spacing={1}>
+              {button.map((button) => (
+                <Link key={button.path} to={button.path}>
+                  <Button
+                    colorScheme={button.colorScheme}
+                    variant={button.variant}
+                  >
+                    {button.name}
+                  </Button>
+                </Link>
+              ))}
+            </ButtonGroup>
           )}
         </Stack>
       </Box>
