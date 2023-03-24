@@ -2,12 +2,13 @@ import { FirebaseApp, initializeApp } from "firebase/app";
 import { Auth, getAuth } from "firebase/auth";
 import { Database, getDatabase } from "firebase/database";
 
-// import { connectAuthEmulator } from "firebase/auth";
-// import { connectDatabaseEmulator } from "firebase/database";
+import { connectAuthEmulator } from "firebase/auth";
+import { connectDatabaseEmulator } from "firebase/database";
 
 // IN CASE ACCESS FROM LOCALHOST IS BLOCKED:
 // https://stackoverflow.com/questions/43850238/localhost-requests-from-referer-are-blocked
 
+// TODO: move to .env
 const firebaseConfig: Record<string, string> = {
   apiKey: "AIzaSyD6eq4vdO_B0ivZN5oa68W97f_hSd0lMuk",
   projectId: "puri-systems",
@@ -26,9 +27,9 @@ const database: Database = getDatabase(
 );
 
 // local emulator in development mode
-// if (!import.meta.env.DEV) {
-//   connectAuthEmulator(auth, "http://localhost:9099", { disableWarnings: true });
-//   connectDatabaseEmulator(database, "localhost", 9000);
-// }
+if (import.meta.env.DEV) {
+  connectAuthEmulator(auth, "http://localhost:9099", { disableWarnings: true });
+  connectDatabaseEmulator(database, "localhost", 9000);
+}
 
 export { auth, database };
