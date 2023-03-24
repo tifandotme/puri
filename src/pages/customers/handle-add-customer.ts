@@ -14,7 +14,7 @@ async function handleAddCustomer(
     const { name, id, phone, phone2, address, type, prefixName } = data;
 
     const customer: Customer = {
-      name: (prefixName ? prefixName + ". " : "") + capitalizeWords(name),
+      name: capitalizeWords(name) + (prefixName ? ", " + prefixName : ""),
       id,
       phone,
       ...(phone2 && { phone2 }),
