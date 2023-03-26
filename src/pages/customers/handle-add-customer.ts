@@ -2,7 +2,7 @@ import { set, ref, push, serverTimestamp } from "firebase/database";
 import { useToast } from "@chakra-ui/react";
 import { NavigateFunction } from "react-router-dom";
 import { auth, database } from "../../config/firebase";
-import { capitalizeWords } from "../../utils/capitalize-words";
+import { capitalizeWords } from "../../utils/utils";
 import { FieldValues } from "react-hook-form";
 
 async function handleAddCustomer(
