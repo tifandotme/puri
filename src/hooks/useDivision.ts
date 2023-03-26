@@ -2,7 +2,7 @@ import { useState } from "react";
 import { ref, get, child } from "firebase/database";
 
 import { auth, database } from "../config/firebase";
-import { capitalizeWords } from "../utils/capitalize-words";
+import { capitalizeWords } from "../utils/utils";
 
 /**
  * Get the division of the current user

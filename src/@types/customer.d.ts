@@ -1,14 +1,16 @@
+type CustomerAddress = {
+  city: string;
+  district: string;
+  regency: string;
+  street: string;
+};
+
 type Customer = {
   name: string;
   id: number;
   phone: number;
   phone2?: number;
-  address: {
-    city: string;
-    district: string;
-    regency: string;
-    street: string;
-  };
+  address: CustomerAddress;
   type: "individu" | "perusahaan";
   createdAt: number;
   sales: string;
