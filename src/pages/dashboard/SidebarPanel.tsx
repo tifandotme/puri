@@ -1,5 +1,4 @@
 import { Box, CloseButton, Flex, Icon, Image, Text } from "@chakra-ui/react";
-import { useEffect, useState } from "react";
 import { NavLink } from "react-router-dom";
 import logo from "../../assets/logo.png";
 import navItems from "./sidebar-nav-items";
@@ -10,13 +9,16 @@ type SPProps = {
 };
 
 function SidebarPanel({ onClose, display }: SPProps) {
-  const [appVersion, setAppVersion] = useState("");
-  useEffect(() => {
-    // is there a better way to get the version without fetching the package.json?
-    fetch("https://raw.githubusercontent.com/tifandotme/puri/main/package.json")
-      .then((res) => res.json())
-      .then((data) => setAppVersion(data.version));
-  }, []);
+  // const [appVersion, setAppVersion] = useState("");
+  // useEffect(() => {
+  //   fetch("https://raw.githubusercontent.com/tifandotme/puri/main/package.json")
+  //     .then((res) => res.json() as Promise<{ version: string }>)
+  //     .then((data) => {
+  //       setAppVersion(data.version);
+  //     });
+  // }, []);
+
+  const appVersion = "1.0.0";
 
   return (
     <Box

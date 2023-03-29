@@ -1,7 +1,6 @@
 {
   "name": "puri",
   "private": true,
-  "version": "1.0.0",
   "type": "module",
   "scripts": {
     "dev": "vite --host",
@@ -16,7 +15,7 @@
     "@fontsource/raleway": "^4.5.12",
     "@tanstack/react-table": "^8.8.4",
     "firebase": "^9.18.0",
-    "framer-motion": "^10.9.2",
+    "framer-motion": "^10.9.4",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-hook-form": "^7.43.8",
