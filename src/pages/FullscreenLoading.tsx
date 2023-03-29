@@ -8,7 +8,8 @@ function FullscreenLoading() {
         emptyColor="red.100"
         size={{ base: "md", sm: "lg" }}
         thickness="4px"
-        speed="0.7s" />
+        speed="0.7s"
+      />
     </Stack>
   );
 }
