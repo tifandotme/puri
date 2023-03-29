@@ -1,4 +1,5 @@
 import {
+  Badge,
   Button,
   Modal,
   ModalBody,
@@ -7,6 +8,7 @@ import {
   ModalFooter,
   ModalHeader,
   ModalOverlay,
+  Skeleton,
   Spinner,
   Table,
   TableContainer,
@@ -16,13 +18,19 @@ import {
   Thead,
   Tr,
   useDisclosure,
-  useToast,
 } from "@chakra-ui/react";
-import { memo, MutableRefObject, useContext, useEffect, useRef } from "react";
+import { memo, useContext, useEffect, useMemo, useRef, useState } from "react";
 import ContentWrapper from "../dashboard/ContentWrapper";
 import { AppContext } from "../../App";
-import { query, ref, limitToLast, onChildAdded } from "firebase/database";
+import { ref, get, child } from "firebase/database";
 import { database } from "../../config/firebase";
+import { formatAddress } from "../../utils/utils";
+import {
+  ColumnDef,
+  flexRender,
+  getCoreRowModel,
+  useReactTable,
+} from "@tanstack/react-table";
 
 function CustomerList() {
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -31,33 +39,115 @@ function CustomerList() {
 
   const selectedCustomer = useRef<Customer | undefined>(undefined);
 
-  const toast = useToast();
-  const isFirstCall = useRef(true);
-  useEffect(() => {
-    const customersRef = ref(database, "customers");
-    const customersQuery = query(customersRef, limitToLast(1));
+  // const toast = useToast();
+  // const isFirstCall = useRef(true);
+  // useEffect(() => {
+  //   const customersRef = ref(database, "customers");
+  //   const customersQuery = query(customersRef, limitToLast(1));
 
-    const unsubscribe = onChildAdded(customersQuery, (snapshot) => {
-      if (isFirstCall.current) {
-        isFirstCall.current = false;
-        return;
-      }
+  //   const unsubscribe = onChildAdded(customersQuery, (snapshot) => {
+  //     if (isFirstCall.current) {
+  //       isFirstCall.current = false;
+  //       return;
+  //     }
 
-      if (snapshot.exists()) {
-        toast({
-          title: "Pelanggan baru ditambahkan",
-          description: `${
-            snapshot.val().name
-          } telah ditambahkan ke daftar pelanggan`,
-          status: "info",
-          duration: 10000,
-          isClosable: true,
-        });
-      }
-    });
+  //     if (snapshot.exists()) {
+  //       toast({
+  //         title: "Pelanggan baru ditambahkan",
+  //         description: `${
+  //           snapshot.val().name
+  //         } telah ditambahkan ke daftar pelanggan`,
+  //         status: "info",
+  //         duration: 10000,
+  //         isClosable: true,
+  //       });
+  //     }
+  //   });
 
-    return unsubscribe;
-  }, [toast]);
+  //   return unsubscribe;
+  // }, [toast]);
+
+  const columns = useMemo<ColumnDef<[string, Customer]>[]>(
+    () => [
+      {
+        header: "No",
+        cell: ({ row }) => row.index + 1 + ".",
+        minSize: 1,
+        size: 1,
+        meta: {
+          textAlign: "center",
+          paddingRight: 0,
+        },
+      },
+      {
+        header: "Nama",
+        accessorKey: "name",
+        accessorFn: (row) => row[1].name,
+        size: 20,
+        meta: {
+          whiteSpace: "normal",
+        },
+      },
+      {
+        header: "Alamat",
+        accessorKey: "address",
+        accessorFn: (row) => formatAddress(row[1].address),
+        // size: 30,
+        meta: {
+          overflow: "hidden",
+          textOverflow: "ellipsis",
+          display: { base: "none", lg: "table-cell" },
+          maxW: "100px",
+        },
+      },
+      {
+        header: () => <center>Aksi</center>,
+        accessorKey: "action",
+        minSize: 5,
+        size: 5,
+        meta: {
+          textAlign: "center",
+        },
+        cell: ({ row }) => (
+          <Button
+            onClick={() => {
+              selectedCustomer.current = row.original[1];
+              onOpen();
+            }}
+            colorScheme="blue"
+          >
+            Detail
+          </Button>
+        ),
+      },
+    ],
+    [onOpen]
+  );
+
+  const customerListMemo = useMemo(
+    () => Object.entries(customerList || {}),
+    [customerList]
+  );
+
+  const table = useReactTable({
+    data: customerListMemo,
+    columns,
+    getCoreRowModel: getCoreRowModel(),
+    debugTable: true,
+  });
+
+  // const [{ pageIndex, pageSize }, setPagination] = useState<PaginationState>({
+  //   pageIndex: 0,
+  //   pageSize: 10,
+  // });
+
+  // const pagination = useMemo(
+  //   () => ({
+  //     pageIndex,
+  //     pageSize,
+  //   }),
+  //   [pageIndex, pageSize]
+  // )
 
   return (
     <>
@@ -73,7 +163,7 @@ function CustomerList() {
           {
             name: "Tambah Baru",
             path: "new",
-            colorScheme: "gray",
+            colorScheme: "green",
           },
         ]}
       >
@@ -83,30 +173,49 @@ function CustomerList() {
           <TableContainer>
             <Table variant="striped">
               <Thead>
-                <Tr>
-                  <Th>Nama</Th>
-                  <Th isNumeric>Aksi</Th>
-                </Tr>
+                {table.getHeaderGroups().map((headerGroup) => (
+                  <Tr key={headerGroup.id}>
+                    {headerGroup.headers.map((header) => (
+                      <Th
+                        key={header.id}
+                        style={{
+                          width:
+                            header.getSize() !== 150
+                              ? header.getSize() + "%"
+                              : undefined,
+                        }}
+                        {...(header.index === 2 && {
+                          display: { base: "none", lg: "table-cell" },
+                        })}
+                        {...(header.index === 0 && {
+                          textAlign: "center",
+                          paddingRight: 0,
+                        })}
+                      >
+                        {header.isPlaceholder
+                          ? null
+                          : flexRender(
+                              header.column.columnDef.header,
+                              header.getContext()
+                            )}
+                      </Th>
+                    ))}
+                  </Tr>
+                ))}
               </Thead>
               <Tbody>
-                {customerList &&
-                  Object.entries(customerList)
-                    .reverse()
-                    .map(([key, value]) => (
-                      <Tr key={key}>
-                        <Td>{value.name}</Td>
-                        <Td isNumeric>
-                          <Button
-                            onClick={() => {
-                              selectedCustomer.current = value;
-                              onOpen();
-                            }}
-                          >
-                            Detail
-                          </Button>
-                        </Td>
-                      </Tr>
+                {table.getRowModel().rows.map((row) => (
+                  <Tr key={row.id}>
+                    {row.getVisibleCells().map((cell) => (
+                      <Td key={cell.id} {...cell.column.columnDef.meta}>
+                        {flexRender(
+                          cell.column.columnDef.cell,
+                          cell.getContext()
+                        )}
+                      </Td>
                     ))}
+                  </Tr>
+                ))}
               </Tbody>
             </Table>
           </TableContainer>
@@ -114,7 +223,7 @@ function CustomerList() {
         <DetailModal
           isOpen={isOpen}
           onClose={onClose}
-          selectedCustomer={selectedCustomer}
+          selectedCustomer={selectedCustomer.current}
         />
       </ContentWrapper>
     </>
@@ -124,50 +233,88 @@ function CustomerList() {
 type DMProps = {
   isOpen: boolean;
   onClose: () => void;
-  selectedCustomer: MutableRefObject<Customer | undefined>;
+  selectedCustomer: Customer | undefined;
 };
 
 const DetailModal = memo(function DM({
   isOpen,
   onClose,
-  selectedCustomer,
+  selectedCustomer: customer,
 }: DMProps) {
-  const customer: Customer | undefined = selectedCustomer.current;
+  const [sales, setSales] = useState<string | undefined>(undefined);
+
+  useEffect(() => {
+    if (customer) {
+      get(child(ref(database, "users"), `${customer?.sales}`)).then(
+        (snapshot) => {
+          const name = snapshot.val().firstName + " " + snapshot.val().lastName;
+          setSales(name);
+        }
+      );
+    }
+  }, [customer]);
 
   return (
     <Modal isOpen={isOpen} onClose={onClose}>
       <ModalOverlay />
       <ModalContent>
-        <ModalHeader>{customer?.name}</ModalHeader>
+        <ModalHeader>
+          Detail Pelanggan
+          <Badge
+            backgroundColor={
+              customer?.type === "individu" ? "green.200" : "blue.200"
+            }
+            marginLeft="2"
+          >
+            {customer?.type}
+          </Badge>
+        </ModalHeader>
         <ModalCloseButton />
         <ModalBody>
           <TableContainer>
             <Table variant="unstyled">
               <Tbody>
                 <Tr>
+                  <Td>Nama</Td>
+                  <Td fontWeight="bold" whiteSpace="normal">
+                    {customer?.name}
+                  </Td>
+                </Tr>
+                <Tr>
                   <Td>
                     {customer?.type === "perusahaan" ? "No NPWP" : "No KTP"}
                   </Td>
-                  <Td>{customer?.id}</Td>
+                  <Td whiteSpace="normal">{customer?.id}</Td>
                 </Tr>
                 <Tr>
                   <Td>No Telp</Td>
-                  <Td isNumeric>{customer?.phone}</Td>
+                  <Td whiteSpace="normal" isNumeric>
+                    {customer?.phone}
+                  </Td>
                 </Tr>
                 <Tr>
                   <Td>No Telp 2</Td>
-                  <Td isNumeric>{customer?.phone2}</Td>
+                  <Td whiteSpace="normal" isNumeric>
+                    {customer?.phone2}
+                  </Td>
                 </Tr>
                 <Tr>
                   <Td>Alamat</Td>
                   <Td whiteSpace="normal">
-                    {customer?.address.street +
-                      ", " +
-                      customer?.address.district +
-                      ", " +
-                      customer?.address.regency +
-                      ", " +
-                      customer?.address.city}
+                    {customer && formatAddress(customer.address)}
+                  </Td>
+                </Tr>
+                <Tr>
+                  <Td>Sales</Td>
+                  <Td whiteSpace="normal">
+                    <Skeleton isLoaded={sales !== undefined}>{sales}</Skeleton>
+                  </Td>
+                </Tr>
+                <Tr>
+                  <Td>Tanggal Dibuat</Td>
+                  <Td whiteSpace="normal">
+                    {customer &&
+                      new Date(customer.createdAt).toLocaleDateString("en-GB")}
                   </Td>
                 </Tr>
               </Tbody>
