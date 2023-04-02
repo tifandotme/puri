@@ -12,7 +12,6 @@ type ACProps = {
 
 function AuthContainer({ currentUser, isPageLoading, currentPath }: ACProps) {
 
-  // set page title to follow current path
   const titleMap: Record<string, string> = {
     "/login": "Login",
     "/signup": "Daftar",

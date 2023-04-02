@@ -1,9 +1,9 @@
 import {
   Box,
-  useRadio,
-  useRadioGroup,
   HStack,
   UseRadioProps,
+  useRadio,
+  useRadioGroup,
 } from "@chakra-ui/react";
 import { Control, Controller } from "react-hook-form";
 

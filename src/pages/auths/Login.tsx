@@ -8,8 +8,8 @@ import {
 } from "@chakra-ui/react";
 import { useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
-import { handleSignIn } from "./handle-auths";
 import { EmailField, PasswordField } from "./AuthFields";
+import { handleSignIn } from "./handle-auths";
 
 function Login() {
   const toast = useToast();

@@ -13,8 +13,8 @@ import {
 } from "@chakra-ui/react";
 import { useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
-import { handleSignUp } from "./handle-auths";
 import { EmailField, PasswordField } from "./AuthFields";
+import { handleSignUp } from "./handle-auths";
 
 function SignUp() {
   const toast = useToast();
