@@ -14,30 +14,31 @@ import {
   TableContainer,
   Tbody,
   Td,
-  Th,
-  Thead,
   Tr,
   useDisclosure,
 } from "@chakra-ui/react";
-import { memo, useContext, useEffect, useMemo, useRef, useState } from "react";
-import ContentWrapper from "../dashboard/ContentWrapper";
-import { AppContext } from "../../App";
-import { ref, get, child } from "firebase/database";
-import { database } from "../../config/firebase";
-import { formatAddress } from "../../utils/utils";
 import {
   ColumnDef,
-  flexRender,
   getCoreRowModel,
+  getFilteredRowModel,
+  getPaginationRowModel,
   useReactTable,
 } from "@tanstack/react-table";
+import { child, get, ref } from "firebase/database";
+import { memo, useContext, useEffect, useMemo, useRef, useState } from "react";
+import { AppContext } from "../../App";
+import { database } from "../../config/firebase";
+import { formatAddress } from "../../utils/utils";
+import ContentWrapper from "../dashboard/ContentWrapper";
+import TanStackTable from "./TanStackTable";
 
+// TODO: create an API to generate randomize customer list?
 function CustomerList() {
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   const { customerList, isLoading } = useContext(AppContext);
 
-  const selectedCustomer = useRef<Customer | undefined>(undefined);
+  const selectedCustomer = useRef<Customer<string> | undefined>(undefined);
 
   // const toast = useToast();
   // const isFirstCall = useRef(true);
@@ -67,7 +68,7 @@ function CustomerList() {
   //   return unsubscribe;
   // }, [toast]);
 
-  const columns = useMemo<ColumnDef<[string, Customer]>[]>(
+  const columns = useMemo<ColumnDef<[string, Customer<string>]>[]>(
     () => [
       {
         header: "No",
@@ -83,7 +84,7 @@ function CustomerList() {
         header: "Nama",
         accessorKey: "name",
         accessorFn: (row) => row[1].name,
-        size: 20,
+        size: 25,
         meta: {
           whiteSpace: "normal",
         },
@@ -103,13 +104,14 @@ function CustomerList() {
       {
         header: () => <center>Aksi</center>,
         accessorKey: "action",
-        minSize: 5,
-        size: 5,
+        minSize: 4,
+        size: 4,
         meta: {
           textAlign: "center",
         },
         cell: ({ row }) => (
           <Button
+            size="sm"
             onClick={() => {
               selectedCustomer.current = row.original[1];
               onOpen();
@@ -133,21 +135,10 @@ function CustomerList() {
     data: customerListMemo,
     columns,
     getCoreRowModel: getCoreRowModel(),
-    debugTable: true,
+    getFilteredRowModel: getFilteredRowModel(),
+    getPaginationRowModel: getPaginationRowModel(),
+    debugTable: false,
   });
-
-  // const [{ pageIndex, pageSize }, setPagination] = useState<PaginationState>({
-  //   pageIndex: 0,
-  //   pageSize: 10,
-  // });
-
-  // const pagination = useMemo(
-  //   () => ({
-  //     pageIndex,
-  //     pageSize,
-  //   }),
-  //   [pageIndex, pageSize]
-  // )
 
   return (
     <>
@@ -167,59 +158,8 @@ function CustomerList() {
           },
         ]}
       >
-        {isLoading ? (
-          <Spinner />
-        ) : (
-          <TableContainer>
-            <Table variant="striped">
-              <Thead>
-                {table.getHeaderGroups().map((headerGroup) => (
-                  <Tr key={headerGroup.id}>
-                    {headerGroup.headers.map((header) => (
-                      <Th
-                        key={header.id}
-                        style={{
-                          width:
-                            header.getSize() !== 150
-                              ? header.getSize() + "%"
-                              : undefined,
-                        }}
-                        {...(header.index === 2 && {
-                          display: { base: "none", lg: "table-cell" },
-                        })}
-                        {...(header.index === 0 && {
-                          textAlign: "center",
-                          paddingRight: 0,
-                        })}
-                      >
-                        {header.isPlaceholder
-                          ? null
-                          : flexRender(
-                              header.column.columnDef.header,
-                              header.getContext()
-                            )}
-                      </Th>
-                    ))}
-                  </Tr>
-                ))}
-              </Thead>
-              <Tbody>
-                {table.getRowModel().rows.map((row) => (
-                  <Tr key={row.id}>
-                    {row.getVisibleCells().map((cell) => (
-                      <Td key={cell.id} {...cell.column.columnDef.meta}>
-                        {flexRender(
-                          cell.column.columnDef.cell,
-                          cell.getContext()
-                        )}
-                      </Td>
-                    ))}
-                  </Tr>
-                ))}
-              </Tbody>
-            </Table>
-          </TableContainer>
-        )}
+        {isLoading ? <Spinner /> : <TanStackTable table={table} />}
+
         <DetailModal
           isOpen={isOpen}
           onClose={onClose}
@@ -233,7 +173,7 @@ function CustomerList() {
 type DMProps = {
   isOpen: boolean;
   onClose: () => void;
-  selectedCustomer: Customer | undefined;
+  selectedCustomer: Customer<string> | undefined;
 };
 
 const DetailModal = memo(function DM({

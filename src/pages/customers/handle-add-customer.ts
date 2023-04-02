@@ -1,9 +1,9 @@
-import { set, ref, push, serverTimestamp } from "firebase/database";
 import { useToast } from "@chakra-ui/react";
+import { push, ref, serverTimestamp, set } from "firebase/database";
+import { FieldValues } from "react-hook-form";
 import { NavigateFunction } from "react-router-dom";
 import { auth, database } from "../../config/firebase";
 import { capitalizeWords } from "../../utils/utils";
-import { FieldValues } from "react-hook-form";
 
 async function handleAddCustomer(
   data: FieldValues,
@@ -13,7 +13,7 @@ async function handleAddCustomer(
   try {
     const { name, id, phone, phone2, address, type, prefixName } = data;
 
-    const customer: Customer = {
+    const customer: Customer<ReturnType<typeof serverTimestamp>> = {
       name: capitalizeWords(name) + (prefixName ? ", " + prefixName : ""),
       id,
       phone,
@@ -23,6 +23,18 @@ async function handleAddCustomer(
       createdAt: serverTimestamp(),
       sales: auth.currentUser?.uid,
     };
+
+    // const customer: Customer = {
+    //   name: capitalizeWords(name) + (prefixName ? ", " + prefixName : ""),
+    //   id: Math.floor(Math.random() * 999999999999),
+    //   phone: Number("8" + Math.floor(Math.random() * 9999999999)),
+    //   phone2: Number("8" + Math.floor(Math.random() * 9999999999)),
+    //   address,
+    //   type,
+    //   createdAt: serverTimestamp(),
+    //   // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    //   sales: auth.currentUser!.uid,
+    // };
 
     await set(push(ref(database, "customers")), customer);
 

@@ -9,17 +9,17 @@ import {
   Textarea,
   useToast,
 } from "@chakra-ui/react";
-import {
-  District,
-  getDistrictsOfRegencyName,
-  getRegenciesOfProvinceId,
-  getVillagesOfDistrictName,
-  Regency,
-  Village,
-} from "territory-indonesia";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
+import {
+  District,
+  Regency,
+  Village,
+  getDistrictsOfRegencyName,
+  getRegenciesOfProvinceId,
+  getVillagesOfDistrictName,
+} from "territory-indonesia";
 
 import ContentWrapper from "../dashboard/ContentWrapper";
 import CustomerTypeRadio from "./CustomerTypeRadio";
@@ -145,7 +145,7 @@ function AddCustomer() {
                 <Input
                   id="id"
                   type="number"
-                  {...register("id", { required: true })}
+                  {...register("id", { required: true, valueAsNumber: true })}
                 />
               </FormControl>
               <FormControl isRequired>
@@ -154,7 +154,10 @@ function AddCustomer() {
                   placeholder="081122223333"
                   id="phone"
                   type="tel"
-                  {...register("phone", { required: true })}
+                  {...register("phone", {
+                    required: true,
+                    valueAsNumber: true,
+                  })}
                 />
               </FormControl>
               <FormControl>
@@ -163,7 +166,10 @@ function AddCustomer() {
                   placeholder="081122223333"
                   id="phone2"
                   type="tel"
-                  {...register("phone2", { required: false })}
+                  {...register("phone2", {
+                    required: false,
+                    valueAsNumber: true,
+                  })}
                 />
               </FormControl>
             </Stack>
