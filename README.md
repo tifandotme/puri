@@ -19,7 +19,7 @@ For a working demo, visit [puri.systems](https://puri.systems) or [puri-systems.
 
 ## Tech Stack
 
-**Client:** React, React Router, React Hook Form, ChakraUI
+**Client:** React, React Router, React Hook Form, TanStack Table, ChakraUI
 
 **Server:** Node, Firebase
 

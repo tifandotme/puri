@@ -8,19 +8,19 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@chakra-ui/react": "^2.5.4",
+    "@chakra-ui/react": "^2.5.5",
     "@emotion/react": "^11.10.6",
     "@emotion/styled": "^11.10.6",
     "@fontsource/inter": "^4.5.15",
     "@fontsource/raleway": "^4.5.12",
     "@tanstack/react-table": "^8.8.4",
-    "firebase": "^9.18.0",
-    "framer-motion": "^10.9.4",
+    "firebase": "^9.19.0",
+    "framer-motion": "^10.10.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "react-hook-form": "^7.43.8",
+    "react-hook-form": "^7.43.9",
     "react-icons": "^4.8.0",
-    "react-router-dom": "^6.9.0",
+    "react-router-dom": "^6.10.0",
     "territory-indonesia": "^0.1.4"
   },
   "devDependencies": {
@@ -32,13 +32,13 @@
     "@vitejs/plugin-react-swc": "^3.2.0",
     "eslint": "^8.37.0",
     "eslint-config-prettier": "^8.8.0",
-    "eslint-import-resolver-typescript": "^3.5.3",
+    "eslint-import-resolver-typescript": "^3.5.4",
     "eslint-plugin-import": "^2.27.5",
     "eslint-plugin-jsx-a11y": "^6.7.1",
     "eslint-plugin-react": "^7.32.2",
     "eslint-plugin-react-hooks": "^4.6.0",
     "prettier": "^2.8.7",
-    "typescript": "^4.9.5",
+    "typescript": "^5.0.3",
     "vite": "^4.2.1"
   }
 }
