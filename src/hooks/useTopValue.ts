@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { useBreakpointValue } from "@chakra-ui/react";
 
 /**
- * Determine the top value for the header based on scroll position and
+ * Determine the css top value for the header based on scroll position and
  * breakpoint value. It is used to dynamically hide the header
  * when the user is scrolling down.
  *

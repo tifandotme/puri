@@ -1,5 +1,5 @@
 import { User } from "firebase/auth";
-import { onValue, orderByChild, query, ref } from "firebase/database";
+import { onValue, query, ref } from "firebase/database";
 import { useEffect, useState } from "react";
 import { database } from "../config/firebase";
 

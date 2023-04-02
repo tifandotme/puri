@@ -1,5 +1,5 @@
+import { child, get, ref } from "firebase/database";
 import { useState } from "react";
-import { ref, get, child } from "firebase/database";
 
 import { auth, database } from "../config/firebase";
 import { capitalizeWords } from "../utils/utils";

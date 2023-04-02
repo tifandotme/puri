@@ -5,15 +5,15 @@ type CustomerAddress = {
   street: string;
 };
 
-type Customer = {
+type Customer<TDate> = {
   name: string;
   id: number;
   phone: number;
   phone2?: number;
   address: CustomerAddress;
   type: "individu" | "perusahaan";
-  createdAt: number;
-  sales: string;
+  createdAt: TDate;
+  sales: string; // in uid
 };
 
 type CustomerList = Record<string, Customer>;
