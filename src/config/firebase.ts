@@ -29,7 +29,7 @@ const database: Database = getDatabase(
 // local emulator in development mode
 if (import.meta.env.DEV) {
   connectAuthEmulator(auth, "http://localhost:9099", { disableWarnings: true });
-  connectDatabaseEmulator(database, "localhost", 9000);
+  connectDatabaseEmulator(database, "localhost", 9100);
 }
 
 export { auth, database };
