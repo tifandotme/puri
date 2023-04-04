@@ -3,10 +3,10 @@ logs
 *.log
 
 node_modules
-saved-data
 dist
 dist-ssr
 public
+firebase-emulator
 .firebase
 *.local
 *.tsbuildinfo
