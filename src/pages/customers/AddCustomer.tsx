@@ -128,7 +128,7 @@ function AddCustomer() {
                     >
                       <option value="PT">PT</option>
                       <option value="CV">CV</option>
-                      <option value="UD">UD</option>
+                      <option value="TB">TB</option>
                     </Select>
                   )}
                   <Input

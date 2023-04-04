@@ -17,13 +17,7 @@ import {
   Tr,
   useDisclosure,
 } from "@chakra-ui/react";
-import {
-  ColumnDef,
-  getCoreRowModel,
-  getFilteredRowModel,
-  getPaginationRowModel,
-  useReactTable,
-} from "@tanstack/react-table";
+import { ColumnDef } from "@tanstack/react-table";
 import { child, get, ref } from "firebase/database";
 import { memo, useContext, useEffect, useMemo, useRef, useState } from "react";
 import { AppContext } from "../../App";
@@ -71,43 +65,41 @@ function CustomerList() {
   const columns = useMemo<ColumnDef<[string, Customer<string>]>[]>(
     () => [
       {
-        header: "No",
-        cell: ({ row }) => row.index + 1 + ".",
-        minSize: 1,
-        size: 1,
-        meta: {
-          textAlign: "center",
-          paddingRight: 0,
-        },
-      },
-      {
         header: "Nama",
         accessorKey: "name",
         accessorFn: (row) => row[1].name,
-        size: 25,
+        size: 25, // % of the table width
         meta: {
-          whiteSpace: "normal",
+          bodyProps: {
+            whiteSpace: "normal",
+          },
         },
       },
       {
         header: "Alamat",
         accessorKey: "address",
         accessorFn: (row) => formatAddress(row[1].address),
-        // size: 30,
         meta: {
-          overflow: "hidden",
-          textOverflow: "ellipsis",
-          display: { base: "none", lg: "table-cell" },
-          maxW: "100px",
+          headerProps: {
+            display: { base: "none", lg: "table-cell" },
+          },
+          bodyProps: {
+            overflow: "hidden",
+            textOverflow: "ellipsis",
+            display: { base: "none", lg: "table-cell" },
+            maxW: "100px",
+          },
         },
       },
       {
         header: () => <center>Aksi</center>,
         accessorKey: "action",
         minSize: 4,
-        size: 4,
+        size: 4, // % of the table width
         meta: {
-          textAlign: "center",
+          bodyProps: {
+            textAlign: "center",
+          },
         },
         cell: ({ row }) => (
           <Button
@@ -127,18 +119,14 @@ function CustomerList() {
   );
 
   const customerListMemo = useMemo(
-    () => Object.entries(customerList || {}),
+    () =>
+      // customerList is converted into array, and
+      // sorted by name
+      Object.entries(customerList || {}).sort((a, b) =>
+        a[1].name.localeCompare(b[1].name)
+      ),
     [customerList]
   );
-
-  const table = useReactTable({
-    data: customerListMemo,
-    columns,
-    getCoreRowModel: getCoreRowModel(),
-    getFilteredRowModel: getFilteredRowModel(),
-    getPaginationRowModel: getPaginationRowModel(),
-    debugTable: false,
-  });
 
   return (
     <>
@@ -158,7 +146,11 @@ function CustomerList() {
           },
         ]}
       >
-        {isLoading ? <Spinner /> : <TanStackTable table={table} />}
+        {isLoading ? (
+          <Spinner />
+        ) : (
+          <TanStackTable data={customerListMemo} columns={columns} />
+        )}
 
         <DetailModal
           isOpen={isOpen}
