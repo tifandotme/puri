@@ -18,7 +18,6 @@ import {
 } from "@chakra-ui/react";
 import {
   ColumnDef,
-  Row,
   Table as TTable,
   flexRender,
   getCoreRowModel,
