@@ -11,14 +11,15 @@
   },
   "emulators": {
     "auth": {
-      "port": 9099
+      "port": 9100
     },
     "database": {
-      "port": 9100
+      "port": 9200
     },
     "ui": {
       "enabled": true,
       "port": 4000
+      
     },
     "singleProjectMode": true
   },
