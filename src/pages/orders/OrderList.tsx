@@ -1,11 +1,26 @@
-import { Box, HStack, Stack, VStack } from "@chakra-ui/react";
+import ContentWrapper from "../dashboard/ContentWrapper";
 
 function OrderList() {
   return (
     <>
-      <Box paddingY="200px" border="1px solid red">
-        This is a Box
-      </Box>
+      <ContentWrapper
+        title="Daftar Pesanan"
+        button={[
+          {
+            name: "Edit",
+            path: "edit",
+            colorScheme: "gray",
+            variant: "outline",
+          },
+          {
+            name: "Tambah Baru",
+            path: "new",
+            colorScheme: "green",
+          },
+        ]}
+      >
+        deez
+      </ContentWrapper>
     </>
   );
 }

@@ -18,6 +18,7 @@ import CustomerList from "./pages/customers/CustomerList";
 import Home from "./pages/home/Home";
 import useCustomerList from "./hooks/useCustomerList";
 import EditCustomer from "./pages/customers/EditCustomer";
+import AddOrder from "./pages/orders/AddOrder";
 
 type APType = {
   customerList: CustomerList | undefined;
@@ -64,7 +65,11 @@ function App() {
               <Route path="edit" element={<EditCustomer />} />
             </Route>
 
-            <Route path="orders" element={<OrderList />} />
+            <Route path="orders">
+              <Route index element={<OrderList />} />
+              <Route path="new" element={<AddOrder />} />
+              {/* <Route path="edit" element={<EditOrder />} /> */}
+            </Route>
             <Route
               path="help"
               element={

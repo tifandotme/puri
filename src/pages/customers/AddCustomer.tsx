@@ -122,7 +122,7 @@ function AddCustomer() {
                 <HStack>
                   {customerType === "perusahaan" && (
                     <Select
-                      defaultValue="pt"
+                      defaultValue="PT"
                       w="28"
                       {...register("prefixName", { required: true })}
                     >
