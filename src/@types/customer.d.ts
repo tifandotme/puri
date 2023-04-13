@@ -16,4 +16,5 @@ type Customer<TDate> = {
   sales: string; // in uid
 };
 
-type CustomerList = Record<string, Customer>;
+// TODO: refine this type
+type CustomerList = Record<string, Customer<string>>;
