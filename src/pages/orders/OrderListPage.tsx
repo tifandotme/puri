@@ -1,6 +1,6 @@
 import ContentWrapper from "../dashboard/ContentWrapper";
 
-function OrderList() {
+function OrderListPage() {
   return (
     <>
       <ContentWrapper
@@ -25,4 +25,4 @@ function OrderList() {
   );
 }
 
-export default OrderList;
+export default OrderListPage;
