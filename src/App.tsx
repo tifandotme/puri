@@ -13,12 +13,12 @@ import ForgotPassword from "./pages/auths/ForgotPassword";
 
 import PanelContainer from "./pages/dashboard/PanelContainer";
 import AddCustomer from "./pages/customers/AddCustomer";
-import OrderList from "./pages/orders/OrderList";
+import OrderListPage from "./pages/orders/OrderListPage";
 import CustomerList from "./pages/customers/CustomerList";
 import Home from "./pages/home/Home";
 import useCustomerList from "./hooks/useCustomerList";
 import EditCustomer from "./pages/customers/EditCustomer";
-import AddOrder from "./pages/orders/AddOrder";
+import AddOrderPage from "./pages/orders/AddOrderPage";
 
 type APType = {
   customerList: CustomerList | undefined;
@@ -66,8 +66,8 @@ function App() {
             </Route>
 
             <Route path="orders">
-              <Route index element={<OrderList />} />
-              <Route path="new" element={<AddOrder />} />
+              <Route index element={<OrderListPage />} />
+              <Route path="new" element={<AddOrderPage />} />
               {/* <Route path="edit" element={<EditOrder />} /> */}
             </Route>
             <Route

@@ -124,7 +124,7 @@ function AddCustomer() {
                     <Select
                       defaultValue="PT"
                       w="28"
-                      {...register("prefixName", { required: true })}
+                      {...register("prefixName")}
                     >
                       <option value="PT">PT</option>
                       <option value="CV">CV</option>
@@ -134,7 +134,7 @@ function AddCustomer() {
                   <Input
                     id="name"
                     type="text"
-                    {...register("name", { required: true })}
+                    {...register("name")}
                   />
                 </HStack>
               </FormControl>
@@ -145,7 +145,7 @@ function AddCustomer() {
                 <Input
                   id="id"
                   type="number"
-                  {...register("id", { required: true, valueAsNumber: true })}
+                  {...register("id", { valueAsNumber: true })}
                 />
               </FormControl>
               <FormControl isRequired>
@@ -180,7 +180,7 @@ function AddCustomer() {
                 <Select
                   id="city"
                   isDisabled={!regencies}
-                  {...register("address.city", { required: true })}
+                  {...register("address.city")}
                   onChange={(e) => setChosenRegency(e.target.value)}
                   placeholder="—Kota/Kabupaten—"
                 >
@@ -198,7 +198,7 @@ function AddCustomer() {
                 <Select
                   id="regency"
                   isDisabled={!chosenRegency}
-                  {...register("address.regency", { required: true })}
+                  {...register("address.regency")}
                   onChange={(e) => setChosenDistrict(e.target.value)}
                   placeholder="—Kecamatan—"
                 >
@@ -216,7 +216,7 @@ function AddCustomer() {
                 <Select
                   id="district"
                   isDisabled={!chosenDistrict}
-                  {...register("address.district", { required: true })}
+                  {...register("address.district")}
                   onChange={(e) => setChosenVillage(e.target.value)}
                   placeholder="—Kelurahan—"
                 >
@@ -235,7 +235,7 @@ function AddCustomer() {
                   id="street"
                   isDisabled={!chosenVillage}
                   placeholder="Nama Jalan (No. Rumah/Patokan)"
-                  {...register("address.street", { required: true })}
+                  {...register("address.street")}
                 />
               </FormControl>
             </Stack>
