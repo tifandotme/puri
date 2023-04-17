@@ -13,14 +13,22 @@ import {
   Stack,
   Text,
   VStack,
+  useToast,
 } from "@chakra-ui/react";
-import { useEffect, useState } from "react";
+import { memo, useEffect, useState } from "react";
 import { FieldValues, UseFormUnregister, useForm } from "react-hook-form";
 import { BiPlus } from "react-icons/bi";
+import { useNavigate } from "react-router-dom";
 import ContentWrapper from "../dashboard/ContentWrapper";
 import CustomerNameSelect from "./CustomerNameSelect";
+import handleAddOrder from "./handle-add-order";
+import productList from "./product-list";
 
 function AddOrderPage() {
+  const toast = useToast();
+
+  const navigate = useNavigate();
+
   const {
     register,
     handleSubmit,
@@ -30,17 +38,8 @@ function AddOrderPage() {
   } = useForm();
 
   const onSubmit = handleSubmit((data) => {
-    console.log(data);
+    handleAddOrder(data, navigate, toast);
   });
-
-  const cementTypes: Record<string, string> = {
-    serbaguna: "Dynamix Serbaguna",
-    masonry: "Dynamix Masonry",
-    extrapower: "Dynamix Extra Power",
-    padang: "Semen Padang",
-  };
-
-  console.log("AddOrderPage component render");
 
   return (
     <ContentWrapper title="Tambah Pesanan">
@@ -98,9 +97,9 @@ function AddOrderPage() {
               </FormControl>
 
               <FormControl isRequired>
-                <FormLabel>Jenis Semen</FormLabel>
-                <Select {...register("brand")}>
-                  {Object.entries(cementTypes).map(([key, value]) => (
+                <FormLabel>Jenis Barang</FormLabel>
+                <Select {...register("product")}>
+                  {Object.entries(productList).map(([key, value]) => (
                     <option key={key} value={key}>
                       {value}
                     </option>
@@ -134,7 +133,6 @@ function AddOrderPage() {
                       type="number"
                       {...register("cod.amount", {
                         valueAsNumber: true,
-                        shouldUnregister: true,
                       })}
                       min="0"
                       isRequired
@@ -167,7 +165,7 @@ function AddOrderPage() {
                   type="url"
                   placeholder="https://goo.gl/maps/*"
                   isRequired
-                  {...register("location")}
+                  {...register("location", { shouldUnregister: true })}
                 />
               </OptionalFieldContainer>
             </Stack>
@@ -196,7 +194,7 @@ type OFCProps = {
   children: React.ReactNode;
 };
 
-function OptionalFieldContainer({
+const OptionalFieldContainer = memo(function OFC({
   formLabel,
   checkboxLabel,
   unregister,
@@ -241,6 +239,6 @@ function OptionalFieldContainer({
       {isFieldVisible && <>{children}</>}
     </FormControl>
   );
-}
+});
 
 export default AddOrderPage;
