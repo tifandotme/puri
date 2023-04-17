@@ -15,7 +15,8 @@
     />
   </picture>
 </p>
-<hr>
+<br/>
+
 **Puri** is an Order Management System (OMS) that manages orders from customers to be processed internally at [PT. WPU](http://ptwpu.com). This app is a final year project of my Bachelor thesis.
 
 For a working demo, visit [puri.systems](https://puri.systems)
