@@ -6,7 +6,7 @@ An Order Management System (OMS) that manages orders from customers and process 
 
 For a working demo, visit [puri.systems](https://puri.systems) or [puri-systems.web.app](https://puri-systems.web.app)
 
-> I submitted this app as a final year project of my Bachelor thesis.
+> This app is a final year project of my Bachelor thesis.
 
 ## Run Locally
 
@@ -17,12 +17,17 @@ For a working demo, visit [puri.systems](https://puri.systems) or [puri-systems.
   pnpm/npm run dev
 ```
 
-## Tech Stack
+> You may need to modify the Firebase APIs with your own in `src/config/firebase.ts`
 
-**Client:** React, React Router, React Hook Form, TanStack Table, ChakraUI
+## Tech/Libraries Used
 
-**Server:** Node, Firebase
+- React, React Router, React Hook Form, TanStack Table, ChakraUI
+- Node, Firebase
 
 ## Documentation
 
 [Halaman Bantuan](https://puri.systems/help) (WIP)
+
+## License
+
+[MIT](https://choosealicense.com/licenses/mit/)
