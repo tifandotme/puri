@@ -32,7 +32,7 @@ function CustomerList() {
 
   const { customerList, isLoading } = useContext(AppContext);
 
-  const selectedCustomer = useRef<Customer<string> | undefined>(undefined);
+  const selectedCustomer = useRef<Customer | undefined>(undefined);
 
   // const toast = useToast();
   // const isFirstCall = useRef(true);
@@ -62,7 +62,7 @@ function CustomerList() {
   //   return unsubscribe;
   // }, [toast]);
 
-  const columns = useMemo<ColumnDef<[string, Customer<string>]>[]>(
+  const columns = useMemo<ColumnDef<[string, Customer]>[]>(
     () => [
       {
         header: "Nama",
@@ -165,7 +165,7 @@ function CustomerList() {
 type DMProps = {
   isOpen: boolean;
   onClose: () => void;
-  selectedCustomer: Customer<string> | undefined;
+  selectedCustomer: Customer | undefined;
 };
 
 const DetailModal = memo(function DM({

@@ -20,7 +20,6 @@ import {
   getRegenciesOfProvinceId,
   getVillagesOfDistrictName,
 } from "territory-indonesia";
-
 import ContentWrapper from "../dashboard/ContentWrapper";
 import CustomerTypeRadio from "./CustomerTypeRadio";
 import handleAddCustomer from "./handle-add-customer";
@@ -131,11 +130,7 @@ function AddCustomer() {
                       <option value="TB">TB</option>
                     </Select>
                   )}
-                  <Input
-                    id="name"
-                    type="text"
-                    {...register("name")}
-                  />
+                  <Input id="name" type="text" {...register("name")} />
                 </HStack>
               </FormControl>
               <FormControl isRequired>

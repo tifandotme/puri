@@ -13,7 +13,7 @@ function RemoveCustomer() {
 
   const toast = useToast();
 
-  const columns = useMemo<ColumnDef<[string, Customer<string>]>[]>(
+  const columns = useMemo<ColumnDef<[string, Customer]>[]>(
     () => [
       {
         header: "Nama",
