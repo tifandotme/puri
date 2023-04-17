@@ -1,12 +1,21 @@
 ![GitHub commit activity](https://img.shields.io/github/commit-activity/m/tifandotme/puri)
+<br/>
+<br/>
+<img
+      alt="Tech stack"
+      src="https://raw.githubusercontent.com/tifandotme/puri/master/src/assets/logo.png"
+      width="150px"
+    />
 
-# Puri
+**Puri** is an Order Management System (OMS) that manages orders from customers to be processed internally at [PT. WPU](http://ptwpu.com). This app is a final year project of my Bachelor thesis.
 
-An Order Management System (OMS) that manages orders from customers and process them internally at the company. This app is built specifically to meet the needs at [PT. WPU](http://ptwpu.com).
+For a working demo, visit [puri.systems](https://puri.systems)
 
-For a working demo, visit [puri.systems](https://puri.systems) or [puri-systems.web.app](https://puri-systems.web.app)
+<!--
+puri.systems expires on Sunday 4th of February 2024
 
-> This app is a final year project of my Bachelor thesis.
+[puri-systems.web.app](https://puri-systems.web.app) 
+-->
 
 ## Run Locally
 
