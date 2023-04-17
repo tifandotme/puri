@@ -30,4 +30,4 @@ For a working demo, visit [puri.systems](https://puri.systems) or [puri-systems.
 
 ## License
 
-[MIT](https://choosealicense.com/licenses/mit/)
+[MIT](https://github.com/tifandotme/puri/blob/master/LICENSE/)
