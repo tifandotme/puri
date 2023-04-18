@@ -22,7 +22,7 @@
 For a working demo, visit [puri.systems](https://puri.systems)
 
 <!--
-puri.systems expires on Sunday 4th of February 2024
+puri.systems expires on Sunday 3th of February 2024
 
 [puri-systems.web.app](https://puri-systems.web.app) 
 -->
