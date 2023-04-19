@@ -3,7 +3,6 @@ import { push, ref, serverTimestamp, set } from "firebase/database";
 import { FieldValues } from "react-hook-form";
 import { NavigateFunction } from "react-router-dom";
 import { auth, database } from "../../config/firebase";
-import productList from "./product-list";
 
 async function handleAddOrder(
   data: FieldValues,
@@ -11,25 +10,6 @@ async function handleAddOrder(
   toast: ReturnType<typeof useToast>
 ) {
   try {
-    // {
-    //   "qty": {
-    //     "base": 11,
-    //     "bonus": null
-    //   },
-    //   "brand": "serbaguna",
-    //   "additionalInfo": "222",
-    //   "customer": {
-    //     "value": "-NRITh-CaqcYeVl0povO",
-    //     "label": "Kandang Kebo, UD"
-    //   },
-    //   "cod": {
-    //     "type": "cash",
-    //     "amount": 333
-    //   },
-    //   "scheduledTime": "1111-11-11",
-    //   "location": "https://google.com"
-    // }
-
     const {
       customer,
       qty,
@@ -40,30 +20,24 @@ async function handleAddOrder(
       location,
     } = data;
 
-    const order: Order<
-      typeof productList,
-      ReturnType<typeof serverTimestamp>
-    > = {
-      customer: customer.value,
+    const order: Order = {
+      customer: customer.value, // in uid
       qty: {
         base: qty.base,
         ...(qty.bonus && { bonus: qty.bonus }),
       },
       product,
       additionalInfo,
+
       ...(cod.type && { cod }),
       ...(scheduledTime && {
-        scheduledTime: Date.parse(scheduledTime as string), // why doesnt this give an error?
+        scheduledTime: Date.parse(scheduledTime as string),
       }),
-
       ...(location && { location }),
+
       createdAt: serverTimestamp(),
-      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
       sales: auth.currentUser!.uid,
     };
-
-    console.log("Data", data);
-    console.log("Order", order);
 
     await set(push(ref(database, "orders")), order);
 
