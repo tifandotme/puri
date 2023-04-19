@@ -5,12 +5,12 @@ import logo from "../../assets/logo.png";
 import FullscreenLoading from "../FullscreenLoading";
 
 type ACProps = {
-  currentUser: User | undefined;
-  isPageLoading: boolean;
+  user: User | undefined;
+  isLoading: boolean;
   currentPath: string;
 };
 
-function AuthContainer({ currentUser, isPageLoading, currentPath }: ACProps) {
+function AuthContainer({ user, isLoading, currentPath }: ACProps) {
 
   const titleMap: Record<string, string> = {
     "/login": "Login",
@@ -27,9 +27,9 @@ function AuthContainer({ currentUser, isPageLoading, currentPath }: ACProps) {
   // TODO: add gradient effect logo?
   // TODO: add shadow to logo? https://box-shadow.dev/
 
-  if (isPageLoading) return <FullscreenLoading />;
+  if (isLoading) return <FullscreenLoading />;
 
-  if (currentUser) return <Navigate to="/" replace />;
+  if (user) return <Navigate to="/" replace />;
 
   return (
     <Container

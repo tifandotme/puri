@@ -13,16 +13,16 @@ import HeaderPanel from "./HeaderPanel";
 // TODO: add dark mode?
 
 type MCProps = {
-  currentUser: User | undefined;
-  isPageLoading: boolean;
+  user: User | undefined;
+  isLoading: boolean;
 };
 
-function PanelContainer({ currentUser, isPageLoading }: MCProps) {
+function PanelContainer({ user, isLoading }: MCProps) {
   const { isOpen, onOpen, onClose } = useDisclosure();
 
-  if (isPageLoading) return <FullscreenLoading />;
+  if (isLoading) return <FullscreenLoading />;
 
-  if (!currentUser) return <Navigate to="/login" replace />;
+  if (!user) return <Navigate to="/login" replace />;
 
   return (
     <Box bg="gray.50" minH="100vh" pb="1px">

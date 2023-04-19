@@ -2,14 +2,14 @@ import { Button, HStack, Spinner, useToast } from "@chakra-ui/react";
 import { ColumnDef } from "@tanstack/react-table";
 import { ref, remove } from "firebase/database";
 import { useContext, useMemo } from "react";
-import { AppContext } from "../../App";
+import { CustomerListContext } from "../../App";
 import { auth, database } from "../../config/firebase";
 import { formatAddress } from "../../utils/utils";
 import ContentWrapper from "../dashboard/ContentWrapper";
-import TanStackTable from "./TanStackTable";
+import TanStackTable from "../TanStackTable";
 
 function RemoveCustomer() {
-  const { customerList, isLoading } = useContext(AppContext);
+  const { customerList, isLoading } = useContext(CustomerListContext);
 
   const toast = useToast();
 

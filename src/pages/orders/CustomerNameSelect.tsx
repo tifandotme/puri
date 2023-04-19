@@ -2,10 +2,10 @@ import { Box, SelectFieldProps, useStyleConfig } from "@chakra-ui/react";
 import { useContext, useMemo } from "react";
 import { Control, Controller } from "react-hook-form";
 import ReactSelect, { ClassNamesConfig, Options } from "react-select";
-import { AppContext } from "../../App";
+import { CustomerListContext } from "../../App";
 
 function CustomerNameSelect({ control }: { control: Control }) {
-  const { customerList, isLoading } = useContext(AppContext);
+  const { customerList, isLoading } = useContext(CustomerListContext);
 
   // convert customerList to react-select's options format
   // note: we can actually use our own format using getOptionLabel and getOptionValue

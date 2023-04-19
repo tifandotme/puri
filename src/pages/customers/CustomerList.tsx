@@ -20,17 +20,17 @@ import {
 import { ColumnDef } from "@tanstack/react-table";
 import { child, get, ref } from "firebase/database";
 import { memo, useContext, useEffect, useMemo, useRef, useState } from "react";
-import { AppContext } from "../../App";
+import { CustomerListContext } from "../../App";
 import { database } from "../../config/firebase";
 import { formatAddress } from "../../utils/utils";
 import ContentWrapper from "../dashboard/ContentWrapper";
-import TanStackTable from "./TanStackTable";
+import TanStackTable from "../TanStackTable";
 
 // TODO: create an API to generate randomize customer list?
 function CustomerList() {
   const { isOpen, onOpen, onClose } = useDisclosure();
 
-  const { customerList, isLoading } = useContext(AppContext);
+  const { customerList, isLoading } = useContext(CustomerListContext);
 
   const selectedCustomer = useRef<Customer | undefined>(undefined);
 
@@ -68,7 +68,7 @@ function CustomerList() {
         header: "Nama",
         accessorKey: "name",
         accessorFn: (row) => row[1].name,
-        size: 25, // % of the table width
+        size: 25, // % of table width
         meta: {
           bodyProps: {
             whiteSpace: "normal",
@@ -95,7 +95,7 @@ function CustomerList() {
         header: () => <center>Aksi</center>,
         accessorKey: "action",
         minSize: 4,
-        size: 4, // % of the table width
+        size: 4, // % of table width
         meta: {
           bodyProps: {
             textAlign: "center",

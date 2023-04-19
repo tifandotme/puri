@@ -92,7 +92,7 @@ function AddCustomer() {
         <Stack
           spacing="6"
           maxW="3xl"
-          minH="100vh"
+          // minH="100vh"
           mx="auto"
           my={{ base: 0, lg: 5 }}
           borderRadius={{ base: 0, lg: 10 }}

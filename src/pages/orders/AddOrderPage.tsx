@@ -47,7 +47,7 @@ function AddOrderPage() {
         <Stack
           spacing="6"
           maxW="3xl"
-          minH="100vh"
+          // minH="100vh"
           mx="auto"
           my={{ base: 0, lg: 5 }}
           borderRadius={{ base: 0, lg: 10 }}
@@ -165,11 +165,14 @@ function AddOrderPage() {
                   type="url"
                   placeholder="https://goo.gl/maps/*"
                   isRequired
-                  {...register("location", { shouldUnregister: true })}
+                  {...register("location", {
+                    shouldUnregister: true,
+                  })}
                 />
               </OptionalFieldContainer>
             </Stack>
           </Stack>
+
           <Stack alignItems={{ base: "center", lg: "stretch" }}>
             <Button
               type="submit"
