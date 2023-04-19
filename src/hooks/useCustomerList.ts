@@ -7,16 +7,16 @@ import { database } from "../config/firebase";
  * Get the list of customers from the database. This will only run when the user
  * has logged in, because only logged in user can read /customers database.
  *
- * @param currentUser - The current user
+ * @param user Current logged-in user
  */
-function useCustomerList(currentUser: User | undefined) {
+function useCustomerList(user: User | undefined) {
   const [customerList, setCustomerList] = useState<CustomerList | undefined>(
     undefined
   );
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    if (!currentUser) {
+    if (!user) {
       return;
     }
 
@@ -34,8 +34,10 @@ function useCustomerList(currentUser: User | undefined) {
       }
     );
 
+    
+
     return unsubscribe;
-  }, [currentUser]);
+  }, [user]);
 
   return { customerList, isLoading };
 }

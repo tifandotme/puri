@@ -1,3 +1,5 @@
+type ProductList = "serbaguna" | "masonry" | "extrapower" | "padang";
+
 type Qty = {
   base: number;
   bonus?: number;
@@ -8,15 +10,20 @@ type Cod = {
   amount?: number;
 };
 
-type Order<TProduct extends object, TDate = number> = {
+type Order<TDate extends object = number> = {
   customer: string; // in uid
   qty: Qty;
-  product: keyof TProduct; // pass in typeof productList
-  additionalInfo: string;
+  product: ProductList;
+  additionalInfo?: string;
   cod: Cod;
-  scheduledTime: number;
+  scheduledTime?: number;
   location?: string;
   createdAt: TDate;
 };
 
 type OrderList = Record<string, Order>;
+
+type OrderListContext = {
+  orderList: OrderList | undefined;
+  isLoading: boolean;
+};

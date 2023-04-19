@@ -1,11 +1,10 @@
 import { child, get, ref } from "firebase/database";
 import { useState } from "react";
-
 import { auth, database } from "../config/firebase";
 import { capitalizeWords } from "../utils/utils";
 
 /**
- * Get the division of the current user
+ * Get the division of current logged-in user
  */
 function useDivision() {
   const [division, setDivision] = useState("");

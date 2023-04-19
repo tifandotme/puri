@@ -7,7 +7,7 @@ type CustomerAddress = {
 
 // serverTimestamp() stored the value as number (default)
 // but in handle-add-customer.ts, we need to specify it as object
-type Customer<TDate = number> = {
+type Customer<TDate extends object = number> = {
   name: string;
   id: number;
   phone: number;
@@ -18,5 +18,9 @@ type Customer<TDate = number> = {
   sales: string; // in uid
 };
 
-// TODO: refine this type
 type CustomerList = Record<string, Customer>;
+
+type CustomerListContext = {
+  customerList: CustomerList | undefined;
+  isLoading: boolean;
+};
