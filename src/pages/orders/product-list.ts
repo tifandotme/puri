@@ -1,10 +1,10 @@
-// used in AddOrderPage
+// used in AddOrderPage and Order type generic argument
 
-const productList = {
+const productList: Readonly<Record<ProductList, string>> = {
   serbaguna: "Dynamix Serbaguna",
   masonry: "Dynamix Masonry",
   extrapower: "Dynamix Extra Power",
   padang: "Semen Padang",
-} as const;
+};
 
 export default productList;

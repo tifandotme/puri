@@ -45,7 +45,7 @@ async function handleAddCustomer(
       toast({
         title: error.message,
         status: "error",
-        duration: 3000,
+        duration: 5000,
       });
     }
   }

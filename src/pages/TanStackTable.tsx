@@ -26,7 +26,7 @@ import {
   useReactTable,
 } from "@tanstack/react-table";
 
-type TSTProps<Data extends any[], Columns extends ColumnDef<any, any>[]> = {
+type TSTProps<Data extends any, Columns extends ColumnDef<any, any>[]> = {
   data: Data;
   columns: Columns;
 };
