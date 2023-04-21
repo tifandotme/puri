@@ -5,24 +5,68 @@ import {
   useRadio,
   useRadioGroup,
 } from "@chakra-ui/react";
-import { Control, Controller } from "react-hook-form";
+import { Control, Controller, FieldValues, Path } from "react-hook-form";
 
-type RCProps = UseRadioProps & {
-  children: React.ReactNode;
+type CustomerTypeRadioProps<TFieldValues extends FieldValues> = {
+  control: Control<TFieldValues>;
+  register: Path<TFieldValues>;
+  setCustomerType: React.Dispatch<React.SetStateAction<any>>;
 };
 
-function RadioCard(props: RCProps) {
-  const { getInputProps, getCheckboxProps } = useRadio(props);
+function CustomerTypeRadio<TFieldValues extends FieldValues>({
+  control,
+  register,
+  setCustomerType,
+}: CustomerTypeRadioProps<TFieldValues>) {
+  const options: CustomerType[] = ["individu", "perusahaan"];
+
+  const { getRootProps, getRadioProps } = useRadioGroup({
+    name: "type",
+    defaultValue: options[0],
+    onChange: (value) => {
+      setCustomerType(value);
+    },
+  });
+  const group = getRootProps();
+
+  return (
+    <Box borderBottom="1px solid" borderColor="gray.200" pb={3}>
+      <Controller
+        name={register}
+        control={control}
+        render={({ field }) => (
+          <HStack {...group} {...field} justify="center" spacing={2}>
+            {options.map((value) => {
+              const radio = getRadioProps({ value });
+              return (
+                <RadioCard key={value} {...radio}>
+                  {value.charAt(0).toUpperCase() + value.slice(1)}
+                </RadioCard>
+              );
+            })}
+          </HStack>
+        )}
+      />
+    </Box>
+  );
+}
+
+function RadioCard(
+  props: UseRadioProps & {
+    children: React.ReactNode;
+  }
+) {
+  const { getInputProps, getRadioProps } = useRadio(props);
 
   const input = getInputProps();
-  const checkbox = getCheckboxProps();
+  const radio = getRadioProps();
 
   // TODO: learn more about position: relative and position: absolute in a separate project
   return (
     <Box as="label">
       <input {...input} />
       <Box
-        {...checkbox}
+        {...radio}
         cursor="pointer"
         borderRadius="md"
         pos="relative"
@@ -50,47 +94,6 @@ function RadioCard(props: RCProps) {
       >
         {props.children}
       </Box>
-    </Box>
-  );
-}
-
-type CTRProps = {
-  control: Control;
-  setCustomerType: (value: string) => void;
-};
-
-function CustomerTypeRadio({ control, setCustomerType }: CTRProps) {
-  const options = ["individu", "perusahaan"];
-
-  const { getRootProps, getRadioProps } = useRadioGroup({
-    name: "type",
-    defaultValue: options[0],
-    onChange: (value) => {
-      setCustomerType(value);
-    },
-  });
-
-  const group = getRootProps();
-
-  return (
-    <Box borderBottom="1px solid" borderColor="gray.200" pb={3}>
-      <Controller
-        name="type"
-        control={control}
-        defaultValue={options[0]}
-        render={({ field }) => (
-          <HStack {...group} {...field} justify="center" spacing={2}>
-            {options.map((value) => {
-              const radio = getRadioProps({ value });
-              return (
-                <RadioCard key={value} {...radio}>
-                  {value.charAt(0).toUpperCase() + value.slice(1)}
-                </RadioCard>
-              );
-            })}
-          </HStack>
-        )}
-      />
     </Box>
   );
 }

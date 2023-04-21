@@ -9,9 +9,9 @@ import AuthContainer from "./pages/auths/AuthContainer";
 import ForgotPassword from "./pages/auths/ForgotPassword";
 import Login from "./pages/auths/Login";
 import SignUp from "./pages/auths/SignUp";
-import AddCustomer from "./pages/customers/AddCustomer";
-import CustomerList from "./pages/customers/CustomerList";
-import EditCustomer from "./pages/customers/EditCustomer";
+import AddCustomerPage from "./pages/customers/AddCustomerPage";
+import CustomerListPage from "./pages/customers/CustomerListPage";
+import EditCustomerPage from "./pages/customers/EditCustomerPage";
 import PanelContainer from "./pages/dashboard/PanelContainer";
 import Home from "./pages/home/Home";
 import AddOrderPage from "./pages/orders/AddOrderPage";
@@ -43,9 +43,9 @@ function App() {
             >
               <Route index element={<Home />} />
               <Route path="customers">
-                <Route index element={<CustomerList />} />
-                <Route path="new" element={<AddCustomer />} />
-                <Route path="edit" element={<EditCustomer />} />
+                <Route index element={<CustomerListPage />} />
+                <Route path="new" element={<AddCustomerPage />} />
+                <Route path="edit" element={<EditCustomerPage />} />
               </Route>
 
               <Route path="orders">

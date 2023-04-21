@@ -24,7 +24,7 @@ import ContentWrapper from "../dashboard/ContentWrapper";
 import CustomerTypeRadio from "./CustomerTypeRadio";
 import handleAddCustomer from "./handle-add-customer";
 
-function AddCustomer() {
+function AddCustomerPage() {
   const toast = useToast();
 
   const navigate = useNavigate();
@@ -35,9 +35,9 @@ function AddCustomer() {
     control,
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     formState: { errors, isSubmitting },
-  } = useForm();
+  } = useForm<CustomerForm>();
 
-  const [customerType, setCustomerType] = useState("");
+  const [customerType, setCustomerType] = useState<CustomerType>("individu");
 
   const [regencies, setRegencies] = useState<Regency[] | undefined>(undefined);
   const [chosenRegency, setChosenRegency] = useState("");
@@ -92,7 +92,6 @@ function AddCustomer() {
         <Stack
           spacing="6"
           maxW="3xl"
-          // minH="100vh"
           mx="auto"
           my={{ base: 0, lg: 5 }}
           borderRadius={{ base: 0, lg: 10 }}
@@ -103,6 +102,7 @@ function AddCustomer() {
         >
           <CustomerTypeRadio
             control={control}
+            register="type"
             setCustomerType={setCustomerType}
           />
 
@@ -244,4 +244,4 @@ function AddCustomer() {
   );
 }
 
-export default AddCustomer;
+export default AddCustomerPage;
