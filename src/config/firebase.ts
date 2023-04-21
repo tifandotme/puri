@@ -1,35 +1,32 @@
-import { FirebaseApp, initializeApp } from "firebase/app";
-import { Auth, getAuth } from "firebase/auth";
-import { Database, getDatabase } from "firebase/database";
-
-import { connectAuthEmulator } from "firebase/auth";
-import { connectDatabaseEmulator } from "firebase/database";
+import { FirebaseOptions, initializeApp } from "firebase/app";
+import { getAuth } from "firebase/auth";
+import { getDatabase } from "firebase/database";
 
 // IN CASE ACCESS FROM LOCALHOST IS BLOCKED:
 // https://stackoverflow.com/questions/43850238/localhost-requests-from-referer-are-blocked
 
 // TODO: move to .env
-const firebaseConfig: Record<string, string> = {
+const firebaseConfig: FirebaseOptions = {
   apiKey: "AIzaSyD6eq4vdO_B0ivZN5oa68W97f_hSd0lMuk",
   projectId: "puri-systems",
   authDomain: "puri-systems.web.app",
   storageBucket: "puri-systems.appspot.com",
   messagingSenderId: "684555146850",
   appId: "1:684555146850:web:158162497d3aff2b73233b",
+  databaseURL:
+    "https://puri-systems-default-rtdb.asia-southeast1.firebasedatabase.app",
 };
 
-const app: FirebaseApp = initializeApp(firebaseConfig);
+const app = initializeApp(firebaseConfig);
 
-const auth: Auth = getAuth(app);
-const database: Database = getDatabase(
-  app,
-  "https://puri-systems-default-rtdb.asia-southeast1.firebasedatabase.app"
-);
+const auth = getAuth(app);
+const database = getDatabase(app);
 
-// local emulator in development mode
-if (import.meta.env.DEV) {
-  connectAuthEmulator(auth, "http://localhost:9100", { disableWarnings: true });
-  connectDatabaseEmulator(database, "localhost", 9200);
-}
+// import { connectAuthEmulator } from "firebase/auth";
+// import { connectDatabaseEmulator } from "firebase/database";
+// if (import.meta.env.DEV) {
+//   connectAuthEmulator(auth, "http://localhost:9100", { disableWarnings: true });
+//   connectDatabaseEmulator(database, "localhost", 9200);
+// }
 
 export { auth, database };
