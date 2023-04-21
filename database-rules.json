@@ -9,11 +9,10 @@
     "customers": {
       ".read": "auth.uid !== null",
       ".write": "root.child('users').child(auth.uid).child('division').val() === 'sales'"
-      
     },
     "orders": {
       ".read": "auth.uid !== null",
-      ".write": "root.child('users').child(auth.uid).child('division').val() === 'sales'"
+      ".write": "auth.uid !== null"
     }
   }
 }
