@@ -9,7 +9,7 @@ import { database } from "../config/firebase";
  *
  * @param user Current logged-in user
  */
-function useCustomerList(user: User | undefined) {
+function useCustomerList(user?: User) {
   const [customerList, setCustomerList] = useState<CustomerList | undefined>(
     undefined
   );

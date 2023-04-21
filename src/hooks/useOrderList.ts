@@ -10,14 +10,14 @@ import { database } from "../config/firebase";
  * Note: This is somewhat a copy of useCustomerList.ts,
  * but with the word "customer" replaced
  *
- * @param currentUser - The current user
+ * @param user - The current user
  */
-function useOrderList(currentUser: User | undefined) {
+function useOrderList(user?: User) {
   const [orderList, setOrderList] = useState<OrderList | undefined>(undefined);
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    if (!currentUser) {
+    if (!user) {
       return;
     }
 
@@ -52,7 +52,7 @@ function useOrderList(currentUser: User | undefined) {
     );
 
     return unsubscribe;
-  }, [currentUser]);
+  }, [user]);
 
   return { orderList, isLoading };
 }
