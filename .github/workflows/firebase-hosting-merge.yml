@@ -30,8 +30,11 @@ jobs:
         run: pnpm install
 
       - name: Create .env file
-        uses: ozaytsev86/create-env-file@v1
+        uses: skiddph/actions-env@v1.0.2
         with:
+          file: .env
+          prefix: "ENV_"
+        env:
           ENV_VITE_FIREBASE_API_KEY: ${{ secrets.VITE_FIREBASE_API_KEY }}
           ENV_VITE_FIREBASE_MESSAGING_ID: ${{ secrets.VITE_FIREBASE_MESSAGING_ID }}
           ENV_VITE_FIREBASE_APP_ID: ${{ secrets.VITE_FIREBASE_APP_ID }}
