@@ -1,3 +1,8 @@
+/**
+ * Type for CustomerTypeRadio options
+ */
+type CustomerType = "individu" | "perusahaan";
+
 type CustomerAddress = {
   city: string;
   district: string;
@@ -5,22 +10,37 @@ type CustomerAddress = {
   street: string;
 };
 
-// serverTimestamp() stored the value as number (default)
-// but in handle-add-customer.ts, we need to specify it as object
+/**
+ * This type reflects the data structure of customers object in the database
+ *
+ * @typeParam TDate - `object` when writing to database with serverTimestamp(), defaults to `number` when reading from database
+ * @property sales - in uid. Need to be converted into name when reading from the database
+ */
 type Customer<TDate extends object = number> = {
   name: string;
   id: number;
   phone: number;
   phone2?: number;
   address: CustomerAddress;
-  type: "individu" | "perusahaan";
+  type: CustomerType;
   createdAt: TDate;
-  sales: string; // in uid
+  sales: string;
 };
+
+/**
+ * Type for react-hook-form's useForm() as FieldValues
+ */
+type CustomerForm = Omit<
+  { prefixName: string } & Customer,
+  "createdAt" | "sales"
+>;
 
 type CustomerList = Record<string, Customer>;
 
+/**
+ * Type for CustomerList context provider
+ */
 type CustomerListContext = {
-  customerList: CustomerList | undefined;
+  customerList?: CustomerList;
   isLoading: boolean;
 };
