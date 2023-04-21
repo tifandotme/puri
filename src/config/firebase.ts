@@ -5,14 +5,13 @@ import { getDatabase } from "firebase/database";
 // IN CASE ACCESS FROM LOCALHOST IS BLOCKED:
 // https://stackoverflow.com/questions/43850238/localhost-requests-from-referer-are-blocked
 
-// TODO: move to .env
 const firebaseConfig: FirebaseOptions = {
-  apiKey: "AIzaSyD6eq4vdO_B0ivZN5oa68W97f_hSd0lMuk",
+  apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
   projectId: "puri-systems",
   authDomain: "puri-systems.web.app",
   storageBucket: "puri-systems.appspot.com",
-  messagingSenderId: "684555146850",
-  appId: "1:684555146850:web:158162497d3aff2b73233b",
+  messagingSenderId: import.meta.env.VITE_FIREBASE_MESSAGING_ID,
+  appId: import.meta.env.VITE_FIREBASE_APP_ID,
   databaseURL:
     "https://puri-systems-default-rtdb.asia-southeast1.firebasedatabase.app",
 };
