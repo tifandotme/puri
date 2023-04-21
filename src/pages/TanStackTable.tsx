@@ -26,15 +26,19 @@ import {
   useReactTable,
 } from "@tanstack/react-table";
 
-type TSTProps<Data extends any[], Columns extends ColumnDef<any, any>[]> = {
+type TanStackTableProps<
+  Data extends any[],
+  Columns extends ColumnDef<any, any>[]
+> = {
   data: Data;
   columns: Columns;
+  search?: { columnKey: string; placeholder: string };
 };
 
 function TanStackTable<
   Data extends any[],
   Columns extends ColumnDef<any, any>[]
->({ data, columns }: TSTProps<Data, Columns>) {
+>({ data, columns, search }: TanStackTableProps<Data, Columns>) {
   const table = useReactTable({
     data,
     columns,
@@ -46,7 +50,13 @@ function TanStackTable<
 
   return (
     <>
-      <SearchBar table={table} />
+      {search && (
+        <SearchBar
+          table={table}
+          columnKey={search.columnKey}
+          placeholder={search.placeholder}
+        />
+      )}
 
       <TableContainer>
         <Table variant="striped">
@@ -93,16 +103,22 @@ function TanStackTable<
   );
 }
 
-function SearchBar<T>({ table }: { table: TTable<T> }) {
+type SearchBarProps = {
+  table: TTable<any>;
+  columnKey: string;
+  placeholder: string;
+};
+
+function SearchBar({ table, columnKey, placeholder }: SearchBarProps) {
   return (
     <HStack my="4" mx="6" justifyContent="flex-start">
       <Input
         type="text"
-        value={(table.getColumn("name")?.getFilterValue() ?? "") as string}
+        value={(table.getColumn(columnKey)?.getFilterValue() ?? "") as string}
         onChange={(e) =>
-          table.getColumn("name")?.setFilterValue(e.target.value)
+          table.getColumn(columnKey)?.setFilterValue(e.target.value)
         }
-        placeholder="Cari Nama Pelanggan .."
+        placeholder={placeholder}
         variant="flushed"
         _placeholder={{ color: "black", opacity: 0.8 }}
         w="60"
