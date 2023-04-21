@@ -21,3 +21,4 @@ firebase-emulator
 *.njsproj
 *.sln
 *.sw?
+.vercel
