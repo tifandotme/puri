@@ -1,11 +1,10 @@
 import { useToast } from "@chakra-ui/react";
 import { push, ref, serverTimestamp, set } from "firebase/database";
-import { FieldValues } from "react-hook-form";
 import { NavigateFunction } from "react-router-dom";
 import { auth, database } from "../../config/firebase";
 
 async function handleAddOrder(
-  data: FieldValues,
+  data: OrderForm,
   navigate: NavigateFunction,
   toast: ReturnType<typeof useToast>
 ) {
@@ -20,28 +19,27 @@ async function handleAddOrder(
       location,
     } = data;
 
-    const order: Order = {
+    const { base, bonus } = qty;
+
+    const order: Order<object> = {
       customer: customer.value, // in uid
       qty: {
-        base: qty.base,
-        ...(qty.bonus && { bonus: qty.bonus }),
+        base,
+        ...(bonus && { bonus }),
       },
       product,
       additionalInfo,
-
-      ...(cod.type && { cod }),
-      ...(scheduledTime && {
-        scheduledTime: Date.parse(scheduledTime as string),
-      }),
+      ...(cod && { cod }),
+      ...(scheduledTime && { scheduledTime }),
       ...(location && { location }),
-
       createdAt: serverTimestamp(),
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
       sales: auth.currentUser!.uid,
     };
 
     await set(push(ref(database, "orders")), order);
 
-    // navigate("/customers");
+    navigate("/orders");
   } catch (error: unknown) {
     if (error instanceof Error) {
       toast({

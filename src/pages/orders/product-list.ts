@@ -1,5 +1,3 @@
-// used in AddOrderPage and Order type generic argument
-
 const productList: Readonly<Record<ProductList, string>> = {
   serbaguna: "Dynamix Serbaguna",
   masonry: "Dynamix Masonry",

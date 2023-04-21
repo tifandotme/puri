@@ -1,10 +1,26 @@
 import { Box, SelectFieldProps, useStyleConfig } from "@chakra-ui/react";
 import { useContext, useMemo } from "react";
-import { Control, Controller } from "react-hook-form";
+import { Control, Controller, FieldValues, Path } from "react-hook-form";
 import ReactSelect, { ClassNamesConfig, Options } from "react-select";
 import { CustomerListContext } from "../../App";
 
-function CustomerNameSelect({ control }: { control: Control }) {
+
+type CustomerNameSelectProps<TFieldValues extends FieldValues> = {
+  control: Control<TFieldValues>;
+  register: Path<TFieldValues>;
+};
+
+/**
+ * A custom select component for selecting customer name.
+ * This component uses react-select styled with chakra-ui's style config
+ * 
+ * @param control react-hook-form's control object
+ * @param register react-hook-form's input name to register
+ */
+function CustomerNameSelect<T extends FieldValues>({
+  control,
+  register,
+}: CustomerNameSelectProps<T>) {
   const { customerList, isLoading } = useContext(CustomerListContext);
 
   // convert customerList to react-select's options format
@@ -67,7 +83,7 @@ function CustomerNameSelect({ control }: { control: Control }) {
   return (
     <Box sx={selectChakra}>
       <Controller
-        name="customer" // the output format will be { value, label }
+        name={register} // the output format will be { value, label }
         control={control}
         render={({ field }) => (
           <ReactSelect

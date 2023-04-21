@@ -33,9 +33,9 @@ function AddOrderPage() {
     register,
     handleSubmit,
     control,
-    unregister,
+    resetField,
     formState: { errors, isSubmitting },
-  } = useForm();
+  } = useForm<OrderForm>();
 
   const onSubmit = handleSubmit((data) => {
     handleAddOrder(data, navigate, toast);
@@ -47,7 +47,6 @@ function AddOrderPage() {
         <Stack
           spacing="6"
           maxW="3xl"
-          // minH="100vh"
           mx="auto"
           my={{ base: 0, lg: 5 }}
           borderRadius={{ base: 0, lg: 10 }}
@@ -64,7 +63,7 @@ function AddOrderPage() {
             <Stack w="full" maxW="sm">
               <FormControl isRequired>
                 <FormLabel>Nama Pelanggan</FormLabel>
-                <CustomerNameSelect control={control} />
+                <CustomerNameSelect control={control} register="customer" />
               </FormControl>
 
               <FormControl>
@@ -109,10 +108,7 @@ function AddOrderPage() {
 
               <FormControl>
                 <FormLabel>Keterangan Tambahan</FormLabel>
-                <Input
-                  type="text"
-                  {...register("additionalInfo", { required: false })}
-                />
+                <Input type="text" {...register("additionalInfo")} />
               </FormControl>
             </Stack>
 
@@ -120,10 +116,10 @@ function AddOrderPage() {
               <OptionalFieldContainer
                 formLabel="Pembayaran"
                 checkboxLabel="centang jika tunai/transfer"
-                unregister={() => unregister("cod")}
+                unregister={() => resetField("cod")}
               >
                 <VStack>
-                  <Select {...register("cod.type")}>
+                  <Select {...register("cod.type", { required: false })}>
                     <option value="cash">Tunai</option>
                     <option value="transfer">Transfer</option>
                   </Select>
@@ -133,6 +129,7 @@ function AddOrderPage() {
                       type="number"
                       {...register("cod.amount", {
                         valueAsNumber: true,
+                        required: false,
                       })}
                       min="0"
                       isRequired
@@ -144,21 +141,23 @@ function AddOrderPage() {
               <OptionalFieldContainer
                 formLabel="Waktu"
                 checkboxLabel="centang jika waktu dijadwalkan"
-                unregister={() => unregister("scheduledTime")}
+                unregister={() => resetField("scheduledTime")}
               >
                 <Input
                   placeholder="Select Date and Time"
                   size="md"
                   type="date"
                   isRequired
-                  {...register("scheduledTime")}
+                  {...register("scheduledTime", {
+                    setValueAs: (v) => Date.parse(v),
+                  })}
                 />
               </OptionalFieldContainer>
 
               <OptionalFieldContainer
                 formLabel="Lokasi"
                 checkboxLabel="centang jika lokasi ditentukan"
-                unregister={() => unregister("location")}
+                unregister={() => resetField("location")}
               >
                 <Input
                   size="md"
@@ -190,7 +189,7 @@ function AddOrderPage() {
   );
 }
 
-type OFCProps = {
+type OptionalFieldContainerProps = {
   formLabel: string;
   checkboxLabel: string;
   unregister: () => ReturnType<UseFormUnregister<FieldValues>>;
@@ -202,7 +201,7 @@ const OptionalFieldContainer = memo(function OFC({
   checkboxLabel,
   unregister,
   children,
-}: OFCProps) {
+}: OptionalFieldContainerProps) {
   const [isFieldVisible, setIsFieldVisible] = useState(false);
 
   useEffect(() => {

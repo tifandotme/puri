@@ -2,14 +2,14 @@ import { Button, Spinner } from "@chakra-ui/react";
 import { ColumnDef } from "@tanstack/react-table";
 import { useContext, useMemo } from "react";
 import { OrderListContext } from "../../App";
+import TanStackTable from "../TanStackTable";
 import ContentWrapper from "../dashboard/ContentWrapper";
 import productList from "./product-list";
-import TanStackTable from "../TanStackTable";
 
 function OrderListPage() {
   const { orderList, isLoading } = useContext(OrderListContext);
-
-  const columns = useMemo<ColumnDef<[string, Order]>[]>(
+  
+  const columns = useMemo<ColumnDef<[string, Order], any>[]>(
     () => [
       {
         header: "Pelanggan",
