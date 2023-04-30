@@ -1,31 +1,36 @@
 {
   "compilerOptions": {
-    "target": "ES5",
-    "module": "ESNext",
-    "moduleResolution": "Node",
-
-    "strict": true, // will automatically emit "use strict" on source files
+    "target": "es5",
+    "module": "esnext",
+    "lib": ["dom", "dom.iterable", "esnext"],
 
     "useDefineForClassFields": true, // https://backbencher.dev/javascript-class-field-declarations
-    "noImplicitReturns": true,
-    "allowUnreachableCode": false,
-    "allowJs": false, // allow js modules, on deno this is true
-    "lib": ["DOM", "DOM.Iterable", "ESNext"],
-    "skipLibCheck": true,
-    "jsx": "react-jsx", // https://reactjs.org/blog/2020/09/22/introducing-the-new-jsx-transform.html
 
-    "esModuleInterop": true, // on Deno this is true
+    /* Imports */
+    "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
     "forceConsistentCasingInFileNames": true,
+
+    /* Compiling */
+    "moduleResolution": "bundler",
+    "allowImportingTsExtensions": true,
+    "allowJs": false,
     "resolveJsonModule": true,
-
     "isolatedModules": true,
-
     "noEmit": true,
+    "jsx": "react-jsx", // https://reactjs.org/blog/2020/09/22/introducing-the-new-jsx-transform.html
+    "skipLibCheck": true,
+    "incremental": true,
 
-    "noErrorTruncation": false,
-
-    "incremental": true
+    /* Linting */
+    "strict": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "allowUnusedLabels": false,
+    "noFallthroughCasesInSwitch": true,
+    "allowUnreachableCode": false,
+    // "noUncheckedIndexedAccess": true, // will add undefined to index signatures, e.g. [propName: string]: string;
+    "noImplicitReturns": true
   },
   "include": ["src"],
   "references": [{ "path": "./tsconfig.node.json" }]
