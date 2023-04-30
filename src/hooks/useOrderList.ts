@@ -1,7 +1,8 @@
 import { User } from "firebase/auth";
-import { child, get, onValue, query, ref } from "firebase/database";
+import { onValue, query, ref } from "firebase/database";
 import { useEffect, useState } from "react";
 import { database } from "../config/firebase";
+import { getCustomerName } from "../utils/utils";
 
 /**
  * Get the list of orders from the database. This will only run when the user
@@ -27,18 +28,21 @@ function useOrderList(user?: User) {
     const unsubscribe = onValue(
       ordersQuery,
       (snapshot) => {
-        const orders: OrderList = snapshot.val();
-
         const promises: Array<Promise<void>> = [];
 
-        for (const key in orders) {
-          const customerUid = orders[key].customer;
+        const orders: OrderList | undefined = snapshot.val() || undefined;
+        if (orders) {
+          for (const key in orders) {
+            const customerUid = orders[key].customer;
 
-          const promise = getCustomerName(customerUid).then((customerName) => {
-            orders[key].customer = customerName;
-          });
+            const promise = getCustomerName(customerUid).then(
+              (customerName) => {
+                orders[key].customer = customerName;
+              }
+            );
 
-          promises.push(promise);
+            promises.push(promise);
+          }
         }
 
         Promise.all(promises).then(() => {
@@ -55,13 +59,6 @@ function useOrderList(user?: User) {
   }, [user]);
 
   return { orderList, isLoading };
-}
-
-async function getCustomerName(customerUid: string) {
-  const snapshot = await get(
-    child(ref(database, "customers"), `${customerUid}/name`)
-  );
-  return snapshot.val() as string;
 }
 
 export default useOrderList;
