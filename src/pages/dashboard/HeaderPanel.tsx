@@ -30,6 +30,7 @@ import { auth } from "../../config/firebase";
 import useDivision from "../../hooks/useDivision";
 import useTopValue from "../../hooks/useTopValue";
 import { handleSignOut } from "../auths/handle-auths";
+import { Link } from "react-router-dom";
 
 type HPProps = {
   onOpen: () => void;
@@ -84,9 +85,11 @@ function HeaderPanel({ onOpen }: HPProps) {
           icon={<HiBars3 />}
         />
 
-        <Flex h="16" align="center" display={{ base: "flex", md: "none" }}>
-          <Image src={logo} alt="logo" h="50%" draggable={false} />
-        </Flex>
+        <Link to="/">
+          <Flex h="16" align="center" display={{ base: "flex", md: "none" }}>
+            <Image src={logo} alt="logo" h="50%" draggable={false} />
+          </Flex>
+        </Link>
 
         <Menu autoSelect={false}>
           <MenuButton
@@ -162,11 +165,10 @@ function HeaderPanel({ onOpen }: HPProps) {
             >
               <Text fontSize="sm">{auth.currentUser?.displayName}</Text>
               {division && (
-              <Text fontSize="xs" color="gray.600">
-                {division}
-              </Text>
-                
-)}
+                <Text fontSize="xs" color="gray.600">
+                  {division}
+                </Text>
+              )}
             </VStack>
             <MenuItem icon={<HiOutlineUserCircle size={18} />}>
               Edit Profile
