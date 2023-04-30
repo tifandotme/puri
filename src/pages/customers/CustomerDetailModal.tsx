@@ -3,7 +3,6 @@ import {
   Button,
   Modal,
   ModalBody,
-  ModalCloseButton,
   ModalContent,
   ModalFooter,
   ModalHeader,
@@ -20,20 +19,20 @@ import { memo, useEffect, useState } from "react";
 import { database } from "../../config/firebase";
 import { formatAddress } from "../../utils/utils";
 
-type DetailModalProps = {
+type CustomerDetailModalProps = {
   isOpen: boolean;
   onClose: () => void;
-  selectedCustomer: Customer | undefined;
+  customer: Customer | undefined;
 };
 
 /**
  * Modal to show customer detail
  */
-const DetailModal = memo(function DM({
+const CustomerDetailModal = memo(function DM({
   isOpen,
   onClose,
-  selectedCustomer: customer,
-}: DetailModalProps) {
+  customer,
+}: CustomerDetailModalProps) {
   const [sales, setSales] = useState<string | undefined>(undefined);
 
   useEffect(() => {
@@ -48,7 +47,7 @@ const DetailModal = memo(function DM({
   }, [customer]);
 
   return (
-    <Modal isOpen={isOpen} onClose={onClose}>
+    <Modal isOpen={isOpen} onClose={onClose} size={{ base: "full", md: "lg" }}>
       <ModalOverlay />
       <ModalContent>
         <ModalHeader>
@@ -58,11 +57,11 @@ const DetailModal = memo(function DM({
               customer?.type === "individu" ? "green.200" : "blue.200"
             }
             marginLeft="2"
+            fontSize="sm"
           >
             {customer?.type}
           </Badge>
         </ModalHeader>
-        <ModalCloseButton />
         <ModalBody>
           <TableContainer>
             <Table variant="unstyled">
@@ -124,4 +123,4 @@ const DetailModal = memo(function DM({
   );
 });
 
-export default DetailModal;
+export default CustomerDetailModal;
