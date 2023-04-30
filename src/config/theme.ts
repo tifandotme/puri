@@ -39,6 +39,29 @@ const inputSinglePart = defineStyleConfig({
   },
 });
 
+const FormLabel = defineStyleConfig({
+  baseStyle: {
+    fontSize: "sm",
+  },
+});
+
+const Modal = defineStyleConfig({
+  baseStyle: {
+    header: {
+      paddingTop: 8,
+      fontSize: "2xl",
+      fontWeight: "500",
+    },
+    body: {
+      paddingInlineStart: 0,
+      paddingInlineEnd: 0,
+    },
+    footer: {
+      paddingBottom: 8,
+    },
+  },
+});
+
 /**
  * Custom theme for Chakra UI to modify or extend the default theme
  */
@@ -54,6 +77,8 @@ export default function customTheme(path: string, isPageLoading: boolean) {
       Textarea: inputSinglePart,
       Input: inputMultiPart,
       Select: inputMultiPart,
+      FormLabel,
+      Modal,
     },
     ...(isAuthPage &&
       !isPageLoading && {
