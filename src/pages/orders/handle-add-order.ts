@@ -14,7 +14,7 @@ async function handleAddOrder(
       qty,
       product,
       additionalInfo,
-      cod,
+      payment,
       scheduledTime,
       location,
     } = data;
@@ -29,7 +29,7 @@ async function handleAddOrder(
       },
       product,
       additionalInfo,
-      ...(cod && { cod }),
+      ...(payment && { payment }),
       ...(scheduledTime && { scheduledTime }),
       ...(location && { location }),
       createdAt: serverTimestamp(),

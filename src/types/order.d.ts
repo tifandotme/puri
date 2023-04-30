@@ -1,5 +1,5 @@
 /**
- * Type for product list select form. Used in product-list.ts
+ * Type for product list select form. Used in pages/orders/product-list.ts
  */
 type ProductList = "serbaguna" | "masonry" | "extrapower" | "padang";
 
@@ -8,7 +8,7 @@ type Qty = {
   bonus?: number;
 };
 
-type Cod = {
+type Payment = {
   type: "cash" | "transfer";
   amount: number;
 };
@@ -24,10 +24,10 @@ type Order<TDate extends object = number> = {
   qty: Qty;
   product: ProductList;
   additionalInfo?: string;
-  cod?: Cod;
+  payment?: Payment;
   scheduledTime?: number;
   location?: string;
-  createdAt: TDate;
+  createdAt: TDate; // number when reading from database
   sales: string;
 };
 
