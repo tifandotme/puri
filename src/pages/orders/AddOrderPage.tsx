@@ -18,6 +18,7 @@ import {
 import { memo, useEffect, useState } from "react";
 import { FieldValues, UseFormUnregister, useForm } from "react-hook-form";
 import { BiPlus } from "react-icons/bi";
+import { GiCheckMark } from "react-icons/gi";
 import { useNavigate } from "react-router-dom";
 import ContentWrapper from "../dashboard/ContentWrapper";
 import CustomerNameSelect from "./CustomerNameSelect";
@@ -34,7 +35,7 @@ function AddOrderPage() {
     handleSubmit,
     control,
     resetField,
-    formState: { errors, isSubmitting },
+    formState: { isSubmitting },
   } = useForm<OrderForm>();
 
   const onSubmit = handleSubmit((data) => {
@@ -50,7 +51,8 @@ function AddOrderPage() {
           mx="auto"
           my={{ base: 0, lg: 5 }}
           borderRadius={{ base: 0, lg: 10 }}
-          p={10}
+          py="10"
+          px={{ base: 5, lg: 10 }}
           bg="white"
           borderWidth={{ base: 0, lg: 1 }}
           borderColor="gray.200"
@@ -115,11 +117,11 @@ function AddOrderPage() {
             <Stack w="full" maxW="sm">
               <OptionalFieldContainer
                 formLabel="Pembayaran"
-                checkboxLabel="centang jika tunai/transfer"
-                unregister={() => resetField("cod")}
+                checkboxLabel="jika tunai/transfer"
+                unregister={() => resetField("payment")}
               >
                 <VStack>
-                  <Select {...register("cod.type", { required: false })}>
+                  <Select {...register("payment.type", { required: false })}>
                     <option value="cash">Tunai</option>
                     <option value="transfer">Transfer</option>
                   </Select>
@@ -127,7 +129,7 @@ function AddOrderPage() {
                     <InputLeftAddon>Rp.</InputLeftAddon>
                     <Input
                       type="number"
-                      {...register("cod.amount", {
+                      {...register("payment.amount", {
                         valueAsNumber: true,
                         required: false,
                       })}
@@ -140,7 +142,7 @@ function AddOrderPage() {
 
               <OptionalFieldContainer
                 formLabel="Waktu"
-                checkboxLabel="centang jika waktu dijadwalkan"
+                checkboxLabel="jika waktu dijadwalkan"
                 unregister={() => resetField("scheduledTime")}
               >
                 <Input
@@ -156,7 +158,7 @@ function AddOrderPage() {
 
               <OptionalFieldContainer
                 formLabel="Lokasi"
-                checkboxLabel="centang jika lokasi ditentukan"
+                checkboxLabel="jika lokasi ditentukan"
                 unregister={() => resetField("location")}
               >
                 <Input
@@ -225,8 +227,9 @@ const OptionalFieldContainer = memo(function OFC({
           fontStyle="italic"
           fontSize="sm"
           lineHeight="base"
+          userSelect="none"
         >
-          {checkboxLabel}&nbsp;&nbsp;
+          <Icon as={GiCheckMark} /> {checkboxLabel}&nbsp;&nbsp;
           <Checkbox
             size="lg"
             borderColor="gray.400"

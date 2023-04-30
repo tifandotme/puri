@@ -33,8 +33,7 @@ function AddCustomerPage() {
     register,
     handleSubmit,
     control,
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    formState: { errors, isSubmitting },
+    formState: { isSubmitting },
   } = useForm<CustomerForm>();
 
   const [customerType, setCustomerType] = useState<CustomerType>("individu");
@@ -95,7 +94,8 @@ function AddCustomerPage() {
           mx="auto"
           my={{ base: 0, lg: 5 }}
           borderRadius={{ base: 0, lg: 10 }}
-          p={10}
+          py="10"
+          px={{base: 5, lg: 10}}
           bg="white"
           borderWidth={{ base: 0, lg: 1 }}
           borderColor="gray.200"
