@@ -5,7 +5,7 @@ import { CustomerListContext } from "../../App";
 import { formatAddress } from "../../utils/utils";
 import TanStackTable from "../TanStackTable";
 import ContentWrapper from "../dashboard/ContentWrapper";
-import DetailModal from "./DetailModal";
+import CustomerDetailModal from "./CustomerDetailModal";
 
 function CustomerListPage() {
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -111,10 +111,10 @@ function CustomerListPage() {
           />
         )}
 
-        <DetailModal
+        <CustomerDetailModal
           isOpen={isOpen}
           onClose={onClose}
-          selectedCustomer={selectedCustomer.current}
+          customer={selectedCustomer.current}
         />
       </ContentWrapper>
     </>

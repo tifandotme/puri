@@ -1,14 +1,20 @@
-import { Button, Spinner } from "@chakra-ui/react";
+import { Button, Spinner, useDisclosure } from "@chakra-ui/react";
 import { ColumnDef } from "@tanstack/react-table";
-import { useContext, useMemo } from "react";
+import { useContext, useMemo, useRef } from "react";
 import { OrderListContext } from "../../App";
 import TanStackTable from "../TanStackTable";
 import ContentWrapper from "../dashboard/ContentWrapper";
+import OrderDetailModal from "./OrderDetailModal";
 import productList from "./product-list";
+import { formatPayment } from "../../utils/utils";
 
 function OrderListPage() {
+  const { isOpen, onOpen, onClose } = useDisclosure();
+
+  const selectedOrder = useRef<Order | undefined>(undefined);
+
   const { orderList, isLoading } = useContext(OrderListContext);
-  
+
   const columns = useMemo<ColumnDef<[string, Order], any>[]>(
     () => [
       {
@@ -25,17 +31,41 @@ function OrderListPage() {
       {
         header: "Barang",
         accessorKey: "product",
-        accessorFn: (row) => productList[row[1].product],
-        meta: {},
-      },
-      {
-        header: "Jumlah",
-        accessorKey: "qty",
+        size: 25, // % of table width
         accessorFn: (row) => {
           const { base, bonus } = row[1].qty;
+          const product = productList[row[1].product];
           let qty = `${base}`;
-          if (bonus) qty += ` + ${bonus}`;
-          return qty;
+          if (bonus) qty += `+${bonus}`;
+
+          return (
+            qty + " " + product.slice(product.indexOf(" "), product.length)
+          );
+        },
+        meta: {
+          bodyProps: { whiteSpace: "normal" },
+        },
+      },
+      {
+        header: "Pembayaran",
+        accessorKey: "payment",
+        size: 25, // % of table width
+        accessorFn: (row) => {
+          if (row[1].payment) {
+            return formatPayment(row[1].payment);
+          } else {
+            return " ";
+          }
+        },
+        meta: {
+          headerProps: {
+            display: { base: "none", lg: "table-cell" },
+          },
+          bodyProps: {
+            overflow: "hidden",
+            textOverflow: "ellipsis",
+            display: { base: "none", lg: "table-cell" },
+          },
         },
       },
       {
@@ -52,7 +82,8 @@ function OrderListPage() {
           <Button
             size="sm"
             onClick={() => {
-              console.log(row.original[1]);
+              selectedOrder.current = row.original[1];
+              onOpen();
             }}
             colorScheme="blue"
           >
@@ -61,7 +92,7 @@ function OrderListPage() {
         ),
       },
     ],
-    []
+    [onOpen]
   );
 
   const orderListMemo = useMemo(
@@ -97,6 +128,12 @@ function OrderListPage() {
         ) : (
           <TanStackTable data={orderListMemo} columns={columns} />
         )}
+
+        <OrderDetailModal
+          isOpen={isOpen}
+          onClose={onClose}
+          order={selectedOrder.current}
+        />
       </ContentWrapper>
     </>
   );
