@@ -72,6 +72,7 @@ function TanStackTable<
                         : undefined
                     }
                     {...header.column.columnDef.meta?.headerProps}
+                    px={{ base: "6", md: "4" }}
                   >
                     {header.isPlaceholder
                       ? null
@@ -84,11 +85,16 @@ function TanStackTable<
               </Tr>
             ))}
           </Thead>
-          <Tbody fontSize="md">
+          <Tbody fontSize="sm">
             {table.getRowModel().rows.map((row) => (
               <Tr key={row.id}>
                 {row.getVisibleCells().map((cell) => (
-                  <Td key={cell.id} {...cell.column.columnDef.meta?.bodyProps}>
+                  <Td
+                    key={cell.id}
+                    {...cell.column.columnDef.meta?.bodyProps}
+                    py="4"
+                    px={{ base: "6", md: "4" }}
+                  >
                     {flexRender(cell.column.columnDef.cell, cell.getContext())}
                   </Td>
                 ))}
