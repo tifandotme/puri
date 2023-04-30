@@ -23,7 +23,7 @@ const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const database = getDatabase(app);
 
-if (import.meta.env.DEV) {
+if (!import.meta.env.PROD) {
   connectAuthEmulator(auth, "http://localhost:9100", { disableWarnings: true });
   connectDatabaseEmulator(database, "localhost", 9200);
 }
