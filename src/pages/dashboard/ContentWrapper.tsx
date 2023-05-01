@@ -20,8 +20,8 @@ function ContentWrapper({ title, button, children }: CWProps) {
         borderBottom="1px solid"
         borderBottomColor="gray.200"
         py="40px"
-        pl="30px"
-        pr="40px"
+        pl="50px"
+        pr="60px"
       >
         <Stack
           justify="space-between"
