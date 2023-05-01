@@ -6,7 +6,7 @@ import TanStackTable from "../TanStackTable";
 import ContentWrapper from "../dashboard/ContentWrapper";
 import OrderDetailModal from "./OrderDetailModal";
 import productList from "./product-list";
-import { formatPayment } from "../../utils/utils";
+import { formatDateTime, formatPayment } from "../../utils/utils";
 
 function OrderListPage() {
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -69,6 +69,22 @@ function OrderListPage() {
         },
       },
       {
+        header: "Tanggal",
+        accessorKey: "date",
+        size: 25, // % of table width
+        accessorFn: (row) => formatDateTime(row[1].createdAt, true, true),
+        meta: {
+          headerProps: {
+            display: { base: "none", lg: "table-cell" },
+          },
+          bodyProps: {
+            overflow: "hidden",
+            textOverflow: "ellipsis",
+            display: { base: "none", lg: "table-cell" },
+          },
+        },
+      },
+      {
         header: () => <center>Aksi</center>,
         accessorKey: "action",
         minSize: 4,
@@ -100,7 +116,7 @@ function OrderListPage() {
       // orderList is converted into array,
       // and sorted by date
       Object.entries(orderList || {}).sort(
-        (a, b) => a[1].createdAt - b[1].createdAt
+        (a, b) => b[1].createdAt - a[1].createdAt
       ),
     [orderList]
   );
@@ -111,8 +127,8 @@ function OrderListPage() {
         title="Daftar Pesanan"
         button={[
           {
-            name: "Edit",
-            path: "edit",
+            name: "Pesanan Saya",
+            path: "my-orders",
             colorScheme: "gray",
             variant: "outline",
           },

@@ -1,5 +1,7 @@
 import {
   Button,
+  Icon,
+  Link,
   Modal,
   ModalBody,
   ModalContent,
@@ -15,8 +17,9 @@ import {
 } from "@chakra-ui/react";
 import { child, get, ref } from "firebase/database";
 import { memo, useEffect, useState } from "react";
+import { FiArrowUpRight } from "react-icons/fi";
 import { database } from "../../config/firebase";
-import { formatPayment } from "../../utils/utils";
+import { formatDateTime, formatPayment } from "../../utils/utils";
 import productList from "./product-list";
 
 type OrderDetailModalProps = {
@@ -43,19 +46,6 @@ const OrderDetailModal = memo(function DM({
       });
     }
   }, [order]);
-
-  /**
-   *   customer: string;
-  qty: Qty;
-  product: ProductList;
-  additionalInfo?: string;
-  cod?: Cod;
-  scheduledTime?: number;
-  location?: string;
-  createdAt: TDate;
-  sales: string;
-};
-   */
 
   return (
     <Modal isOpen={isOpen} onClose={onClose} size={{ base: "full", md: "lg" }}>
@@ -89,21 +79,42 @@ const OrderDetailModal = memo(function DM({
                 <Tr>
                   <Td>Pembayaran</Td>
                   <Td whiteSpace="normal">
-                    {order && formatPayment(order.payment!)}
+                    {order?.payment && formatPayment(order.payment)}
                   </Td>
                 </Tr>
                 <Tr>
                   <Td>Waktu Kirim</Td>
                   <Td whiteSpace="normal">
-                    {order &&
-                      new Date(order.scheduledTime!).toLocaleDateString(
-                        "en-GB"
-                      )}
+                    {order?.scheduledTime &&
+                      formatDateTime(order.scheduledTime)}
                   </Td>
                 </Tr>
                 <Tr>
                   <Td>Lokasi</Td>
-                  <Td whiteSpace="normal">{order?.location}</Td>
+                  <Td>
+                    {order?.location && (
+                      <Link
+                        href={order.location}
+                        isExternal
+                        color="blue.600"
+                        fontWeight="bold"
+                      >
+                        {order.location
+                          .replace(/^(https?:\/\/)?(www\.)?/i, "")
+                          .replace(/\/$/, "")}
+                        <Icon
+                          as={FiArrowUpRight}
+                          mx="2px"
+                          boxSize="5"
+                          verticalAlign="middle"
+                        />
+                      </Link>
+                    )}
+                  </Td>
+                </Tr>
+                <Tr>
+                  <Td>Ket. Tambahan</Td>
+                  <Td whiteSpace="normal">{order?.additionalInfo}</Td>
                 </Tr>
                 <Tr>
                   <Td>Sales</Td>
@@ -114,8 +125,7 @@ const OrderDetailModal = memo(function DM({
                 <Tr>
                   <Td>Tanggal Dibuat</Td>
                   <Td whiteSpace="normal">
-                    {order &&
-                      new Date(order.createdAt).toLocaleDateString("en-GB")}
+                    {order && formatDateTime(order.createdAt, true)}
                   </Td>
                 </Tr>
               </Tbody>
