@@ -16,6 +16,8 @@ import PanelContainer from "./pages/dashboard/PanelContainer";
 import Home from "./pages/home/Home";
 import AddOrderPage from "./pages/orders/AddOrderPage";
 import OrderListPage from "./pages/orders/OrderListPage";
+import EditOrderPage from "./pages/orders/EditOrderPage";
+import MyOrdersPage from "./pages/orders/MyOrdersPage";
 
 export const CustomerListContext = createContext<CustomerListContext>({
   customerList: undefined,
@@ -51,7 +53,8 @@ function App() {
               <Route path="orders">
                 <Route index element={<OrderListPage />} />
                 <Route path="new" element={<AddOrderPage />} />
-                {/* <Route path="edit" element={<EditOrder />} /> */}
+                <Route path="my-orders" element={<MyOrdersPage />} />
+                <Route path=":id" element={<EditOrderPage />} />
               </Route>
               <Route
                 path="help"
