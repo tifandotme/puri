@@ -30,7 +30,7 @@ async function getCustomerName(customerUid: string): Promise<string> {
 
 /**
  * Format payment object into a string
- * 
+ *
  * Additional info on payment type:
  * - BU: Bayar Uang (Cash), similar to Cash on Delivery
  * - KU: Kredit Uang (Credit), similar to Bank Transfer
@@ -47,4 +47,39 @@ function formatPayment(payment: Payment): string {
   return `${formattedAmount} (${formattedType})`;
 }
 
-export { capitalizeWords, formatAddress, getCustomerName, formatPayment };
+/**
+ * Format epoch time into a date and time string
+ * 
+ * @param epoch Epoch time in milliseconds
+ * @param includeTime Whether to include time in the string
+ * @param shortDate Whether to use short date format
+ */
+function formatDateTime(epoch: number, includeTime?: boolean, shortDate?: boolean): string {
+  const date = new Date(epoch);
+
+  const formattedDate = date.toLocaleDateString("id-ID", {
+    ...(!shortDate && { weekday: "long" }),
+    year: "numeric",
+    ...(!shortDate ? { month: "long" } : { month: "numeric" }),
+    day: "numeric",
+  });
+  
+  const formattedTime = date.toLocaleTimeString("id-ID", {
+    hour: "2-digit",
+    minute: "2-digit",
+  });
+
+  if (includeTime) {
+    return `${formattedDate} ${formattedTime}`;
+  } else {
+    return formattedDate;
+  }
+}
+
+export {
+  capitalizeWords,
+  formatAddress,
+  getCustomerName,
+  formatPayment,
+  formatDateTime,
+};
