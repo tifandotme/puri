@@ -17,13 +17,13 @@ import {
   useToast,
 } from "@chakra-ui/react";
 import { child, get, ref } from "firebase/database";
-import { memo, useEffect, useState } from "react";
+import { memo, useEffect, useRef, useState } from "react";
 import { FieldValues, UseFormUnregister, useForm } from "react-hook-form";
 import { BiPlus } from "react-icons/bi";
 import { GiCheckMark } from "react-icons/gi";
 import { useNavigate, useParams } from "react-router-dom";
 import { database } from "../../config/firebase";
-import { getCustomerName } from "../../utils/utils";
+import { getCustomerName, formatDateTime } from "../../utils/utils";
 import ContentWrapper from "../dashboard/ContentWrapper";
 import productList from "./product-list";
 
@@ -38,14 +38,23 @@ function EditOrderPage() {
     handleSubmit,
     resetField,
     formState: { isSubmitting, dirtyFields, isDirty },
-  } = useForm<Omit<OrderForm, "customer">>({
+  } = useForm<EditOrderForm>({
     defaultValues: order,
   });
 
-  // const onSubmit = handleSubmit((data) => {
+  const onSubmit = handleSubmit((data) => {
     // handleAddOrder(data, navigate, toast);
     // console.log(Object.entries(dirtyFields).map(([key, value]) => data[key] = data[key]));
-  // });
+    // console.log(JSON.stringify(data, null, 2));
+    // console.log(JSON.stringify(dirtyFields, null, 2));
+
+    for (const field in data) {
+      if (!(field in dirtyFields)) {
+        delete data[field as keyof EditOrderForm];
+      }
+    }
+    console.log(data);
+  });
 
   const { id } = useParams();
 
@@ -89,6 +98,9 @@ function EditOrderPage() {
                 <Heading fontSize="2xl" fontWeight="600" my="auto">
                   {order.customer}
                 </Heading>
+                <Text>
+                  Ditambahkan: {formatDateTime(order.createdAt, true, true)}
+                </Text>
               </VStack>
               <Stack
                 direction={{ base: "column", lg: "row" }}
@@ -208,9 +220,10 @@ function EditOrderPage() {
                       placeholder="Select Date and Time"
                       size="md"
                       type="date"
-                      defaultValue={new Date(order?.scheduledTime || 0)
-                        .toISOString()
-                        .slice(0, 10)}
+                      defaultValue={
+                        order?.scheduledTime &&
+                        new Date(order.scheduledTime).toISOString().slice(0, 10)
+                      }
                       {...register("scheduledTime", {
                         setValueAs: (v) => Date.parse(v),
                       })}
@@ -277,11 +290,13 @@ const OptionalFieldContainer = memo(function OFC({
   children,
 }: OptionalFieldContainerProps) {
   const [isFieldVisible, setIsFieldVisible] = useState(isDefaultValue);
+  const prevIsFieldVisible = useRef(isFieldVisible);
 
   useEffect(() => {
-    if (!isFieldVisible) {
+    if (!isFieldVisible && prevIsFieldVisible.current) {
       unregister();
     }
+    prevIsFieldVisible.current = isFieldVisible;
   }, [isFieldVisible]);
 
   return (
