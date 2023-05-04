@@ -4,7 +4,7 @@ import { NavigateFunction } from "react-router-dom";
 import { auth, database } from "../../config/firebase";
 
 async function handleAddOrder(
-  data: OrderForm,
+  data: AddOrderForm,
   navigate: NavigateFunction,
   toast: ReturnType<typeof useToast>
 ) {

@@ -36,7 +36,7 @@ function AddOrderPage() {
     control,
     resetField,
     formState: { isSubmitting },
-  } = useForm<OrderForm>();
+  } = useForm<AddOrderForm>();
 
   const onSubmit = handleSubmit((data) => {
     handleAddOrder(data, navigate, toast);

@@ -32,9 +32,9 @@ type Order<TDate extends object = number> = {
 };
 
 /**
- * Type for react-hook-form's useForm() as FieldValues.
+ * Type for react-hook-form's useForm() as FieldValues on Add Order Page
  */
-type OrderForm = Omit<
+type AddOrderForm = Omit<
   {
     [K in keyof Order]: K extends "customer"
       ? { value: string; label: string }
@@ -42,6 +42,11 @@ type OrderForm = Omit<
   },
   "createdAt" | "sales"
 >;
+
+/**
+ * Type for react-hook-form's useForm() as FieldValues on Edit Order Page
+ */
+type EditOrderForm = Omit<AddOrderForm, "customer">;
 
 type OrderList = Record<string, Order>;
 
@@ -52,3 +57,5 @@ type OrderListContext = {
   orderList?: OrderList;
   isLoading: boolean;
 };
+
+
