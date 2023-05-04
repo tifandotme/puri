@@ -51,16 +51,16 @@ function formatPayment(payment: Payment): string {
  * Format epoch time into a date and time string
  * 
  * @param epoch Epoch time in milliseconds
- * @param includeTime Whether to include time in the string
- * @param shortDate Whether to use short date format
+ * @param isIncludeTime Whether to include time in the string
+ * @param isShortDate Whether to use short date format
  */
-function formatDateTime(epoch: number, includeTime?: boolean, shortDate?: boolean): string {
+function formatDateTime(epoch: number, isIncludeTime?: boolean, isShortDate?: boolean): string {
   const date = new Date(epoch);
 
   const formattedDate = date.toLocaleDateString("id-ID", {
-    ...(!shortDate && { weekday: "long" }),
+    ...(!isShortDate && { weekday: "long" }),
     year: "numeric",
-    ...(!shortDate ? { month: "long" } : { month: "numeric" }),
+    ...(!isShortDate ? { month: "long" } : { month: "numeric" }),
     day: "numeric",
   });
   
@@ -69,7 +69,7 @@ function formatDateTime(epoch: number, includeTime?: boolean, shortDate?: boolea
     minute: "2-digit",
   });
 
-  if (includeTime) {
+  if (isIncludeTime) {
     return `${formattedDate} ${formattedTime}`;
   } else {
     return formattedDate;
