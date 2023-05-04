@@ -14,24 +14,23 @@ import {
   Stack,
   Text,
   VStack,
-  useToast,
 } from "@chakra-ui/react";
 import { child, get, ref } from "firebase/database";
 import { memo, useEffect, useRef, useState } from "react";
 import { FieldValues, UseFormUnregister, useForm } from "react-hook-form";
 import { BiPlus } from "react-icons/bi";
 import { GiCheckMark } from "react-icons/gi";
-import { useNavigate, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { database } from "../../config/firebase";
-import { getCustomerName, formatDateTime } from "../../utils/utils";
+import { formatDateTime, getCustomerName } from "../../utils/utils";
 import ContentWrapper from "../dashboard/ContentWrapper";
 import productList from "./product-list";
 
 function EditOrderPage() {
   const [order, setOrder] = useState<Order | undefined>(undefined);
-  const toast = useToast();
+  // const toast = useToast();
 
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
 
   const {
     register,

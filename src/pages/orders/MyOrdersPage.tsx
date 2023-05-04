@@ -1,14 +1,13 @@
-import { Button, Spinner, useDisclosure } from "@chakra-ui/react";
+import { Button, Spinner } from "@chakra-ui/react";
 import { ColumnDef } from "@tanstack/react-table";
-import { useContext, useMemo, useRef } from "react";
+import { useContext, useMemo } from "react";
+import { useNavigate } from "react-router-dom";
 import { OrderListContext } from "../../App";
+import { auth } from "../../config/firebase";
+import { formatDateTime, formatPayment } from "../../utils/utils";
 import TanStackTable from "../TanStackTable";
 import ContentWrapper from "../dashboard/ContentWrapper";
-import OrderDetailModal from "./OrderDetailModal";
 import productList from "./product-list";
-import { formatDateTime, formatPayment } from "../../utils/utils";
-import { auth } from "../../config/firebase";
-import { useNavigate } from "react-router-dom";
 
 function MyOrdersPage() {
   const { orderList, isLoading } = useContext(OrderListContext);
