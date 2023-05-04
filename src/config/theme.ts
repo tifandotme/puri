@@ -1,4 +1,4 @@
-import { extendTheme, defineStyleConfig, useMultiStyleConfig } from "@chakra-ui/react";
+import { defineStyleConfig, extendTheme } from "@chakra-ui/react";
 import background from "../assets/background.webp";
 
 import "@fontsource/inter/variable.css";
