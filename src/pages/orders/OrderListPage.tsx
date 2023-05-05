@@ -69,7 +69,7 @@ function OrderListPage() {
         },
       },
       {
-        header: "Tanggal",
+        header: "Ditambahkan",
         accessorKey: "date",
         size: 25, // % of table width
         accessorFn: (row) => formatDateTime(row[1].createdAt, true, true),

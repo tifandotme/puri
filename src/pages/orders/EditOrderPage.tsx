@@ -1,6 +1,7 @@
 import {
   Button,
   Checkbox,
+  Divider,
   FormControl,
   FormLabel,
   HStack,
@@ -20,7 +21,7 @@ import { memo, useEffect, useRef, useState } from "react";
 import { FieldValues, UseFormUnregister, useForm } from "react-hook-form";
 import { BiPlus } from "react-icons/bi";
 import { GiCheckMark } from "react-icons/gi";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { database } from "../../config/firebase";
 import { formatDateTime, getCustomerName } from "../../utils/utils";
 import ContentWrapper from "../dashboard/ContentWrapper";
@@ -30,7 +31,7 @@ function EditOrderPage() {
   const [order, setOrder] = useState<Order | undefined>(undefined);
   // const toast = useToast();
 
-  // const navigate = useNavigate();
+  const navigate = useNavigate();
 
   const {
     register,
@@ -42,16 +43,12 @@ function EditOrderPage() {
   });
 
   const onSubmit = handleSubmit((data) => {
-    // handleAddOrder(data, navigate, toast);
-    // console.log(Object.entries(dirtyFields).map(([key, value]) => data[key] = data[key]));
-    // console.log(JSON.stringify(data, null, 2));
-    // console.log(JSON.stringify(dirtyFields, null, 2));
-
     for (const field in data) {
       if (!(field in dirtyFields)) {
         delete data[field as keyof EditOrderForm];
       }
     }
+
     console.log(data);
   });
 
@@ -87,20 +84,24 @@ function EditOrderPage() {
               bg="white"
               borderWidth={{ base: 0, lg: 1 }}
               borderColor="gray.200"
+              gap="7"
             >
-              <VStack
-                pb="6"
+              <Stack
                 px="auto"
-                borderBottomWidth="2px"
-                borderColor="gray.200"
+                alignItems={{ base: "center", lg: "stretch" }}
               >
-                <Heading fontSize="2xl" fontWeight="600" my="auto">
+                <Heading
+                  fontSize={{ base: "2xl", lg: "3xl" }}
+                  fontWeight="600"
+                  my="auto"
+                >
                   {order.customer}
                 </Heading>
                 <Text>
                   Ditambahkan: {formatDateTime(order.createdAt, true, true)}
                 </Text>
-              </VStack>
+                <Divider w={{ base: "sm", lg: "full" }} pt="3" />
+              </Stack>
               <Stack
                 direction={{ base: "column", lg: "row" }}
                 gap={{ base: 0, lg: 7 }}
@@ -249,16 +250,30 @@ function EditOrderPage() {
                 </Stack>
               </Stack>
 
-              <Stack alignItems={{ base: "center", lg: "stretch" }}>
+              <Stack
+                alignItems="center"
+                justifyContent="flex-end"
+                direction={{ base: "column", lg: "row" }}
+                mt="10"
+              >
+                <Button
+                  colorScheme="gray"
+                  w="full"
+                  variant="outline"
+                  maxW={{ base: "sm", lg: "32" }}
+                  onClick={() => navigate("/orders/my-orders")}
+                >
+                  Kembali
+                </Button>
                 <Button
                   type="submit"
-                  colorScheme="red"
+                  colorScheme="blue"
                   isLoading={isSubmitting}
                   isDisabled={!isDirty}
                   w="full"
-                  maxW={{ base: "sm", lg: "full" }}
+                  maxW={{ base: "sm", lg: "32" }}
                 >
-                  Tambah
+                  Ubah
                 </Button>
               </Stack>
             </Stack>
