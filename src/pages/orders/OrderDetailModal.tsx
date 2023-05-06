@@ -15,11 +15,9 @@ import {
   Td,
   Tr,
 } from "@chakra-ui/react";
-import { child, get, ref } from "firebase/database";
 import { memo, useEffect, useState } from "react";
 import { FiArrowUpRight } from "react-icons/fi";
-import { database } from "../../config/firebase";
-import { formatDateTime, formatPayment } from "../../utils/utils";
+import { formatDateTime, formatPayment, getSalesName } from "../../utils/utils";
 import productList from "./product-list";
 
 type OrderDetailModalProps = {
@@ -40,10 +38,7 @@ const OrderDetailModal = memo(function DM({
 
   useEffect(() => {
     if (order) {
-      get(child(ref(database, "users"), `${order?.sales}`)).then((snapshot) => {
-        const name = snapshot.val().firstName + " " + snapshot.val().lastName;
-        setSales(name);
-      });
+      getSalesName(order.sales).then((name) => setSales(name));
     }
   }, [order]);
 
@@ -133,7 +128,7 @@ const OrderDetailModal = memo(function DM({
           </TableContainer>
         </ModalBody>
         <ModalFooter>
-          <Button colorScheme="blue" mr={3} onClick={onClose}>
+          <Button colorScheme="secondary" mr={3} onClick={onClose}>
             Close
           </Button>
         </ModalFooter>

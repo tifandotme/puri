@@ -14,10 +14,8 @@ import {
   Td,
   Tr,
 } from "@chakra-ui/react";
-import { child, get, ref } from "firebase/database";
 import { memo, useEffect, useState } from "react";
-import { database } from "../../config/firebase";
-import { formatAddress } from "../../utils/utils";
+import { formatAddress, getSalesName } from "../../utils/utils";
 
 type CustomerDetailModalProps = {
   isOpen: boolean;
@@ -37,12 +35,7 @@ const CustomerDetailModal = memo(function DM({
 
   useEffect(() => {
     if (customer) {
-      get(child(ref(database, "users"), `${customer?.sales}`)).then(
-        (snapshot) => {
-          const name = snapshot.val().firstName + " " + snapshot.val().lastName;
-          setSales(name);
-        }
-      );
+      getSalesName(customer.sales).then((name) => setSales(name));
     }
   }, [customer]);
 
@@ -114,7 +107,7 @@ const CustomerDetailModal = memo(function DM({
           </TableContainer>
         </ModalBody>
         <ModalFooter>
-          <Button colorScheme="blue" mr={3} onClick={onClose}>
+          <Button colorScheme="secondary" mr={3} onClick={onClose}>
             Close
           </Button>
         </ModalFooter>
