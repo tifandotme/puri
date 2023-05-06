@@ -1,12 +1,19 @@
-import { Button, Spinner, useDisclosure } from "@chakra-ui/react";
+import {
+  Icon,
+  IconButton,
+  Spinner,
+  Tooltip,
+  useDisclosure,
+} from "@chakra-ui/react";
 import { ColumnDef } from "@tanstack/react-table";
 import { useContext, useMemo, useRef } from "react";
+import { FaEllipsisV } from "react-icons/fa";
 import { OrderListContext } from "../../App";
+import { formatDateTime, formatPayment } from "../../utils/utils";
 import TanStackTable from "../TanStackTable";
 import ContentWrapper from "../dashboard/ContentWrapper";
 import OrderDetailModal from "./OrderDetailModal";
 import productList from "./product-list";
-import { formatDateTime, formatPayment } from "../../utils/utils";
 
 function OrderListPage() {
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -95,16 +102,18 @@ function OrderListPage() {
           },
         },
         cell: ({ row }) => (
-          <Button
-            size="sm"
-            onClick={() => {
-              selectedOrder.current = row.original[1];
-              onOpen();
-            }}
-            colorScheme="blue"
-          >
-            Detail
-          </Button>
+          <Tooltip label="Detail">
+            <IconButton
+              aria-label="Detail"
+              icon={<Icon as={FaEllipsisV} boxSize="5" />}
+              onClick={() => {
+                selectedOrder.current = row.original[1];
+                onOpen();
+              }}
+              colorScheme="secondary"
+              variant="link"
+            />
+          </Tooltip>
         ),
       },
     ],
@@ -135,7 +144,7 @@ function OrderListPage() {
           {
             name: "Tambah Baru",
             path: "new",
-            colorScheme: "green",
+            colorScheme: "secondary",
           },
         ]}
       >

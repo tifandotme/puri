@@ -1,15 +1,29 @@
-import { Button, Spinner } from "@chakra-ui/react";
+import {
+  ButtonGroup,
+  Icon,
+  IconButton,
+  Spinner,
+  Tooltip,
+  useDisclosure,
+} from "@chakra-ui/react";
 import { ColumnDef } from "@tanstack/react-table";
-import { useContext, useMemo } from "react";
+import { useContext, useMemo, useRef } from "react";
+import { FaEllipsisV } from "react-icons/fa";
+import { HiArrowLeft, HiPencilSquare } from "react-icons/hi2";
 import { useNavigate } from "react-router-dom";
 import { OrderListContext } from "../../App";
 import { auth } from "../../config/firebase";
 import { formatDateTime, formatPayment } from "../../utils/utils";
 import TanStackTable from "../TanStackTable";
 import ContentWrapper from "../dashboard/ContentWrapper";
+import OrderDetailModal from "./OrderDetailModal";
 import productList from "./product-list";
 
 function MyOrdersPage() {
+  const { isOpen, onOpen, onClose } = useDisclosure();
+
+  const selectedOrder = useRef<Order | undefined>(undefined);
+
   const { orderList, isLoading } = useContext(OrderListContext);
 
   const navigate = useNavigate();
@@ -94,15 +108,29 @@ function MyOrdersPage() {
           },
         },
         cell: ({ row }) => (
-          <Button
-            size="sm"
-            onClick={() => {
-              navigate("/orders/" + row.original[0]);
-            }}
-            colorScheme="blue"
-          >
-            Edit
-          </Button>
+          <ButtonGroup variant="link">
+            <Tooltip label="Edit">
+              <IconButton
+                aria-label="Edit"
+                icon={<Icon as={HiPencilSquare} boxSize="5" />}
+                onClick={() => {
+                  navigate("/orders/" + row.original[0]);
+                }}
+                colorScheme="green"
+              />
+            </Tooltip>
+            <Tooltip label="Detail">
+              <IconButton
+                aria-label="Detail"
+                icon={<Icon as={FaEllipsisV} boxSize="5" />}
+                onClick={() => {
+                  selectedOrder.current = row.original[1];
+                  onOpen();
+                }}
+                colorScheme="blue"
+              />
+            </Tooltip>
+          </ButtonGroup>
         ),
       },
     ],
@@ -122,12 +150,29 @@ function MyOrdersPage() {
 
   return (
     <>
-      <ContentWrapper title="Pesanan Saya">
+      <ContentWrapper
+        title="Pesanan Saya"
+        button={[
+          {
+            name: "Kembali",
+            path: "/orders",
+            colorScheme: "gray",
+            variant: "outline",
+            leftIcon: <HiArrowLeft />,
+          },
+        ]}
+      >
         {isLoading ? (
           <Spinner />
         ) : (
           <TanStackTable data={orderListMemo} columns={columns} />
         )}
+
+        <OrderDetailModal
+          isOpen={isOpen}
+          onClose={onClose}
+          order={selectedOrder.current}
+        />
       </ContentWrapper>
     </>
   );
