@@ -15,7 +15,7 @@ function capitalizeWords(str: string): string {
  * Combine CustomerAddress object into a string
  */
 function formatAddress(address: CustomerAddress): string {
-  return `${address.street}, ${address.regency}, ${address.district}, ${address.city}`;
+  return `${address.street}, ${address.village}, ${address.district}, ${address.regency}`;
 }
 
 /**
@@ -25,7 +25,19 @@ async function getCustomerName(customerUid: string): Promise<string> {
   const snapshot = await get(
     child(ref(database, "customers"), `${customerUid}/name`)
   );
+  
   return snapshot.val();
+}
+
+/**
+ * Convert sales uid to sales name
+ */
+async function getSalesName(salesUid: string): Promise<string> {
+  const snapshot = await get(child(ref(database, "users"), `${salesUid}`));
+
+  const { firstName, lastName } = snapshot.val();
+
+  return `${firstName} ${lastName}`;
 }
 
 /**
@@ -49,12 +61,16 @@ function formatPayment(payment: Payment): string {
 
 /**
  * Format epoch time into a date and time string
- * 
+ *
  * @param epoch Epoch time in milliseconds
  * @param isIncludeTime Whether to include time in the string
  * @param isShortDate Whether to use short date format
  */
-function formatDateTime(epoch: number, isIncludeTime?: boolean, isShortDate?: boolean): string {
+function formatDateTime(
+  epoch: number,
+  isIncludeTime?: boolean,
+  isShortDate?: boolean
+): string {
   const date = new Date(epoch);
 
   const formattedDate = date.toLocaleDateString("id-ID", {
@@ -63,7 +79,7 @@ function formatDateTime(epoch: number, isIncludeTime?: boolean, isShortDate?: bo
     ...(!isShortDate ? { month: "long" } : { month: "numeric" }),
     day: "numeric",
   });
-  
+
   const formattedTime = date.toLocaleTimeString("id-ID", {
     hour: "2-digit",
     minute: "2-digit",
@@ -80,6 +96,7 @@ export {
   capitalizeWords,
   formatAddress,
   getCustomerName,
+  getSalesName,
   formatPayment,
   formatDateTime,
 };
