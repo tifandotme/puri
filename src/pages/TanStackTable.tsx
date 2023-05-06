@@ -2,9 +2,11 @@ import {
   Button,
   ButtonGroup,
   HStack,
+  Icon,
   Input,
   InputGroup,
   InputLeftAddon,
+  InputLeftElement,
   Select,
   Stack,
   Table,
@@ -25,6 +27,13 @@ import {
   getPaginationRowModel,
   useReactTable,
 } from "@tanstack/react-table";
+import { HiMagnifyingGlass } from "react-icons/hi2";
+import {
+  MdOutlineKeyboardArrowLeft,
+  MdOutlineKeyboardArrowRight,
+  MdOutlineKeyboardDoubleArrowLeft,
+  MdOutlineKeyboardDoubleArrowRight,
+} from "react-icons/md";
 
 type TanStackTableProps<
   Data extends any[],
@@ -118,17 +127,22 @@ type SearchBarProps = {
 function SearchBar({ table, columnKey, placeholder }: SearchBarProps) {
   return (
     <HStack my="4" mx="6" justifyContent="flex-start">
-      <Input
-        type="text"
-        value={(table.getColumn(columnKey)?.getFilterValue() ?? "") as string}
-        onChange={(e) =>
-          table.getColumn(columnKey)?.setFilterValue(e.target.value)
-        }
-        placeholder={placeholder}
-        variant="flushed"
-        _placeholder={{ color: "black", opacity: 0.8 }}
-        w="60"
-      />
+      <InputGroup>
+        <InputLeftElement pointerEvents="none">
+          <Icon as={HiMagnifyingGlass} boxSize="5" color="gray.600"/>
+        </InputLeftElement>
+        <Input
+          type="text"
+          value={(table.getColumn(columnKey)?.getFilterValue() ?? "") as string}
+          onChange={(e) =>
+            table.getColumn(columnKey)?.setFilterValue(e.target.value)
+          }
+          placeholder={placeholder}
+          variant="flushed"
+          _placeholder={{ color: "black", opacity: 0.8 }}
+          w="60"
+        />
+      </InputGroup>
     </HStack>
   );
 }
@@ -143,30 +157,30 @@ function Pagination<T>({ table }: { table: TTable<T> }) {
       alignItems={{ base: "center" }}
     >
       <HStack>
-        <ButtonGroup colorScheme="blue" size="sm">
+        <ButtonGroup colorScheme="secondary" size="sm" variant="outline">
           <Button
             onClick={() => table.setPageIndex(0)}
             isDisabled={!table.getCanPreviousPage()}
           >
-            {"<<"}
+            <Icon as={MdOutlineKeyboardDoubleArrowLeft} boxSize="6" />
           </Button>
           <Button
             onClick={() => table.previousPage()}
             isDisabled={!table.getCanPreviousPage()}
           >
-            {"<"}
+            <Icon as={MdOutlineKeyboardArrowLeft} boxSize="6" />
           </Button>
           <Button
             onClick={() => table.nextPage()}
             isDisabled={!table.getCanNextPage()}
           >
-            {">"}
+            <Icon as={MdOutlineKeyboardArrowRight} boxSize="6" />
           </Button>
           <Button
             onClick={() => table.nextPage()}
             isDisabled={!table.getCanNextPage()}
           >
-            {">>"}
+            <Icon as={MdOutlineKeyboardDoubleArrowRight} boxSize="6" />
           </Button>
         </ButtonGroup>
 
