@@ -5,7 +5,7 @@ import { auth, database } from "../../config/firebase";
 import { capitalizeWords } from "../../utils/utils";
 
 async function handleAddCustomer(
-  data: CustomerForm,
+  data: AddCustomerForm,
   navigate: NavigateFunction,
   toast: ReturnType<typeof useToast>
 ) {
@@ -36,6 +36,8 @@ async function handleAddCustomer(
     //   
     //   sales: auth.currentUser!.uid,
     // };
+
+    console.log(customer)
 
     await set(push(ref(database, "customers")), customer);
 

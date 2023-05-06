@@ -33,8 +33,12 @@ function AddCustomerPage() {
     register,
     handleSubmit,
     control,
-    formState: { isSubmitting },
-  } = useForm<CustomerForm>();
+    formState: { isSubmitting, isDirty },
+  } = useForm<AddCustomerForm>({
+    defaultValues: {
+      type: "individu",
+    },
+  });
 
   const [customerType, setCustomerType] = useState<CustomerType>("individu");
 
@@ -89,13 +93,13 @@ function AddCustomerPage() {
     <ContentWrapper title="Tambah Pelanggan">
       <form onSubmit={onSubmit}>
         <Stack
-          spacing="6"
+          spacing="12"
           maxW="3xl"
           mx="auto"
           my={{ base: 0, lg: 5 }}
           borderRadius={{ base: 0, lg: 10 }}
           py="10"
-          px={{base: 5, lg: 10}}
+          px={{ base: 5, lg: 10 }}
           bg="white"
           borderWidth={{ base: 0, lg: 1 }}
           borderColor="gray.200"
@@ -113,7 +117,7 @@ function AddCustomerPage() {
           >
             <Stack w="full" maxW="sm">
               <FormControl isRequired>
-                <FormLabel htmlFor="name">
+                <FormLabel>
                   {customerType === "perusahaan"
                     ? "Nama Perusahaan"
                     : "Nama Lengkap"}
@@ -130,24 +134,22 @@ function AddCustomerPage() {
                       <option value="TB">TB</option>
                     </Select>
                   )}
-                  <Input id="name" type="text" {...register("name")} />
+                  <Input type="text" {...register("name")} />
                 </HStack>
               </FormControl>
               <FormControl isRequired>
-                <FormLabel htmlFor="id">
+                <FormLabel>
                   {customerType === "perusahaan" ? "No NPWP" : "No KTP"}
                 </FormLabel>
                 <Input
-                  id="id"
                   type="number"
                   {...register("id", { valueAsNumber: true })}
                 />
               </FormControl>
               <FormControl isRequired>
-                <FormLabel htmlFor="phone">Telp</FormLabel>
+                <FormLabel>Telp</FormLabel>
                 <Input
                   placeholder="081122223333"
-                  id="phone"
                   type="tel"
                   {...register("phone", {
                     required: true,
@@ -156,10 +158,9 @@ function AddCustomerPage() {
                 />
               </FormControl>
               <FormControl>
-                <FormLabel htmlFor="phone2">Telp 2 (Opsional)</FormLabel>
+                <FormLabel>Telp 2 (Opsional)</FormLabel>
                 <Input
                   placeholder="081122223333"
-                  id="phone2"
                   type="tel"
                   {...register("phone2", {
                     required: false,
@@ -171,11 +172,9 @@ function AddCustomerPage() {
 
             <Stack w="full" maxW="sm">
               <FormControl isRequired>
-                <FormLabel htmlFor="city">Kota/Kabupaten</FormLabel>
+                <FormLabel>Kota/Kabupaten</FormLabel>
                 <Select
-                  id="city"
-                  isDisabled={!regencies}
-                  {...register("address.city")}
+                  {...register("address.regency")}
                   onChange={(e) => setChosenRegency(e.target.value)}
                   placeholder="—Kota/Kabupaten—"
                 >
@@ -189,11 +188,10 @@ function AddCustomerPage() {
               </FormControl>
 
               <FormControl isRequired>
-                <FormLabel htmlFor="regency">Kecamatan</FormLabel>
+                <FormLabel>Kecamatan</FormLabel>
                 <Select
-                  id="regency"
                   isDisabled={!chosenRegency}
-                  {...register("address.regency")}
+                  {...register("address.district")}
                   onChange={(e) => setChosenDistrict(e.target.value)}
                   placeholder="—Kecamatan—"
                 >
@@ -207,11 +205,10 @@ function AddCustomerPage() {
               </FormControl>
 
               <FormControl isRequired>
-                <FormLabel htmlFor="district">Kelurahan</FormLabel>
+                <FormLabel>Kelurahan</FormLabel>
                 <Select
-                  id="district"
                   isDisabled={!chosenDistrict}
-                  {...register("address.district")}
+                  {...register("address.village")}
                   onChange={(e) => setChosenVillage(e.target.value)}
                   placeholder="—Kelurahan—"
                 >
@@ -225,9 +222,8 @@ function AddCustomerPage() {
               </FormControl>
 
               <FormControl isRequired>
-                <FormLabel htmlFor="street">Jalan</FormLabel>
+                <FormLabel>Jalan</FormLabel>
                 <Textarea
-                  id="street"
                   isDisabled={!chosenVillage}
                   placeholder="Nama Jalan (No. Rumah/Patokan)"
                   {...register("address.street")}
@@ -235,9 +231,33 @@ function AddCustomerPage() {
               </FormControl>
             </Stack>
           </Stack>
-          <Button type="submit" colorScheme="red" isLoading={isSubmitting}>
-            Tambah
-          </Button>
+
+          <Stack
+            alignItems="center"
+            justifyContent="flex-end"
+            direction={{ base: "column", lg: "row" }}
+            mt="10"
+          >
+            <Button
+              colorScheme="gray"
+              w="full"
+              variant="outline"
+              maxW={{ base: "sm", lg: "24" }}
+              onClick={() => navigate("/customers/")}
+            >
+              Batal
+            </Button>
+            <Button
+              type="submit"
+              colorScheme="green"
+              w="full"
+              isLoading={isSubmitting}
+              isDisabled={!isDirty}
+              maxW={{ base: "sm", lg: "24" }}
+            >
+              Simpan
+            </Button>
+          </Stack>
         </Stack>
       </form>
     </ContentWrapper>
