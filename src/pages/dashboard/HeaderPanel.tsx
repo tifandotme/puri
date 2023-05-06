@@ -34,9 +34,10 @@ import { Link } from "react-router-dom";
 
 type HPProps = {
   onOpen: () => void;
+  [key: string]: any;
 };
 
-function HeaderPanel({ onOpen }: HPProps) {
+function HeaderPanel({ onOpen, ...props }: HPProps) {
   // custom hooks
   const division = useDivision();
   const topValue = useTopValue(16, "md");
@@ -64,6 +65,7 @@ function HeaderPanel({ onOpen }: HPProps) {
       zIndex="sticky"
       w="full"
       top={topValue}
+      {...props}
     >
       <Flex
         overflow="hidden"

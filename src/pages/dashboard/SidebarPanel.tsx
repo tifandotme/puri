@@ -5,10 +5,10 @@ import navItems from "./sidebar-nav-items";
 
 type SPProps = {
   onClose: () => void;
-  display?: Record<"base" | "md", string>;
+  [key: string]: any;
 };
 
-function SidebarPanel({ onClose, display }: SPProps) {
+function SidebarPanel({ onClose, ...props }: SPProps) {
   // const [appVersion, setAppVersion] = useState("");
   // useEffect(() => {
   //   fetch("https://raw.githubusercontent.com/tifandotme/puri/main/package.json")
@@ -29,7 +29,7 @@ function SidebarPanel({ onClose, display }: SPProps) {
       h="full"
       w={{ base: "full", md: 60 }} // lebar sidebar
       role="group"
-      display={display}
+      {...props}
     >
       <Flex h="20" mx="8" justify="space-between" align="flex-end" mb={8}>
         <Image src={logo} alt="logo" h="65%" draggable={false} />
@@ -60,7 +60,7 @@ function SidebarPanel({ onClose, display }: SPProps) {
                 mx="4"
                 p="4"
                 _hover={{
-                  bg: "secondary",
+                  bg: "secondary.500",
                   color: "white",
                 }}
                 transition="all 0.1s"

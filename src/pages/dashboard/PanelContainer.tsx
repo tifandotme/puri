@@ -27,8 +27,12 @@ function PanelContainer({ user, isLoading }: MCProps) {
   return (
     <Box bg="gray.50" minH="100vh" pb="1px">
       {/* without pb, setting mb on content would mess up the background color */}
-      <SidebarPanel onClose={onClose} display={{ base: "none", md: "block" }} />
-      <HeaderPanel onOpen={onOpen} />
+      <SidebarPanel
+        onClose={onClose}
+        zIndex="3"
+        display={{ base: "none", md: "block" }}
+      />
+      <HeaderPanel onOpen={onOpen} zIndex="3" />
       <Drawer
         placement="left"
         returnFocusOnClose={false}
