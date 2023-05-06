@@ -18,6 +18,11 @@ const inputMultiPart = defineStyleConfig({
         },
       },
     },
+    flushed: {
+      field: {
+        borderBottomWidth: "2px",
+      },
+    },
   },
 });
 
@@ -99,7 +104,19 @@ export default function customTheme(path: string, isPageLoading: boolean) {
       black: "#0a0d12",
       muted: "#4d5560", // the same as gray.600
       primary: "#E63946",
-      secondary: "#457B9D",
+      secondary: {
+        // base: #457B9D
+        "50": "#EDF3F7",
+        "100": "#CDDEE9",
+        "200": "#AECADB",
+        "300": "#8EB5CD",
+        "400": "#6EA0BF",
+        "500": "#4E8BB1",
+        "600": "#3E6F8E",
+        "700": "#2F536A",
+        "800": "#1F3847",
+        "900": "#101C23",
+      },
       secondaryLighter: "#A8DADC",
       secondaryDarker: "#1D3557",
       gray: {
