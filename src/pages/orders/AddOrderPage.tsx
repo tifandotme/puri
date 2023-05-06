@@ -35,7 +35,7 @@ function AddOrderPage() {
     handleSubmit,
     control,
     resetField,
-    formState: { isSubmitting },
+    formState: { isSubmitting, isDirty },
   } = useForm<AddOrderForm>();
 
   const onSubmit = handleSubmit((data) => {
@@ -173,16 +173,30 @@ function AddOrderPage() {
               </OptionalFieldContainer>
             </Stack>
           </Stack>
-
-          <Stack alignItems={{ base: "center", lg: "stretch" }}>
+          <Stack
+            alignItems="center"
+            justifyContent="flex-end"
+            direction={{ base: "column", lg: "row" }}
+            mt="10"
+          >
+            <Button
+              colorScheme="gray"
+              w="full"
+              variant="outline"
+              maxW={{ base: "sm", lg: "24" }}
+              onClick={() => navigate("/orders/")}
+            >
+              Batal
+            </Button>
             <Button
               type="submit"
-              colorScheme="red"
-              isLoading={isSubmitting}
+              colorScheme="green"
               w="full"
-              maxW={{ base: "sm", lg: "full" }}
+              isLoading={isSubmitting}
+              isDisabled={!isDirty}
+              maxW={{ base: "sm", lg: "24" }}
             >
-              Tambah
+              Simpan
             </Button>
           </Stack>
         </Stack>

@@ -15,8 +15,9 @@ import {
   Stack,
   Text,
   VStack,
+  useToast,
 } from "@chakra-ui/react";
-import { child, get, ref } from "firebase/database";
+import { child, get, ref, remove } from "firebase/database";
 import { memo, useEffect, useRef, useState } from "react";
 import { FieldValues, UseFormUnregister, useForm } from "react-hook-form";
 import { BiPlus } from "react-icons/bi";
@@ -25,13 +26,16 @@ import { useNavigate, useParams } from "react-router-dom";
 import { database } from "../../config/firebase";
 import { formatDateTime, getCustomerName } from "../../utils/utils";
 import ContentWrapper from "../dashboard/ContentWrapper";
+import handleEditOrder from "./handle-edit-order";
 import productList from "./product-list";
+import { HiArrowLeft } from "react-icons/hi2";
 
 function EditOrderPage() {
   const [order, setOrder] = useState<Order | undefined>(undefined);
-  // const toast = useToast();
 
+  const toast = useToast();
   const navigate = useNavigate();
+  const { id } = useParams();
 
   const {
     register,
@@ -49,10 +53,19 @@ function EditOrderPage() {
       }
     }
 
-    console.log(data);
+    handleEditOrder(data, id, navigate, toast);
   });
 
-  const { id } = useParams();
+  const handleDeleteOrder = async () => {
+    await remove(ref(database, `orders/${id}`));
+    toast({
+      title: "Pesanaan berhasil dihapus",
+      status: "success",
+      duration: 5000,
+      isClosable: true,
+    });
+    navigate("/orders/my-orders");
+  };
 
   useEffect(() => {
     if (id) {
@@ -86,10 +99,7 @@ function EditOrderPage() {
               borderColor="gray.200"
               gap="7"
             >
-              <Stack
-                px="auto"
-                alignItems={{ base: "center", lg: "stretch" }}
-              >
+              <Stack px="auto" alignItems={{ base: "center", lg: "stretch" }}>
                 <Heading
                   fontSize={{ base: "2xl", lg: "3xl" }}
                   fontWeight="600"
@@ -122,7 +132,6 @@ function EditOrderPage() {
                       <InputGroup>
                         <Input
                           type="number"
-                          placeholder="Qty"
                           defaultValue={order.qty.base}
                           {...register("qty.base", {
                             valueAsNumber: true,
@@ -260,20 +269,29 @@ function EditOrderPage() {
                   colorScheme="gray"
                   w="full"
                   variant="outline"
-                  maxW={{ base: "sm", lg: "32" }}
+                  maxW={{ base: "sm", lg: "max" }}
+                  leftIcon={<HiArrowLeft />}
                   onClick={() => navigate("/orders/my-orders")}
                 >
                   Kembali
                 </Button>
                 <Button
+                  colorScheme="red"
+                  w="full"
+                  maxW={{ base: "sm", lg: "24" }}
+                  onClick={handleDeleteOrder}
+                >
+                  Hapus
+                </Button>
+                <Button
                   type="submit"
-                  colorScheme="blue"
+                  colorScheme="green"
                   isLoading={isSubmitting}
                   isDisabled={!isDirty}
                   w="full"
-                  maxW={{ base: "sm", lg: "32" }}
+                  maxW={{ base: "sm", lg: "24" }}
                 >
-                  Ubah
+                  Simpan
                 </Button>
               </Stack>
             </Stack>
