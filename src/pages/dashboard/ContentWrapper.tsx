@@ -23,12 +23,11 @@ type CWProps = {
 function ContentWrapper({ title, button, children }: CWProps) {
   const location = useLocation().pathname;
   const iconColor = useToken("colors", "secondary.50");
-  const iconComponent =
-    location === "/orders" ? (
-      <MdOutlineTextSnippet color={iconColor} />
-    ) : (
-      <MdGroup color={iconColor} />
-    );
+  const iconComponent = location.startsWith("/orders") ? (
+    <MdOutlineTextSnippet color={iconColor} />
+  ) : (
+    <MdGroup color={iconColor} />
+  );
   const svgString = renderToString(iconComponent);
   const svgUrl = `data:image/svg+xml,${encodeURIComponent(svgString)}`;
 
@@ -40,7 +39,7 @@ function ContentWrapper({ title, button, children }: CWProps) {
         py="40px"
         px={{ base: "30px", md: "50px" }}
         bgColor="white"
-        bgImage={{base: "none", md: `${svgUrl}`}}
+        bgImage={{ base: "none", md: `${svgUrl}` }}
         bgPosition="-20px 40%"
         bgRepeat="no-repeat"
         bgSize="250px"
