@@ -35,11 +35,9 @@ function useOrderList(user?: User) {
           for (const key in orders) {
             const customerUid = orders[key].customer;
 
-            const promise = getCustomerName(customerUid).then(
-              (customerName) => {
-                orders[key].customer = customerName;
-              }
-            );
+            const promise = getCustomerName(customerUid).then((name) => {
+              orders[key].customer = name;
+            });
 
             promises.push(promise);
           }
