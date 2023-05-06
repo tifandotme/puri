@@ -37,8 +37,6 @@ async function handleAddCustomer(
     //   sales: auth.currentUser!.uid,
     // };
 
-    console.log(customer)
-
     await set(push(ref(database, "customers")), customer);
 
     navigate("/customers");

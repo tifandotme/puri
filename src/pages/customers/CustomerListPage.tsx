@@ -1,6 +1,13 @@
-import { Button, Spinner, useDisclosure } from "@chakra-ui/react";
+import {
+  Icon,
+  IconButton,
+  Spinner,
+  Tooltip,
+  useDisclosure,
+} from "@chakra-ui/react";
 import { ColumnDef } from "@tanstack/react-table";
 import { useContext, useMemo, useRef } from "react";
+import { FaEllipsisV } from "react-icons/fa";
 import { CustomerListContext } from "../../App";
 import { formatAddress } from "../../utils/utils";
 import TanStackTable from "../TanStackTable";
@@ -10,11 +17,14 @@ import CustomerDetailModal from "./CustomerDetailModal";
 function CustomerListPage() {
   const { isOpen, onOpen, onClose } = useDisclosure();
 
-  const { customerList, isLoading } = useContext(CustomerListContext);
-
   const selectedCustomer = useRef<Customer | undefined>(undefined);
 
-  const columns = useMemo<ColumnDef<[string, Customer], any>[]>(
+  const { customerList, isLoading } = useContext(CustomerListContext);
+
+  // added salesName from the conversion in useCustomerList
+  const columns = useMemo<
+    ColumnDef<[string, Customer & { salesName: string }], any>[]
+  >(
     () => [
       {
         header: "Nama",
@@ -44,6 +54,22 @@ function CustomerListPage() {
         },
       },
       {
+        header: "Sales",
+        accessorKey: "sales",
+        maxSize: 15,
+        accessorFn: (row) => row[1].salesName,
+        meta: {
+          headerProps: {
+            display: { base: "none", lg: "table-cell" },
+          },
+          bodyProps: {
+            overflow: "hidden",
+            textOverflow: "ellipsis",
+            display: { base: "none", lg: "table-cell" },
+          },
+        },
+      },
+      {
         header: () => <center>Aksi</center>,
         accessorKey: "action",
         minSize: 4,
@@ -54,16 +80,18 @@ function CustomerListPage() {
           },
         },
         cell: ({ row }) => (
-          <Button
-            size="sm"
-            onClick={() => {
-              selectedCustomer.current = row.original[1];
-              onOpen();
-            }}
-            colorScheme="blue"
-          >
-            Detail
-          </Button>
+          <Tooltip label="Detail">
+            <IconButton
+              aria-label="Detail"
+              icon={<Icon as={FaEllipsisV} boxSize="5" />}
+              onClick={() => {
+                selectedCustomer.current = row.original[1];
+                onOpen();
+              }}
+              colorScheme="secondary"
+              variant="link"
+            />
+          </Tooltip>
         ),
       },
     ],
@@ -86,15 +114,15 @@ function CustomerListPage() {
         title="Daftar Pelanggan"
         button={[
           {
-            name: "Edit",
-            path: "edit",
+            name: "Pelanggan Saya",
+            path: "my-customers",
             colorScheme: "gray",
             variant: "outline",
           },
           {
             name: "Tambah Baru",
             path: "new",
-            colorScheme: "green",
+            colorScheme: "secondary",
           },
         ]}
       >
