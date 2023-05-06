@@ -3,10 +3,16 @@
  */
 type CustomerType = "individu" | "perusahaan";
 
+/**
+ * @property regency - kota/kabupaten
+ * @property district - kecamatan
+ * @property village - kelurahan
+ * @property street - jalan
+ */
 type CustomerAddress = {
-  city: string;
-  district: string;
   regency: string;
+  district: string;
+  village: string;
   street: string;
 };
 
@@ -14,6 +20,7 @@ type CustomerAddress = {
  * This type reflects the data structure of customers object in the database
  *
  * @typeParam TDate - `object` when writing to database with serverTimestamp(), defaults to `number` when reading from database
+ * @property id - No KTP for individu, No NPWP for perusahaan
  * @property sales - in uid. Need to be converted into name when reading from the database
  */
 type Customer<TDate extends object = number> = {
@@ -30,12 +37,14 @@ type Customer<TDate extends object = number> = {
 /**
  * Type for react-hook-form's useForm() as FieldValues
  */
-type CustomerForm = Omit<
+type AddCustomerForm = Omit<
   { prefixName: string } & Customer,
   "createdAt" | "sales"
 >;
 
-type CustomerList = Record<string, Customer>;
+type EditCustomerForm = Omit<Customer, "type" | "createdAt" | "sales">;
+
+type CustomerList = Record<string, Customer & { salesName: string }>;
 
 /**
  * Type for CustomerList context provider

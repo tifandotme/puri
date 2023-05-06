@@ -46,7 +46,7 @@ type AddOrderForm = Omit<
 /**
  * Type for react-hook-form's useForm() as FieldValues on Edit Order Page
  */
-type EditOrderForm = Omit<AddOrderForm, "customer">;
+type EditOrderForm = Omit<Order, "customer" | "createdAt" | "sales">;
 
 type OrderList = Record<string, Order>;
 
@@ -57,5 +57,3 @@ type OrderListContext = {
   orderList?: OrderList;
   isLoading: boolean;
 };
-
-
