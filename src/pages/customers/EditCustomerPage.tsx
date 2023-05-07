@@ -26,7 +26,7 @@ import {
   getVillagesOfDistrictName,
 } from "territory-indonesia";
 import { database } from "../../config/firebase";
-import { formatDateTime } from "../../utils/utils";
+import { formatDateTime } from "../../utils/format";
 import ContentWrapper from "../dashboard/ContentWrapper";
 
 function EditCustomerPage() {
@@ -145,7 +145,8 @@ function EditCustomerPage() {
                   </Badge>
                 </Heading>
                 <Text>
-                  Ditambahkan: {formatDateTime(customer.createdAt, true, true)}
+                  Ditambahkan:{" "}
+                  {formatDateTime(customer.createdAt, { isIncludeTime: true })}
                 </Text>
 
                 <Divider w={{ base: "sm", lg: "full" }} pt="3" />

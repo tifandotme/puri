@@ -14,7 +14,7 @@ import { HiArrowLeft, HiPencilSquare } from "react-icons/hi2";
 import { useNavigate } from "react-router-dom";
 import { CustomerListContext } from "../../App";
 import { auth } from "../../config/firebase";
-import { formatAddress } from "../../utils/utils";
+import { formatAddress } from "../../utils/format";
 import TanStackTable from "../TanStackTable";
 import ContentWrapper from "../dashboard/ContentWrapper";
 import CustomerDetailModal from "./CustomerDetailModal";

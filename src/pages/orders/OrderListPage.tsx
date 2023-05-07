@@ -9,7 +9,7 @@ import { ColumnDef } from "@tanstack/react-table";
 import { useContext, useMemo, useRef } from "react";
 import { FaEllipsisV } from "react-icons/fa";
 import { OrderListContext } from "../../App";
-import { formatDateTime, formatPayment } from "../../utils/utils";
+import { formatDateTime, formatPayment } from "../../utils/format";
 import TanStackTable from "../TanStackTable";
 import ContentWrapper from "../dashboard/ContentWrapper";
 import OrderDetailModal from "./OrderDetailModal";
@@ -79,7 +79,11 @@ function OrderListPage() {
         header: "Ditambahkan",
         accessorKey: "date",
         size: 25, // % of table width
-        accessorFn: (row) => formatDateTime(row[1].createdAt, true, true),
+        accessorFn: (row) =>
+          formatDateTime(row[1].createdAt, {
+            isIncludeTime: true,
+            isShortDate: true,
+          }),
         meta: {
           headerProps: {
             display: { base: "none", lg: "table-cell" },

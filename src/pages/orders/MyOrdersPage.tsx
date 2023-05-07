@@ -13,7 +13,7 @@ import { HiArrowLeft, HiPencilSquare } from "react-icons/hi2";
 import { useNavigate } from "react-router-dom";
 import { OrderListContext } from "../../App";
 import { auth } from "../../config/firebase";
-import { formatDateTime, formatPayment } from "../../utils/utils";
+import { formatDateTime, formatPayment } from "../../utils/format";
 import TanStackTable from "../TanStackTable";
 import ContentWrapper from "../dashboard/ContentWrapper";
 import OrderDetailModal from "./OrderDetailModal";
@@ -82,10 +82,14 @@ function MyOrdersPage() {
         },
       },
       {
-        header: "Tanggal",
+        header: "Ditambahkan",
         accessorKey: "date",
         size: 25, // % of table width
-        accessorFn: (row) => formatDateTime(row[1].createdAt, true, true),
+        accessorFn: (row) =>
+          formatDateTime(row[1].createdAt, {
+            isIncludeTime: true,
+            isShortDate: true,
+          }),
         meta: {
           headerProps: {
             display: { base: "none", lg: "table-cell" },

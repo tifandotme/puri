@@ -24,17 +24,6 @@ function useCustomerList(user?: User) {
     const customersRef = ref(database, "customers");
     const customersQuery = query(customersRef);
 
-    // const unsubscribe = onValue(
-    //   customersQuery,
-    //   (snapshot) => {
-    //     setCustomerList(snapshot.val());
-    //     setIsLoading(false);
-    //   },
-    //   (error) => {
-    //     console.error(error);
-    //   }
-    // );
-
     const unsubscribe = onValue(
       customersQuery,
       (snapshot) => {

@@ -15,7 +15,8 @@ import {
   Tr,
 } from "@chakra-ui/react";
 import { memo, useEffect, useState } from "react";
-import { formatAddress, getSalesName } from "../../utils/utils";
+import { getSalesName } from "../../utils/utils";
+import { formatAddress } from "../../utils/format";
 
 type CustomerDetailModalProps = {
   isOpen: boolean;

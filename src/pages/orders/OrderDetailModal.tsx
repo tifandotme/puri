@@ -17,7 +17,8 @@ import {
 } from "@chakra-ui/react";
 import { memo, useEffect, useState } from "react";
 import { FiArrowUpRight } from "react-icons/fi";
-import { formatDateTime, formatPayment, getSalesName } from "../../utils/utils";
+import { getSalesName } from "../../utils/utils";
+import { formatDateTime, formatPayment } from "../../utils/format";
 import productList from "./product-list";
 
 type OrderDetailModalProps = {
@@ -120,7 +121,8 @@ const OrderDetailModal = memo(function DM({
                 <Tr>
                   <Td>Tanggal Dibuat</Td>
                   <Td whiteSpace="normal">
-                    {order && formatDateTime(order.createdAt, true)}
+                    {order &&
+                      formatDateTime(order.createdAt, { isIncludeTime: true })}
                   </Td>
                 </Tr>
               </Tbody>

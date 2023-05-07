@@ -21,6 +21,7 @@ const inputMultiPart = defineStyleConfig({
     flushed: {
       field: {
         borderBottomWidth: "2px",
+        borderColor: "gray.400"
       },
     },
   },

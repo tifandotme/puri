@@ -24,7 +24,8 @@ import { BiPlus } from "react-icons/bi";
 import { GiCheckMark } from "react-icons/gi";
 import { useNavigate, useParams } from "react-router-dom";
 import { database } from "../../config/firebase";
-import { formatDateTime, getCustomerName } from "../../utils/utils";
+import { getCustomerName } from "../../utils/utils";
+import { formatDateTime } from "../../utils/format";
 import ContentWrapper from "../dashboard/ContentWrapper";
 import handleEditOrder from "./handle-edit-order";
 import productList from "./product-list";
@@ -108,7 +109,11 @@ function EditOrderPage() {
                   {order.customer}
                 </Heading>
                 <Text>
-                  Ditambahkan: {formatDateTime(order.createdAt, true, true)}
+                  Ditambahkan:{" "}
+                  {formatDateTime(order.createdAt, {
+                    isIncludeTime: true,
+                    isShortDate: true,
+                  })}
                 </Text>
                 <Divider w={{ base: "sm", lg: "full" }} pt="3" />
               </Stack>
