@@ -85,32 +85,65 @@ function EditCustomerPage() {
   const [chosenDistrict, setChosenDistrict] = useState("");
 
   const [villages, setVillages] = useState<Village[] | undefined>(undefined);
-  const [, setChosenVillage] = useState("");
-
-  useEffect(() => {
-    getRegenciesOfProvinceId("33").then((data) => {
-      setRegencies(data);
-    });
-    getDistrictsOfRegencyName(chosenRegency).then((data) => {
-      setDistricts(data);
-    });
-    getVillagesOfDistrictName(chosenDistrict).then((data) => {
-      setVillages(data);
-    });
-  }, []);
+  const [chosenVillage, setChosenVillage] = useState("");
 
   useEffect(() => {
     if (customer) {
-      setChosenRegency(customer.address.regency);
-      setChosenDistrict(customer.address.district);
-      setChosenVillage(customer.address.village);
+      const { regency, district, village } = customer.address;
+
+      setChosenRegency(regency);
+      setChosenDistrict(district);
+      setChosenVillage(village);
+
+      getDistrictsOfRegencyName(regency).then((data) => {
+        setDistricts(data);
+      });
+      getVillagesOfDistrictName(district).then((data) => {
+        setVillages(data);
+      });
+    } else {
+      // on component mount, pick Jawa Tengah as default province
+      getRegenciesOfProvinceId("33").then((data) => {
+        setRegencies(data);
+      });
     }
   }, [customer]);
 
-  console.log("customer", customer)
+  const handleRegencyChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const regency = e.target.value;
+
+    setChosenRegency(regency);
+    setChosenDistrict("");
+    setChosenVillage("");
+
+    getDistrictsOfRegencyName(regency).then((data) => {
+      setDistricts(data);
+    });
+  };
+
+  const handleDistrictChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const district = e.target.value;
+
+    setChosenDistrict(district);
+    setChosenVillage("");
+
+    getVillagesOfDistrictName(district).then((data) => {
+      setVillages(data);
+    });
+  };
+
+  const handleVillageChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const village = e.target.value;
+
+    setChosenVillage(village);
+  };
+
+  // TODO: onChange prevented the forms from being checked as dirty
+  console.log("customer", customer);
 
   console.log("dirtyFields", dirtyFields);
 
+  console.log("isDirty", isDirty);
   return (
     <ContentWrapper title="Edit Pelanggan">
       {customer ? (
@@ -216,7 +249,7 @@ function EditCustomerPage() {
                     {regencies && (
                       <Select
                         {...register("address.regency")}
-                        // onChange={(e) => setChosenRegency(e.target.value)}
+                        onChange={handleRegencyChange}
                         defaultValue={customer.address.regency}
                       >
                         {regencies.map((item) => (
@@ -238,10 +271,9 @@ function EditCustomerPage() {
                     </FormLabel>
                     {districts && (
                       <Select
-                        isDisabled={false}
                         {...register("address.district")}
-                        // onChange={(e) => setChosenDistrict(e.target.value)}
-                        // placeholder="—Kecamatan—"
+                        onChange={handleDistrictChange}
+                        placeholder="—"
                         defaultValue={customer.address.district}
                       >
                         {districts.map((item) => (
@@ -261,20 +293,21 @@ function EditCustomerPage() {
                     >
                       Kelurahan
                     </FormLabel>
-                    <Select
-                      // isDisabled={!chosenDistrict}
-                      {...register("address.village")}
-                      // onChange={(e) => setChosenVillage(e.target.value)}
-                      // placeholder="—Kelurahan—"
-                      defaultValue={customer.address.district}
-                    >
-                      {villages &&
-                        villages.map((item) => (
+                    {villages && (
+                      <Select
+                        isDisabled={!chosenDistrict}
+                        {...register("address.village")}
+                        onChange={handleVillageChange}
+                        placeholder="—"
+                        defaultValue={customer.address.village}
+                      >
+                        {villages.map((item) => (
                           <option key={item.id} value={item.name}>
                             {item.name}
                           </option>
                         ))}
-                    </Select>
+                      </Select>
+                    )}
                   </FormControl>
 
                   <FormControl>
@@ -286,9 +319,9 @@ function EditCustomerPage() {
                       Jalan
                     </FormLabel>
                     <Textarea
-                      // isDisabled={!chosenVillage}
                       placeholder="Nama Jalan (No. Rumah/Patokan)"
                       {...register("address.street")}
+                      defaultValue={customer.address.street}
                     />
                   </FormControl>
                 </Stack>
