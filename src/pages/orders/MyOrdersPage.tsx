@@ -125,7 +125,7 @@ function MyOrdersPage() {
                   selectedOrder.current = row.original[1];
                   onOpen();
                 }}
-                colorScheme="blue"
+                colorScheme="secondary"
               />
             </Tooltip>
           </ButtonGroup>

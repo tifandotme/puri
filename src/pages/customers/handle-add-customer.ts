@@ -2,7 +2,7 @@ import { useToast } from "@chakra-ui/react";
 import { push, ref, serverTimestamp, set } from "firebase/database";
 import { NavigateFunction } from "react-router-dom";
 import { auth, database } from "../../config/firebase";
-import { capitalizeWords } from "../../utils/utils";
+import { capitalizeWords } from "../../utils/misc";
 
 async function handleAddCustomer(
   data: AddCustomerForm,

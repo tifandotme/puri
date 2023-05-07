@@ -24,7 +24,7 @@ import { BiPlus } from "react-icons/bi";
 import { GiCheckMark } from "react-icons/gi";
 import { useNavigate, useParams } from "react-router-dom";
 import { database } from "../../config/firebase";
-import { getCustomerName } from "../../utils/utils";
+import { getCustomerName } from "../../utils/misc";
 import { formatDateTime } from "../../utils/format";
 import ContentWrapper from "../dashboard/ContentWrapper";
 import handleEditOrder from "./handle-edit-order";

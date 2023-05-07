@@ -1,7 +1,7 @@
 import { child, get, ref } from "firebase/database";
 import { useState } from "react";
 import { auth, database } from "../config/firebase";
-import { capitalizeWords } from "../utils/utils";
+import { capitalizeWords } from "../utils/misc";
 
 /**
  * Get the division of current logged-in user

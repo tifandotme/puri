@@ -17,7 +17,7 @@ import {
 } from "@chakra-ui/react";
 import { memo, useEffect, useState } from "react";
 import { FiArrowUpRight } from "react-icons/fi";
-import { getSalesName } from "../../utils/utils";
+import { getSalesName } from "../../utils/misc";
 import { formatDateTime, formatPayment } from "../../utils/format";
 import productList from "./product-list";
 

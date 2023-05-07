@@ -15,8 +15,8 @@ import {
   Tr,
 } from "@chakra-ui/react";
 import { memo, useEffect, useState } from "react";
-import { getSalesName } from "../../utils/utils";
-import { formatAddress } from "../../utils/format";
+import { getSalesName } from "../../utils/misc";
+import { formatAddress, formatDateTime } from "../../utils/format";
 
 type CustomerDetailModalProps = {
   isOpen: boolean;
@@ -100,7 +100,9 @@ const CustomerDetailModal = memo(function DM({
                   <Td>Tanggal Dibuat</Td>
                   <Td whiteSpace="normal">
                     {customer &&
-                      new Date(customer.createdAt).toLocaleDateString("en-GB")}
+                      formatDateTime(customer.createdAt, {
+                        isIncludeTime: true,
+                      })}
                   </Td>
                 </Tr>
               </Tbody>

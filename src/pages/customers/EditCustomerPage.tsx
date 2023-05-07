@@ -58,7 +58,7 @@ function EditCustomerPage() {
 
   const handleDeleteCustomer = async () => {
     await remove(ref(database, `customers/${id}`));
-    
+
     toast({
       title: "Pelanggan berhasil dihapus",
       status: "success",
@@ -107,7 +107,9 @@ function EditCustomerPage() {
     }
   }, [customer]);
 
-  console.log(dirtyFields);
+  console.log("customer", customer)
+
+  console.log("dirtyFields", dirtyFields);
 
   return (
     <ContentWrapper title="Edit Pelanggan">

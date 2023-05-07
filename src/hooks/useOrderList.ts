@@ -2,7 +2,7 @@ import { User } from "firebase/auth";
 import { onValue, query, ref } from "firebase/database";
 import { useEffect, useState } from "react";
 import { database } from "../config/firebase";
-import { getCustomerName } from "../utils/utils";
+import { getCustomerName } from "../utils/misc";
 
 /**
  * Get the list of orders from the database. This will only run when the user

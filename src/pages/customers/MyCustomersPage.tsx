@@ -87,7 +87,7 @@ function MyCustomersPage() {
                   selectedCustomer.current = row.original[1];
                   onOpen();
                 }}
-                colorScheme="blue"
+                colorScheme="secondary"
               />
             </Tooltip>
           </ButtonGroup>
