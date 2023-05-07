@@ -9,11 +9,14 @@ import { ColumnDef } from "@tanstack/react-table";
 import { useContext, useMemo, useRef } from "react";
 import { FaEllipsisV } from "react-icons/fa";
 import { OrderListContext } from "../../App";
-import { formatDateTime, formatPayment } from "../../utils/format";
+import {
+  formatDateTime,
+  formatPayment,
+  formatQtyProduct,
+} from "../../utils/format";
 import TanStackTable from "../TanStackTable";
 import ContentWrapper from "../dashboard/ContentWrapper";
 import OrderDetailModal from "./OrderDetailModal";
-import productList from "./product-list";
 
 function OrderListPage() {
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -39,16 +42,7 @@ function OrderListPage() {
         header: "Barang",
         accessorKey: "product",
         size: 25, // % of table width
-        accessorFn: (row) => {
-          const { base, bonus } = row[1].qty;
-          const product = productList[row[1].product];
-          let qty = `${base}`;
-          if (bonus) qty += `+${bonus}`;
-
-          return (
-            qty + " " + product.slice(product.indexOf(" "), product.length)
-          );
-        },
+        accessorFn: (row) => formatQtyProduct(row[1].qty, row[1].product),
         meta: {
           bodyProps: { whiteSpace: "normal" },
         },
@@ -57,13 +51,8 @@ function OrderListPage() {
         header: "Pembayaran",
         accessorKey: "payment",
         size: 25, // % of table width
-        accessorFn: (row) => {
-          if (row[1].payment) {
-            return formatPayment(row[1].payment);
-          } else {
-            return " ";
-          }
-        },
+        accessorFn: (row) =>
+          row[1].payment ? formatPayment(row[1].payment) : "",
         meta: {
           headerProps: {
             display: { base: "none", lg: "table-cell" },

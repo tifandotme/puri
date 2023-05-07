@@ -39,6 +39,12 @@ async function handleAddOrder(
 
     await set(push(ref(database, "orders")), order);
 
+    toast({
+      title: "Pesanaan berhasil ditambahkan",
+      status: "success",
+      duration: 3000,
+    });
+
     navigate("/orders");
   } catch (error: unknown) {
     if (error instanceof Error) {

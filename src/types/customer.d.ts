@@ -35,13 +35,16 @@ type Customer<TDate extends object = number> = {
 };
 
 /**
- * Type for react-hook-form's useForm() as FieldValues
+ * Type for react-hook-form's useForm() as FieldValues on Add Customer Page
  */
 type AddCustomerForm = Omit<
   { prefixName: string } & Customer,
   "createdAt" | "sales"
 >;
 
+/**
+ * Type for react-hook-form's useForm() as FieldValues on Edit Customer Page
+ */
 type EditCustomerForm = Omit<Customer, "type" | "createdAt" | "sales">;
 
 type CustomerList = Record<string, Customer & { salesName: string }>;

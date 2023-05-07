@@ -60,7 +60,7 @@ function SidebarPanel({ onClose, ...props }: SPProps) {
                 mx="4"
                 p="4"
                 _hover={{
-                  bg: "secondary.500",
+                  bg: "linear-gradient(180deg,hsl(203deg 40% 45%) 0%,hsl(203deg 35% 50%) 50%,hsl(203deg 39% 56%) 100%)",
                   color: "white",
                 }}
                 transition="all 0.1s"

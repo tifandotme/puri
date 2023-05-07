@@ -13,11 +13,14 @@ import { HiArrowLeft, HiPencilSquare } from "react-icons/hi2";
 import { useNavigate } from "react-router-dom";
 import { OrderListContext } from "../../App";
 import { auth } from "../../config/firebase";
-import { formatDateTime, formatPayment } from "../../utils/format";
+import {
+  formatDateTime,
+  formatPayment,
+  formatQtyProduct,
+} from "../../utils/format";
 import TanStackTable from "../TanStackTable";
 import ContentWrapper from "../dashboard/ContentWrapper";
 import OrderDetailModal from "./OrderDetailModal";
-import productList from "./product-list";
 
 function MyOrdersPage() {
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -45,16 +48,7 @@ function MyOrdersPage() {
         header: "Barang",
         accessorKey: "product",
         size: 25, // % of table width
-        accessorFn: (row) => {
-          const { base, bonus } = row[1].qty;
-          const product = productList[row[1].product];
-          let qty = `${base}`;
-          if (bonus) qty += `+${bonus}`;
-
-          return (
-            qty + " " + product.slice(product.indexOf(" "), product.length)
-          );
-        },
+        accessorFn: (row) => formatQtyProduct(row[1].qty, row[1].product),
         meta: {
           bodyProps: { whiteSpace: "normal" },
         },

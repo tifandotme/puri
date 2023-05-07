@@ -58,11 +58,11 @@ function EditCustomerPage() {
 
   const handleDeleteCustomer = async () => {
     await remove(ref(database, `customers/${id}`));
+    
     toast({
       title: "Pelanggan berhasil dihapus",
       status: "success",
-      duration: 5000,
-      isClosable: true,
+      duration: 3000,
     });
 
     navigate("/customers/my-customers");

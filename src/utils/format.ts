@@ -27,7 +27,7 @@ function formatPayment(payment: Payment): string {
 }
 
 /**
- * Format epoch time (ms) into date and time string.
+ * Format epoch time (ms) into a date and time string.
  *
  * @param epoch Epoch time in milliseconds.
  * @param isIncludeTime Whether to include time in the string.

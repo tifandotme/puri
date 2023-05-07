@@ -59,12 +59,13 @@ function EditOrderPage() {
 
   const handleDeleteOrder = async () => {
     await remove(ref(database, `orders/${id}`));
+
     toast({
       title: "Pesanaan berhasil dihapus",
       status: "success",
-      duration: 5000,
-      isClosable: true,
+      duration: 3000,
     });
+    
     navigate("/orders/my-orders");
   };
 
@@ -283,6 +284,7 @@ function EditOrderPage() {
                 <Button
                   colorScheme="red"
                   w="full"
+                  variant="outline"
                   maxW={{ base: "sm", lg: "24" }}
                   onClick={handleDeleteOrder}
                 >

@@ -39,6 +39,12 @@ async function handleAddCustomer(
 
     await set(push(ref(database, "customers")), customer);
 
+    toast({
+      title: "Pelanggan berhasil ditambahkan",
+      status: "success",
+      duration: 3000,
+    });
+
     navigate("/customers");
   } catch (error: unknown) {
     if (error instanceof Error) {
