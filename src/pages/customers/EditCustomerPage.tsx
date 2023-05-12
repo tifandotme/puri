@@ -38,6 +38,7 @@ function EditCustomerPage() {
 
   const {
     register,
+    watch,
     handleSubmit,
     formState: { isSubmitting, dirtyFields, isDirty },
   } = useForm<EditCustomerForm>({
@@ -109,41 +110,45 @@ function EditCustomerPage() {
     }
   }, [customer]);
 
-  const handleRegencyChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    const regency = e.target.value;
-
-    setChosenRegency(regency);
-    setChosenDistrict("");
-    setChosenVillage("");
-
-    getDistrictsOfRegencyName(regency).then((data) => {
-      setDistricts(data);
-    });
-  };
-
-  const handleDistrictChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    const district = e.target.value;
-
-    setChosenDistrict(district);
-    setChosenVillage("");
-
-    getVillagesOfDistrictName(district).then((data) => {
-      setVillages(data);
-    });
-  };
-
-  const handleVillageChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    const village = e.target.value;
-
-    setChosenVillage(village);
-  };
-
-  // TODO: onChange prevented the forms from being checked as dirty
   console.log("customer", customer);
 
   console.log("dirtyFields", dirtyFields);
 
   console.log("isDirty", isDirty);
+
+  useEffect(() => {
+    const subscribe = watch((value, { name, type }) => {
+      if (!value.address && type !== "change") return;
+
+      const { regency, district, village } = value.address as CustomerAddress;
+
+      switch (name) {
+        case "address.regency":
+          setChosenRegency(regency);
+          setChosenDistrict("");
+          setChosenVillage("");
+
+          getDistrictsOfRegencyName(regency).then((data) => {
+            setDistricts(data);
+          });
+          break;
+        case "address.district":
+          setChosenDistrict(district);
+          setChosenVillage("");
+
+          getVillagesOfDistrictName(district).then((data) => {
+            setVillages(data);
+          });
+          break;
+        case "address.village":
+          setChosenVillage(village);
+          break;
+      }
+    });
+
+    return () => subscribe.unsubscribe();
+  }, [watch]);
+
   return (
     <ContentWrapper title="Edit Pelanggan">
       {customer ? (
@@ -249,7 +254,6 @@ function EditCustomerPage() {
                     {regencies && (
                       <Select
                         {...register("address.regency")}
-                        onChange={handleRegencyChange}
                         defaultValue={customer.address.regency}
                       >
                         {regencies.map((item) => (
@@ -272,7 +276,6 @@ function EditCustomerPage() {
                     {districts && (
                       <Select
                         {...register("address.district")}
-                        onChange={handleDistrictChange}
                         placeholder="—"
                         defaultValue={customer.address.district}
                       >
@@ -297,7 +300,6 @@ function EditCustomerPage() {
                       <Select
                         isDisabled={!chosenDistrict}
                         {...register("address.village")}
-                        onChange={handleVillageChange}
                         placeholder="—"
                         defaultValue={customer.address.village}
                       >
