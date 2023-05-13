@@ -28,13 +28,25 @@ import {
 import { database } from "../../config/firebase";
 import { formatDateTime } from "../../utils/format";
 import ContentWrapper from "../dashboard/ContentWrapper";
+import { handleEditCustomer } from "./handle-customer";
 
 function EditCustomerPage() {
-  const [customer, setCustomer] = useState<Customer | undefined>(undefined);
-
-  const toast = useToast();
+  const toast = useToast({
+    duration: 3000,
+  });
   const navigate = useNavigate();
+
+  const [customer, setCustomer] = useState<Customer | undefined>(undefined);
   const { id } = useParams();
+  useEffect(() => {
+    if (!id) return;
+
+    get(child(ref(database, "customers"), id)).then((snapshot) => {
+      if (snapshot.exists()) {
+        setCustomer(snapshot.val());
+      }
+    });
+  }, [id]);
 
   const {
     register,
@@ -45,56 +57,17 @@ function EditCustomerPage() {
     defaultValues: customer,
   });
 
-  const onSubmit = handleSubmit((data) => {
-    for (const field in data) {
-      if (!(field in dirtyFields)) {
-        delete data[field as keyof EditCustomerForm];
-      }
-    }
-
-    // handleEditCustomer(data, id, navigate, toast);
-
-    console.log("submitted data", data);
-  });
-
-  const handleDeleteCustomer = async () => {
-    await remove(ref(database, `customers/${id}`));
-
-    toast({
-      title: "Pelanggan berhasil dihapus",
-      status: "success",
-      duration: 3000,
-    });
-
-    navigate("/customers/my-customers");
-  };
-
-  useEffect(() => {
-    if (id) {
-      get(child(ref(database, "customers"), id)).then((snapshot) => {
-        if (snapshot.exists()) {
-          setCustomer(snapshot.val());
-        }
-      });
-    }
-  }, [id]);
-
   const [regencies, setRegencies] = useState<Regency[] | undefined>(undefined);
-  const [chosenRegency, setChosenRegency] = useState("");
-
   const [districts, setDistricts] = useState<District[] | undefined>(undefined);
-  const [chosenDistrict, setChosenDistrict] = useState("");
-
   const [villages, setVillages] = useState<Village[] | undefined>(undefined);
-  const [chosenVillage, setChosenVillage] = useState("");
+
+  const [chosenDistrict, setChosenDistrict] = useState("");
 
   useEffect(() => {
     if (customer) {
-      const { regency, district, village } = customer.address;
+      const { regency, district } = customer.address;
 
-      setChosenRegency(regency);
       setChosenDistrict(district);
-      setChosenVillage(village);
 
       getDistrictsOfRegencyName(regency).then((data) => {
         setDistricts(data);
@@ -110,23 +83,15 @@ function EditCustomerPage() {
     }
   }, [customer]);
 
-  console.log("customer", customer);
-
-  console.log("dirtyFields", dirtyFields);
-
-  console.log("isDirty", isDirty);
-
   useEffect(() => {
     const subscribe = watch((value, { name, type }) => {
       if (!value.address && type !== "change") return;
 
-      const { regency, district, village } = value.address as CustomerAddress;
+      const { regency, district } = value.address as CustomerAddress;
 
       switch (name) {
         case "address.regency":
-          setChosenRegency(regency);
           setChosenDistrict("");
-          setChosenVillage("");
 
           getDistrictsOfRegencyName(regency).then((data) => {
             setDistricts(data);
@@ -134,20 +99,37 @@ function EditCustomerPage() {
           break;
         case "address.district":
           setChosenDistrict(district);
-          setChosenVillage("");
 
           getVillagesOfDistrictName(district).then((data) => {
             setVillages(data);
           });
-          break;
-        case "address.village":
-          setChosenVillage(village);
           break;
       }
     });
 
     return () => subscribe.unsubscribe();
   }, [watch]);
+
+  const onSubmit = handleSubmit((data) => {
+    for (const field in data) {
+      if (!(field in dirtyFields)) {
+        delete data[field as keyof EditCustomerForm];
+      }
+    }
+
+    handleEditCustomer(data, id, navigate, toast);
+  });
+
+  const handleDeleteCustomer = async () => {
+    await remove(ref(database, `customers/${id}`));
+
+    toast({
+      title: "Pelanggan berhasil dihapus",
+      status: "success",
+    });
+
+    navigate("/customers/my-customers");
+  };
 
   return (
     <ContentWrapper title="Edit Pelanggan">
@@ -205,6 +187,7 @@ function EditCustomerPage() {
                       {customer.type === "perusahaan" ? "No NPWP" : "No KTP"}
                     </FormLabel>
                     <Input
+                      isRequired
                       type="number"
                       defaultValue={customer.id}
                       {...register("id", { valueAsNumber: true })}
@@ -218,7 +201,10 @@ function EditCustomerPage() {
                       Telp
                     </FormLabel>
                     <Input
+                      isRequired
                       type="tel"
+                      pattern="[0-9]{5,15}"
+                      placeholder="081234567890"
                       defaultValue={customer.phone}
                       {...register("phone", {
                         valueAsNumber: true,
@@ -233,7 +219,10 @@ function EditCustomerPage() {
                       Telp 2
                     </FormLabel>
                     <Input
+                      isRequired={Boolean(customer.phone2)}
                       type="tel"
+                      pattern="[0-9]{5,15}"
+                      placeholder="081234567890"
                       defaultValue={customer.phone2}
                       {...register("phone2", {
                         valueAsNumber: true,
@@ -253,6 +242,7 @@ function EditCustomerPage() {
                     </FormLabel>
                     {regencies && (
                       <Select
+                        isRequired
                         {...register("address.regency")}
                         defaultValue={customer.address.regency}
                       >
@@ -275,6 +265,7 @@ function EditCustomerPage() {
                     </FormLabel>
                     {districts && (
                       <Select
+                        isRequired
                         {...register("address.district")}
                         placeholder="—"
                         defaultValue={customer.address.district}
@@ -298,6 +289,7 @@ function EditCustomerPage() {
                     </FormLabel>
                     {villages && (
                       <Select
+                        isRequired
                         isDisabled={!chosenDistrict}
                         {...register("address.village")}
                         placeholder="—"

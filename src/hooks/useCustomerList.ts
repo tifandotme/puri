@@ -2,7 +2,7 @@ import { User } from "firebase/auth";
 import { onValue, query, ref } from "firebase/database";
 import { useEffect, useState } from "react";
 import { database } from "../config/firebase";
-import { getSalesName } from "../utils/misc";
+import { getFullName } from "../utils/misc";
 
 /**
  * Get the list of customers from the database. This will only run when the user
@@ -34,7 +34,7 @@ function useCustomerList(user?: User) {
           for (const key in customers) {
             const salesUid = customers[key].sales;
 
-            const promise = getSalesName(salesUid).then((name) => {
+            const promise = getFullName(salesUid).then((name) => {
               customers[key].salesName = name;
             });
 

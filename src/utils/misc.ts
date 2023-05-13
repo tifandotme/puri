@@ -23,14 +23,14 @@ async function getCustomerName(customerUid: string): Promise<string> {
 }
 
 /**
- * Convert sales uid to sales name
+ * Convert user uid to full name
  */
-async function getSalesName(salesUid: string): Promise<string> {
-  const snapshot = await get(child(ref(database, "users"), `${salesUid}`));
+async function getFullName(uid: string): Promise<string> {
+  const snapshot = await get(child(ref(database, "users"), `${uid}`));
 
   const { firstName, lastName } = snapshot.val();
 
   return `${firstName} ${lastName}`;
 }
 
-export { capitalizeWords, getCustomerName, getSalesName };
+export { capitalizeWords, getCustomerName, getFullName };

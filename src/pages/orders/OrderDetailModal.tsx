@@ -17,7 +17,7 @@ import {
 } from "@chakra-ui/react";
 import { memo, useEffect, useState } from "react";
 import { FiArrowUpRight } from "react-icons/fi";
-import { getSalesName } from "../../utils/misc";
+import { getFullName } from "../../utils/misc";
 import { formatDateTime, formatPayment } from "../../utils/format";
 import productList from "./product-list";
 
@@ -39,7 +39,7 @@ const OrderDetailModal = memo(function DM({
 
   useEffect(() => {
     if (order) {
-      getSalesName(order.sales).then((name) => setSales(name));
+      getFullName(order.sales).then((name) => setSales(name));
     }
   }, [order]);
 

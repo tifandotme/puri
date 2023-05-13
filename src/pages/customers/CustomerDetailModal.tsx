@@ -15,7 +15,7 @@ import {
   Tr,
 } from "@chakra-ui/react";
 import { memo, useEffect, useState } from "react";
-import { getSalesName } from "../../utils/misc";
+import { getFullName } from "../../utils/misc";
 import { formatAddress, formatDateTime } from "../../utils/format";
 
 type CustomerDetailModalProps = {
@@ -36,7 +36,7 @@ const CustomerDetailModal = memo(function DM({
 
   useEffect(() => {
     if (customer) {
-      getSalesName(customer.sales).then((name) => setSales(name));
+      getFullName(customer.sales).then((name) => setSales(name));
     }
   }, [customer]);
 
