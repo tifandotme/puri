@@ -1,5 +1,12 @@
 import { useToast } from "@chakra-ui/react";
-import { push, ref, serverTimestamp, set } from "firebase/database";
+import {
+  child,
+  push,
+  ref,
+  serverTimestamp,
+  set,
+  update,
+} from "firebase/database";
 import { NavigateFunction } from "react-router-dom";
 import { auth, database } from "../../config/firebase";
 import { capitalizeWords } from "../../utils/misc";
@@ -33,7 +40,7 @@ async function handleAddCustomer(
     //   address,
     //   type,
     //   createdAt: serverTimestamp(),
-    //   
+    //
     //   sales: auth.currentUser!.uid,
     // };
 
@@ -42,7 +49,6 @@ async function handleAddCustomer(
     toast({
       title: "Pelanggan berhasil ditambahkan",
       status: "success",
-      duration: 3000,
     });
 
     navigate("/customers");
@@ -51,10 +57,34 @@ async function handleAddCustomer(
       toast({
         title: error.message,
         status: "error",
-        duration: 5000,
       });
     }
   }
 }
 
-export default handleAddCustomer;
+async function handleEditCustomer(
+  data: EditCustomerForm,
+  id: string | undefined,
+  navigate: NavigateFunction,
+  toast: ReturnType<typeof useToast>
+) {
+  try {
+    await update(child(ref(database, "customers"), `${id}`), data);
+
+    toast({
+      title: "Pelanggan berhasil diubah",
+      status: "success",
+    });
+
+    navigate("/customers");
+  } catch (error: unknown) {
+    if (error instanceof Error) {
+      toast({
+        title: error.message,
+        status: "error",
+      });
+    }
+  }
+}
+
+export { handleAddCustomer, handleEditCustomer };
