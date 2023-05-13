@@ -16,28 +16,33 @@ import {
   Text,
   Tooltip,
   VStack,
+  useDisclosure,
 } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import {
   HiArrowRightOnRectangle,
   HiBars3,
   HiChevronDown,
-  HiOutlineCog6Tooth,
   HiOutlineUserCircle,
 } from "react-icons/hi2";
+import { Link } from "react-router-dom";
 import logo from "../../assets/logo.png";
 import { auth } from "../../config/firebase";
 import useDivision from "../../hooks/useDivision";
 import useTopValue from "../../hooks/useTopValue";
 import { handleSignOut } from "../auths/handle-auths";
-import { Link } from "react-router-dom";
+import EditProfileModal from "./EditProfileModal";
+import { User } from "firebase/auth";
 
 type HPProps = {
   onOpen: () => void;
+  user: User;
   [key: string]: any;
 };
 
-function HeaderPanel({ onOpen, ...props }: HPProps) {
+function HeaderPanel({ onOpen, user, ...props }: HPProps) {
+  const { isOpen, onOpen: onOpenProfile, onClose } = useDisclosure();
+
   // custom hooks
   const division = useDivision();
   const topValue = useTopValue(16, "md");
@@ -172,12 +177,15 @@ function HeaderPanel({ onOpen, ...props }: HPProps) {
                 </Text>
               )}
             </VStack>
-            <MenuItem icon={<HiOutlineUserCircle size={18} />}>
+            <MenuItem
+              onClick={onOpenProfile}
+              icon={<HiOutlineUserCircle size={18} />}
+            >
               Edit Profile
             </MenuItem>
-            <MenuItem icon={<HiOutlineCog6Tooth size={18} />}>
+            {/* <MenuItem icon={<HiOutlineCog6Tooth size={18} />}>
               Settings
-            </MenuItem>
+            </MenuItem> */}
             <MenuDivider />
             <MenuItem
               color="red.600"
@@ -189,6 +197,8 @@ function HeaderPanel({ onOpen, ...props }: HPProps) {
           </MenuList>
         </Menu>
       </Flex>
+
+      <EditProfileModal isOpen={isOpen} onClose={onClose} authUser={user}/>
     </Box>
   );
 }

@@ -32,7 +32,7 @@ function PanelContainer({ user, isLoading }: MCProps) {
         zIndex="3"
         display={{ base: "none", md: "block" }}
       />
-      <HeaderPanel onOpen={onOpen} zIndex="3" />
+      <HeaderPanel onOpen={onOpen} user={user} zIndex="3" />
       <Drawer
         placement="left"
         returnFocusOnClose={false}
