@@ -21,7 +21,7 @@ function CustomerListPage() {
 
   const { customerList, isLoading } = useContext(CustomerListContext);
 
-  // added salesName from the conversion in useCustomerList
+  // added salesName from the uid to full name conversion in useCustomerList
   const columns = useMemo<
     ColumnDef<[string, Customer & { salesName: string }], any>[]
   >(

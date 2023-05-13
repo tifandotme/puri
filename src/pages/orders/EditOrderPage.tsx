@@ -22,21 +22,36 @@ import { memo, useEffect, useRef, useState } from "react";
 import { FieldValues, UseFormUnregister, useForm } from "react-hook-form";
 import { BiPlus } from "react-icons/bi";
 import { GiCheckMark } from "react-icons/gi";
+import { HiArrowLeft } from "react-icons/hi2";
 import { useNavigate, useParams } from "react-router-dom";
 import { database } from "../../config/firebase";
-import { getCustomerName } from "../../utils/misc";
 import { formatDateTime } from "../../utils/format";
+import { getCustomerName } from "../../utils/misc";
 import ContentWrapper from "../dashboard/ContentWrapper";
-import handleEditOrder from "./handle-edit-order";
+import { handleEditOrder } from "./handle-order";
 import productList from "./product-list";
-import { HiArrowLeft } from "react-icons/hi2";
 
 function EditOrderPage() {
-  const [order, setOrder] = useState<Order | undefined>(undefined);
-
-  const toast = useToast();
+  const toast = useToast({
+    duration: 3000,
+  });
   const navigate = useNavigate();
+
+  const [order, setOrder] = useState<Order | undefined>(undefined);
   const { id } = useParams();
+  useEffect(() => {
+    if (!id) return;
+
+    get(child(ref(database, "orders"), id)).then(async (snapshot) => {
+      if (snapshot.exists()) {
+        const order: Order = snapshot.val();
+        const customerUid = order.customer;
+
+        order.customer = await getCustomerName(customerUid);
+        setOrder(order);
+      }
+    });
+  }, [id]);
 
   const {
     register,
@@ -63,25 +78,10 @@ function EditOrderPage() {
     toast({
       title: "Pesanaan berhasil dihapus",
       status: "success",
-      duration: 3000,
     });
-    
+
     navigate("/orders/my-orders");
   };
-
-  useEffect(() => {
-    if (id) {
-      get(child(ref(database, "orders"), id)).then(async (snapshot) => {
-        if (snapshot.exists()) {
-          const order: Order = snapshot.val();
-          const customerUid = order.customer;
-
-          order.customer = await getCustomerName(customerUid);
-          setOrder(order);
-        }
-      });
-    }
-  }, [id]);
 
   return (
     <ContentWrapper title="Edit Pesanan">

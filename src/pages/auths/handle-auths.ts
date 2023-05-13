@@ -48,7 +48,6 @@ async function handleSignUp(
             ? "Email sudah terdaftar"
             : error.code,
         status: "error",
-        duration: 3000,
       });
     }
   }
@@ -75,7 +74,6 @@ async function handleSignIn(
             ? "Password salah"
             : error.message,
         status: "error",
-        duration: 3000,
       });
     }
   }
@@ -93,7 +91,6 @@ async function handleForgotPassword(
     toast({
       title: "Email reset password telah dikirim",
       status: "success",
-      duration: 3000,
     });
   } catch (error: unknown) {
     if (error instanceof FirebaseError) {
@@ -103,7 +100,6 @@ async function handleForgotPassword(
             ? "Email tidak valid"
             : error.code,
         status: "error",
-        duration: 3000,
       });
     }
   }

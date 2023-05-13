@@ -22,7 +22,7 @@ import { GiCheckMark } from "react-icons/gi";
 import { useNavigate } from "react-router-dom";
 import ContentWrapper from "../dashboard/ContentWrapper";
 import CustomerNameSelect from "./CustomerNameSelect";
-import handleAddOrder from "./handle-add-order";
+import { handleAddOrder } from "./handle-order";
 import productList from "./product-list";
 
 function AddOrderPage() {

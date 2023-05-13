@@ -17,7 +17,9 @@ import { EmailField, PasswordField } from "./AuthFields";
 import { handleSignUp } from "./handle-auths";
 
 function SignUp() {
-  const toast = useToast();
+  const toast = useToast({
+    duration: 3000
+  });
 
   const navigate = useNavigate();
 

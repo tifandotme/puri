@@ -22,7 +22,7 @@ import {
 } from "territory-indonesia";
 import ContentWrapper from "../dashboard/ContentWrapper";
 import CustomerTypeRadio from "./CustomerTypeRadio";
-import handleAddCustomer from "./handle-add-customer";
+import { handleAddCustomer } from "./handle-customer";
 
 function AddCustomerPage() {
   const toast = useToast();
@@ -149,8 +149,9 @@ function AddCustomerPage() {
               <FormControl isRequired>
                 <FormLabel>Telp</FormLabel>
                 <Input
-                  placeholder="081122223333"
                   type="tel"
+                  pattern="[0-9]{5,15}"
+                  placeholder="081234567890"
                   {...register("phone", {
                     required: true,
                     valueAsNumber: true,
@@ -160,8 +161,9 @@ function AddCustomerPage() {
               <FormControl>
                 <FormLabel>Telp 2 (Opsional)</FormLabel>
                 <Input
-                  placeholder="081122223333"
                   type="tel"
+                  pattern="[0-9]{5,15}"
+                  placeholder="081234567890"
                   {...register("phone2", {
                     required: false,
                     valueAsNumber: true,
