@@ -61,7 +61,6 @@ function RadioCard(
   const input = getInputProps();
   const radio = getRadioProps();
 
-  // TODO: learn more about position: relative and position: absolute in a separate project
   return (
     <Box as="label">
       <input {...input} />

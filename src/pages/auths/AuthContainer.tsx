@@ -24,9 +24,6 @@ function AuthContainer({ user, isLoading, currentPath }: ACProps) {
     window.scrollTo(0, 0);
   }
 
-  // TODO: add gradient effect logo?
-  // TODO: add shadow to logo? https://box-shadow.dev/
-
   if (isLoading) return <FullscreenLoading />;
 
   if (user) return <Navigate to="/" replace />;

@@ -10,8 +10,6 @@ import HeaderPanel from "./HeaderPanel";
 // TODO: include isAllowed prop to check if user is allowed to access the routes
 // https://www.robinwieruch.de/react-router-private-routes/
 
-// TODO: add dark mode?
-
 type MCProps = {
   user: User | undefined;
   isLoading: boolean;
