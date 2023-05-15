@@ -1,16 +1,17 @@
-import { User } from "firebase/auth";
+import { User as UserAuth } from "firebase/auth";
 import { useEffect, useState } from "react";
 import { auth } from "../config/firebase";
 
 /**
- * Get the current logged-in user. This will only run once when the app is
- * mounted.
+ * Get the current logged-in user from Firebase Auth (Not Firebase Database!).
+ * 
+ * This will only run once when App is mounted.
  *
  * @returns user and isLoading flag which then can be used to
  * trigger a page loading screen.
  */
-function useUser() {
-  const [user, setUser] = useState<User | undefined>(undefined);
+function useUserAuth() {
+  const [user, setUser] = useState<UserAuth | undefined>(undefined);
   const [isLoading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -25,4 +26,4 @@ function useUser() {
   return { user, isLoading };
 }
 
-export default useUser;
+export default useUserAuth;
