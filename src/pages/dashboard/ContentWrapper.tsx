@@ -50,7 +50,7 @@ function ContentWrapper({ title, button, children }: CWProps) {
           gap={5}
           minH={10}
         >
-          <Heading fontSize="2xl" fontWeight="500" my="auto">
+          <Heading fontSize="2xl" fontWeight="600" my="auto">
             {title}
           </Heading>
           {button && (

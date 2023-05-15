@@ -77,7 +77,7 @@ export default function customTheme(path: string, isPageLoading: boolean) {
   return extendTheme({
     fonts: {
       body: "InterVariable, sans-serif",
-      heading: "InterVariable, sans-serif",
+      heading: "RalewayVariable, sans-serif",
     },
     components: {
       Textarea: inputSinglePart,
