@@ -13,7 +13,7 @@ import {
   Text,
   useToast,
 } from "@chakra-ui/react";
-import { User as AuthUser, updateProfile } from "firebase/auth";
+import { User as UserAuth, updateProfile } from "firebase/auth";
 import { child, get, ref, update } from "firebase/database";
 import { memo, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
@@ -23,7 +23,7 @@ import { capitalizeWords } from "../../utils/misc";
 type EditProfileModalProps = {
   isOpen: boolean;
   onClose: () => void;
-  authUser: AuthUser;
+  userAuth: UserAuth;
 };
 
 /**
@@ -32,7 +32,7 @@ type EditProfileModalProps = {
 const EditProfileModal = memo(function DM({
   isOpen,
   onClose,
-  authUser,
+  userAuth,
 }: EditProfileModalProps) {
   const toast = useToast({
     duration: 3000,
@@ -42,10 +42,10 @@ const EditProfileModal = memo(function DM({
   useEffect(() => {
     if (isOpen) return;
 
-    get(child(ref(database, "users"), `${authUser.uid}`)).then((snapshot) => {
+    get(child(ref(database, "users"), `${userAuth.uid}`)).then((snapshot) => {
       setUser(snapshot.val() as User);
     });
-  }, [authUser, isOpen]);
+  }, [userAuth, isOpen]);
 
   const {
     register,
@@ -66,8 +66,8 @@ const EditProfileModal = memo(function DM({
   }, [isOpen]);
 
   const onSubmit = handleSubmit(async (data) => {
-    await update(child(ref(database, "users"), `${authUser.uid}`), data);
-    await updateProfile(authUser, {
+    await update(child(ref(database, "users"), `${userAuth.uid}`), data);
+    await updateProfile(userAuth, {
       displayName: `${data.firstName} ${data.lastName}`,
     });
 
@@ -88,10 +88,10 @@ const EditProfileModal = memo(function DM({
           <ModalBody>
             <Stack w="full" px="6">
               <Text>
-                Halo, <strong>{authUser.displayName}</strong>!
+                Halo, <strong>{userAuth.displayName}</strong>!
                 <br />
                 <br />
-                Email Anda: <strong>{authUser.email}</strong> <br />
+                Email Anda: <strong>{userAuth.email}</strong> <br />
                 Divisi Anda:{" "}
                 <strong>{user && capitalizeWords(user.division)}</strong>
                 <br />

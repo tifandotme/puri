@@ -198,7 +198,7 @@ function HeaderPanel({ onOpen, user, ...props }: HPProps) {
         </Menu>
       </Flex>
 
-      <EditProfileModal isOpen={isOpen} onClose={onClose} authUser={user}/>
+      <EditProfileModal isOpen={isOpen} onClose={onClose} userAuth={user}/>
     </Box>
   );
 }
