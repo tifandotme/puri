@@ -10,6 +10,9 @@ dependencies:
   '@emotion/styled':
     specifier: ^11.11.0
     version: 11.11.0(@emotion/react@11.11.0)(@types/react@18.2.6)(react@18.2.0)
+  '@fontsource/hind':
+    specifier: ^4.5.10
+    version: 4.5.10
   '@fontsource/inter':
     specifier: ^4.5.15
     version: 4.5.15
@@ -2049,6 +2052,10 @@ packages:
     resolution: {integrity: sha512-DyqylONj1ZaBnzj+uBnVfzdjjCkFCL2aA9ESHLyUOGSqb03RpbLMImP1ekIQXYs4KLk9jAjJfZAU8hXfWSahEg==}
     dependencies:
       '@floating-ui/core': 1.2.6
+    dev: false
+
+  /@fontsource/hind@4.5.10:
+    resolution: {integrity: sha512-O9/9Ts+vqiPTvkRrNJMlnKA672v+iv4LirqALFMPnLsBIXW5ay4sBkLOSifhOkKq+dOg4T7WoA0SIl2RK5Lnew==}
     dev: false
 
   /@fontsource/inter@4.5.15:

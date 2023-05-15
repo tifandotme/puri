@@ -12,6 +12,7 @@
     "@chakra-ui/react": "^2.6.1",
     "@emotion/react": "^11.11.0",
     "@emotion/styled": "^11.11.0",
+    "@fontsource/hind": "^4.5.10",
     "@fontsource/inter": "^4.5.15",
     "@fontsource/raleway": "^4.5.12",
     "@tanstack/react-table": "^8.9.1",
