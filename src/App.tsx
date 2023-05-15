@@ -4,7 +4,7 @@ import { Route, Routes, useLocation } from "react-router-dom";
 import customTheme from "./config/theme";
 import useCustomerList from "./hooks/useCustomerList";
 import useOrderList from "./hooks/useOrderList";
-import useUser from "./hooks/useUser";
+import useUserAuth from "./hooks/useUserAuth";
 import AuthContainer from "./pages/auths/AuthContainer";
 import ForgotPassword from "./pages/auths/ForgotPassword";
 import Login from "./pages/auths/Login";
@@ -33,7 +33,7 @@ export const OrderListContext = createContext<OrderListContext>({
 function App() {
   const currentPath = useLocation().pathname;
 
-  const { user, isLoading } = useUser();
+  const { user, isLoading } = useUserAuth();
 
   return (
     <ChakraProvider theme={customTheme(currentPath, isLoading)}>
@@ -44,7 +44,7 @@ function App() {
               path="/"
               element={<PanelContainer user={user} isLoading={isLoading} />}
             >
-              <Route index element={<Home />} />
+              <Route index element={<Home user={user} />} />
               <Route path="customers">
                 <Route index element={<CustomerListPage />} />
                 <Route path="new" element={<AddCustomerPage />} />
