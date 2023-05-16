@@ -2,7 +2,7 @@ import { defineStyleConfig, extendTheme } from "@chakra-ui/react";
 import background from "../assets/background.webp";
 
 import "@fontsource/inter/variable.css";
-import "@fontsource/raleway/variable.css";
+import "@fontsource/ubuntu";
 
 const inputMultiPart = defineStyleConfig({
   variants: {
@@ -77,7 +77,7 @@ export default function customTheme(path: string, isPageLoading: boolean) {
   return extendTheme({
     fonts: {
       body: "InterVariable, sans-serif",
-      heading: "RalewayVariable, sans-serif",
+      heading: "UbuntuVariable, sans-serif",
     },
     components: {
       Textarea: inputSinglePart,

@@ -4,15 +4,14 @@ import {
   Skeleton,
   Stack,
   Text,
-  VStack
+  VStack,
+  Heading,
 } from "@chakra-ui/react";
 import { User as UserAuth } from "firebase/auth";
 import { child, get, ref } from "firebase/database";
 import { useContext, useEffect, useState } from "react";
 import { CustomerListContext, OrderListContext } from "../../App";
 import { database } from "../../config/firebase";
-
-import "@fontsource/raleway/400.css"
 
 type HomeProps = {
   user?: UserAuth;
@@ -43,6 +42,8 @@ function Home({ user: userAuth }: HomeProps) {
     greeting = "Selamat Malam";
   }
 
+  console.log(orderList);
+
   return (
     <VStack // top to bottom (one column)
       gap="2"
@@ -50,12 +51,13 @@ function Home({ user: userAuth }: HomeProps) {
       alignItems="stretch"
       pt="6"
     >
-      <Text
-        fontFamily="RalewayVariable, sans-serif"
+      <Heading
         fontWeight="700"
-        fontSize="3xl"
+        fontSize="2xl"
         letterSpacing="wide"
-        lineHeight="1.6"
+        lineHeight="1.2"
+        ml="5"
+        my="2"
       >
         {greeting + ", "}
         <Skeleton
@@ -63,9 +65,9 @@ function Home({ user: userAuth }: HomeProps) {
           isLoaded={user !== undefined}
           fitContent
         >
-          {user ? user.firstName + "!" : "XXXXXXX"}
+          {user ? user.firstName + "!" : "XXXXXX"}
         </Skeleton>
-      </Text>
+      </Heading>
       <Stack // one row
         direction={{ base: "column", md: "row" }}
         gap="2"
