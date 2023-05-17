@@ -119,7 +119,6 @@ function HeaderPanel({ onOpen, user, ...props }: HPProps) {
           >
             <HStack spacing={3}>
               <Avatar
-                // TODO: make it possible to upload custom avatar
                 size="sm"
                 m="1"
                 pointerEvents="auto"
