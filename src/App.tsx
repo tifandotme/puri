@@ -13,7 +13,7 @@ import AddCustomerPage from "./pages/customers/AddCustomerPage";
 import CustomerListPage from "./pages/customers/CustomerListPage";
 import MyCustomersPage from "./pages/customers/MyCustomersPage";
 import PanelContainer from "./pages/dashboard/PanelContainer";
-import Home from "./pages/home/Home";
+import HomePage from "./pages/home/HomePage";
 import AddOrderPage from "./pages/orders/AddOrderPage";
 import OrderListPage from "./pages/orders/OrderListPage";
 import EditOrderPage from "./pages/orders/EditOrderPage";
@@ -44,7 +44,7 @@ function App() {
               path="/"
               element={<PanelContainer user={user} isLoading={isLoading} />}
             >
-              <Route index element={<Home user={user} />} />
+              <Route index element={<HomePage user={user} />} />
               <Route path="customers">
                 <Route index element={<CustomerListPage />} />
                 <Route path="new" element={<AddCustomerPage />} />
