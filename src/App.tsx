@@ -11,14 +11,14 @@ import Login from "./pages/auths/Login";
 import SignUp from "./pages/auths/SignUp";
 import AddCustomerPage from "./pages/customers/AddCustomerPage";
 import CustomerListPage from "./pages/customers/CustomerListPage";
+import EditCustomerPage from "./pages/customers/EditCustomerPage";
 import MyCustomersPage from "./pages/customers/MyCustomersPage";
 import PanelContainer from "./pages/dashboard/PanelContainer";
 import HomePage from "./pages/home/HomePage";
 import AddOrderPage from "./pages/orders/AddOrderPage";
-import OrderListPage from "./pages/orders/OrderListPage";
 import EditOrderPage from "./pages/orders/EditOrderPage";
 import MyOrdersPage from "./pages/orders/MyOrdersPage";
-import EditCustomerPage from "./pages/customers/EditCustomerPage";
+import OrderListPage from "./pages/orders/OrderListPage";
 
 export const CustomerListContext = createContext<CustomerListContext>({
   customerList: undefined,

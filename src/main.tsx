@@ -1,4 +1,3 @@
-// import { StrictMode } from "react";
 import { inject } from "@vercel/analytics";
 import ReactDOM from "react-dom/client";
 import { BrowserRouter } from "react-router-dom";
@@ -9,9 +8,7 @@ if (import.meta.env.PROD) inject();
 const rootElement = document.getElementById("root") as Element;
 
 ReactDOM.createRoot(rootElement).render(
-  // <StrictMode>
-    <BrowserRouter>
-      <App />
-    </BrowserRouter>
-  // </StrictMode>
+  <BrowserRouter>
+    <App />
+  </BrowserRouter>
 );
