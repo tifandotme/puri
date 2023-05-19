@@ -27,10 +27,11 @@ function useCustomerList(user?: User) {
     const unsubscribe = onValue(
       customersQuery,
       (snapshot) => {
-        const promises: Array<Promise<void>> = [];
+        if (snapshot.exists()) {
+          const promises: Array<Promise<void>> = [];
 
-        const customers: CustomerList | undefined = snapshot.val() || undefined;
-        if (customers) {
+          const customers = snapshot.val() as CustomerList;
+
           for (const key in customers) {
             const salesUid = customers[key].sales;
 
@@ -40,12 +41,14 @@ function useCustomerList(user?: User) {
 
             promises.push(promise);
           }
-        }
 
-        Promise.all(promises).then(() => {
-          setCustomerList(customers);
+          Promise.all(promises).then(() => {
+            setCustomerList(customers);
+            setIsLoading(false);
+          });
+        } else {
           setIsLoading(false);
-        });
+        }
       },
       (error) => {
         console.error(error);

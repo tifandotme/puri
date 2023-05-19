@@ -28,10 +28,11 @@ function useOrderList(user?: User) {
     const unsubscribe = onValue(
       ordersQuery,
       (snapshot) => {
-        const promises: Array<Promise<void>> = [];
+        if (snapshot.exists()) {
+          const promises: Array<Promise<void>> = [];
 
-        const orders: OrderList | undefined = snapshot.val() || undefined;
-        if (orders) {
+          const orders = snapshot.val() as OrderList;
+
           for (const key in orders) {
             const customerUid = orders[key].customer;
 
@@ -41,12 +42,14 @@ function useOrderList(user?: User) {
 
             promises.push(promise);
           }
-        }
 
-        Promise.all(promises).then(() => {
-          setOrderList(orders);
+          Promise.all(promises).then(() => {
+            setOrderList(orders);
+            setIsLoading(false);
+          });
+        } else {
           setIsLoading(false);
-        });
+        }
       },
       (error) => {
         console.error(error);
