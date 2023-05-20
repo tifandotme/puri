@@ -1,49 +1,13 @@
 import { Stack, VStack } from "@chakra-ui/react";
-import { User as UserAuth } from "firebase/auth";
-import { onValue, query, ref } from "firebase/database";
-import { useEffect, useState } from "react";
-import { database } from "../../config/firebase";
 import CustomerCount from "./CustomerCount";
-import { Greeting } from "./Greeting";
+import Greeting from "./Greeting";
 import LatestOrder from "./LatestOrder";
 import OrderCount from "./OrderCount";
 import OrderHistory from "./OrderHistory";
 import { Panel } from "./Panel";
 import UserList from "./UserList";
 
-type HomePageProps = {
-  user?: UserAuth;
-};
-
-function HomePage({ user: userAuth }: HomePageProps) {
-  const [userList, setUserList] = useState<UserList | undefined>(undefined);
-  const [isLoading, setIsLoading] = useState(true);
-
-  useEffect(() => {
-    if (!userAuth) {
-      return;
-    }
-
-    const userRef = ref(database, "users");
-    const userQuery = query(userRef);
-
-    const unsubscribe = onValue(
-      userQuery,
-      (snapshot) => {
-        if (snapshot.exists()) {
-          setUserList(snapshot.val() as UserList);
-        }
-
-        setIsLoading(false);
-      },
-      (error) => {
-        console.error(error);
-      }
-    );
-
-    return unsubscribe;
-  }, [userAuth]);
-
+function HomePage() {
   return (
     <VStack // top to bottom (one column)
       gap="2"
@@ -51,7 +15,7 @@ function HomePage({ user: userAuth }: HomePageProps) {
       alignItems="stretch"
       pt="6"
     >
-      <Greeting userAuth={userAuth} />
+      <Greeting />
 
       <Stack // one row
         direction={{ base: "column", lg: "row" }}
@@ -78,7 +42,7 @@ function HomePage({ user: userAuth }: HomePageProps) {
           <OrderHistory />
         </Panel>
         <Panel flexGrow="1" flexBasis="24">
-          <UserList data={userList}/>
+          <UserList />
         </Panel>
       </Stack>
     </VStack>

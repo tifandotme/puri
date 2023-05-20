@@ -1,7 +1,7 @@
 import { Skeleton, Stack, Text } from "@chakra-ui/react";
-import { OrderListContext } from "../../App";
 import { useContext, useMemo } from "react";
 import { formatDateTime, formatQtyProduct } from "../../utils/format";
+import { OrderListContext } from "../ContextProviders";
 
 function LatestOrder() {
   const { orderList, isLoading } = useContext(OrderListContext);
@@ -17,7 +17,7 @@ function LatestOrder() {
   }, [orderList]);
 
   return (
-    <Stack justify="space-between" h="full" gap="3" >
+    <Stack justify="space-between" h="full" gap="3">
       <Text fontWeight="bold">Pesanan Terakhir</Text>
       <Stack
         align="flex-start"
