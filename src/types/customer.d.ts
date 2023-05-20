@@ -48,11 +48,3 @@ type AddCustomerForm = Omit<
 type EditCustomerForm = Omit<Customer, "type" | "createdAt" | "sales">;
 
 type CustomerList = Record<string, Customer & { salesName: string }>;
-
-/**
- * Type for CustomerList context provider
- */
-type CustomerListContext = {
-  customerList?: CustomerList;
-  isLoading: boolean;
-};

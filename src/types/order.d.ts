@@ -49,11 +49,3 @@ type AddOrderForm = Omit<
 type EditOrderForm = Omit<Order, "customer" | "createdAt" | "sales">;
 
 type OrderList = Record<string, Order>;
-
-/**
- * Type for OrderList context provider
- */
-type OrderListContext = {
-  orderList?: OrderList;
-  isLoading: boolean;
-};

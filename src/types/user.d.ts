@@ -6,3 +6,5 @@ type User = {
 };
 
 type EditUserForm = Omit<User, "email" | "division">;
+
+type UserList = Record<string, User>;
