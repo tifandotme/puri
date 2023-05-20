@@ -48,6 +48,7 @@ function useOrderList(user?: User) {
             setIsLoading(false);
           });
         } else {
+          setOrderList(undefined);
           setIsLoading(false);
         }
       },

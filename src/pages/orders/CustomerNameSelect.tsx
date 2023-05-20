@@ -2,7 +2,7 @@ import { Box, SelectFieldProps, useStyleConfig } from "@chakra-ui/react";
 import { useContext, useMemo } from "react";
 import { Control, Controller, FieldValues, Path } from "react-hook-form";
 import ReactSelect, { ClassNamesConfig, Options } from "react-select";
-import { CustomerListContext } from "../../App";
+import { CustomerListContext } from "../ContextProviders";
 
 
 type CustomerNameSelectProps<TFieldValues extends FieldValues> = {

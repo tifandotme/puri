@@ -47,6 +47,7 @@ function useCustomerList(user?: User) {
             setIsLoading(false);
           });
         } else {
+          setCustomerList(undefined);
           setIsLoading(false);
         }
       },
