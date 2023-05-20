@@ -12,7 +12,7 @@ import { ColumnDef } from "@tanstack/react-table";
 import { useContext, useMemo, useRef } from "react";
 import { HiArrowLeft, HiPencilSquare } from "react-icons/hi2";
 import { useNavigate } from "react-router-dom";
-import { CustomerListContext } from "../../App";
+import { CustomerListContext } from "../ContextProviders";
 import { auth } from "../../config/firebase";
 import { formatAddress } from "../../utils/format";
 import TanStackTable from "../TanStackTable";

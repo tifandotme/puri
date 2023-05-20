@@ -8,7 +8,7 @@ import {
 import { ColumnDef } from "@tanstack/react-table";
 import { useContext, useMemo, useRef } from "react";
 import { FaEllipsisV } from "react-icons/fa";
-import { OrderListContext } from "../../App";
+import { OrderListContext } from "../ContextProviders";
 import {
   formatDateTime,
   formatPayment,

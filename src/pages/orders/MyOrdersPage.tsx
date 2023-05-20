@@ -11,7 +11,7 @@ import { useContext, useMemo, useRef } from "react";
 import { FaEllipsisV } from "react-icons/fa";
 import { HiArrowLeft, HiPencilSquare } from "react-icons/hi2";
 import { useNavigate } from "react-router-dom";
-import { OrderListContext } from "../../App";
+import { OrderListContext } from "../ContextProviders";
 import { auth } from "../../config/firebase";
 import {
   formatDateTime,

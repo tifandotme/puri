@@ -8,11 +8,11 @@ import {
 import { ColumnDef } from "@tanstack/react-table";
 import { useContext, useMemo, useRef } from "react";
 import { FaEllipsisV } from "react-icons/fa";
-import { CustomerListContext } from "../../App";
 import { formatAddress } from "../../utils/format";
 import TanStackTable from "../TanStackTable";
 import ContentWrapper from "../dashboard/ContentWrapper";
 import CustomerDetailModal from "./CustomerDetailModal";
+import { CustomerListContext } from "../ContextProviders";
 
 function CustomerListPage() {
   const { isOpen, onOpen, onClose } = useDisclosure();

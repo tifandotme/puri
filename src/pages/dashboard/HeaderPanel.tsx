@@ -44,7 +44,7 @@ function HeaderPanel({ onOpen, user, ...props }: HPProps) {
   const { isOpen, onOpen: onOpenProfile, onClose } = useDisclosure();
 
   // custom hooks
-  const division = useDivision();
+  const division = useDivision(user);
   const topValue = useTopValue(16, "md");
 
   // check if user is online
