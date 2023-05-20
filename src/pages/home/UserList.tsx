@@ -51,7 +51,7 @@ function UserList() {
             )}
           </AvatarGroup>
         ) : (
-          <Skeleton h="12" w="28" />
+          <Skeleton h="16" w="56" />
         )}
         <Skeleton isLoaded={userList !== undefined}>
           <Button

@@ -14,6 +14,7 @@ function HomePage() {
       px="4"
       alignItems="stretch"
       pt="6"
+      pb="4"
     >
       <Greeting />
 
