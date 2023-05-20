@@ -7,15 +7,29 @@ import {
   MenuItemOption,
   MenuList,
   MenuOptionGroup,
+  useToken,
 } from "@chakra-ui/react";
 import React from "react";
+import { renderToString } from "react-dom/server";
+import { IconType } from "react-icons";
 import { FaEllipsisH } from "react-icons/fa";
 
 type PanelProps = {
+  icon?: IconType;
   children: React.ReactNode;
 } & BoxProps;
 
-function Panel({ children, ...props }: PanelProps) {
+function Panel({ icon, children, ...props }: PanelProps) {
+  const colorNormal = useToken("colors", "gray.50");
+  const colorHover = useToken("colors", "secondary.50");
+
+  const [iconColor, setIconColor] = React.useState<string>(colorNormal);
+
+  const iconUrl = (icon: IconType) =>
+    `data:image/svg+xml,${encodeURIComponent(
+      renderToString(icon({ color: iconColor, size: "220px" }))
+    )}`;
+
   return (
     <Box
       h="auto"
@@ -26,6 +40,16 @@ function Panel({ children, ...props }: PanelProps) {
       bg="white"
       _hover={{
         boxShadow: "md",
+        color: "secondary.800",
+      }}
+      bgImage={icon ? iconUrl(icon) : undefined}
+      bgPosition="-20px 26px"
+      bgRepeat="no-repeat"
+      onPointerEnter={() => {
+        setIconColor(colorHover);
+      }}
+      onPointerLeave={() => {
+        setIconColor(colorNormal);
       }}
       {...props}
     >

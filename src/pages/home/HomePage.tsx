@@ -1,4 +1,11 @@
 import { Stack, VStack } from "@chakra-ui/react";
+import {
+  MdGroup,
+  MdMoreTime,
+  MdOutlineTextSnippet,
+  MdPersonSearch,
+  MdBarChart,
+} from "react-icons/md";
 import CustomerCount from "./CustomerCount";
 import Greeting from "./Greeting";
 import LatestOrder from "./LatestOrder";
@@ -23,13 +30,13 @@ function HomePage() {
         gap="2"
         align="stretch"
       >
-        <Panel flexGrow="2" flexBasis="15%">
+        <Panel flexGrow="2" flexBasis="15%" icon={MdMoreTime}>
           <LatestOrder />
         </Panel>
-        <Panel flexGrow="0.8" flexBasis="15%">
+        <Panel flexGrow="0.8" flexBasis="15%" icon={MdOutlineTextSnippet}>
           <OrderCount />
         </Panel>
-        <Panel flexGrow="0.8" flexBasis="15%">
+        <Panel flexGrow="0.8" flexBasis="15%" icon={MdGroup}>
           <CustomerCount />
         </Panel>
       </Stack>
@@ -39,10 +46,10 @@ function HomePage() {
         gap="2"
         align="stretch"
       >
-        <Panel flexGrow="1.5" flexBasis="24">
+        <Panel flexGrow="1.5" flexBasis="24" icon={MdBarChart}>
           <OrderHistory />
         </Panel>
-        <Panel flexGrow="1" flexBasis="24">
+        <Panel flexGrow="1" flexBasis="24" icon={MdPersonSearch}>
           <UserList />
         </Panel>
       </Stack>

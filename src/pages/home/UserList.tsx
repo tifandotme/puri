@@ -61,6 +61,10 @@ function UserList() {
             }}
             maxW="max-content"
             variant="ghost"
+            _hover={{
+              background: "none",
+              textDecoration: "underline",
+            }}
             fontSize="0.9rem"
             px="1"
             mb="-2px"
