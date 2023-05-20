@@ -45,7 +45,6 @@ function Ellipsis<T extends Record<string, string>>({
   defaultValue,
   setState,
 }: EllipsisProps<T>) {
-  console.log;
   return (
     <Menu placement="bottom-end" autoSelect={false}>
       <MenuButton

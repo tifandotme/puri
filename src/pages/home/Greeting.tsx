@@ -1,19 +1,13 @@
 import { Heading, Skeleton } from "@chakra-ui/react";
-import { User as UserAuth } from "firebase/auth";
-import { child, get, ref } from "firebase/database";
-import { useEffect, useState } from "react";
-import { database } from "../../config/firebase";
+import { useContext } from "react";
+import { auth } from "../../config/firebase";
+import { UserListContext } from "../ContextProviders";
 
-export function Greeting({ userAuth }: { userAuth?: UserAuth; }) {
-  const [user, setUser] = useState<User | undefined>(undefined);
-  useEffect(() => {
-    if (!userAuth)
-      return;
+function Greeting() {
+  const { userList } = useContext(UserListContext);
 
-    get(child(ref(database, "users"), `${userAuth.uid}`)).then((snapshot) => {
-      setUser(snapshot.val() as User);
-    });
-  }, [userAuth]);
+  // non-null asserted, because this component rendered after user is logged in
+  const firstName = userList ? userList[auth.currentUser!.uid].firstName : "";
 
   const hour = new Date().getHours();
   let greeting: string;
@@ -37,9 +31,15 @@ export function Greeting({ userAuth }: { userAuth?: UserAuth; }) {
       my="2"
     >
       {greeting + ", "}
-      <Skeleton display="inline-block" isLoaded={user !== undefined} fitContent>
-        {user ? user.firstName + "!" : "XXXXXX"}
+      <Skeleton
+        display="inline-block"
+        isLoaded={userList !== undefined}
+        fitContent
+      >
+        {firstName ? firstName + "!" : "XXXXXX"}
       </Skeleton>
     </Heading>
   );
 }
+
+export default Greeting;
