@@ -2,6 +2,8 @@ import { child, get, ref } from "firebase/database";
 import { database } from "../config/firebase";
 
 function capitalizeWords(str: string): string {
+  if (str === "") return "";
+  
   const words = str.split(" ");
 
   for (let i = 0; i < words.length; i++) {
