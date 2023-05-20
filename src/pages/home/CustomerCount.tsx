@@ -1,19 +1,19 @@
 import { HStack, Skeleton, Stack, Text } from "@chakra-ui/react";
 import { useContext, useMemo, useState } from "react";
-import { CustomerListContext } from "../../App";
 import { auth } from "../../config/firebase";
+import { CustomerListContext } from "../ContextProviders";
 import { Ellipsis } from "./Panel";
 
 function CustomerCount() {
   const { customerList, isLoading } = useContext(CustomerListContext);
 
   const options = {
-    "milik-saya": "Milik saya",
-    semua: "Semua",
+    "all-customers": "Semua",
+    "my-customers": "Milik saya",
   } as const;
 
   const [chosenOption, setOption] =
-    useState<keyof typeof options>("milik-saya");
+    useState<keyof typeof options>("all-customers");
 
   const count = useMemo(() => {
     if (!customerList) return;
@@ -25,25 +25,31 @@ function CustomerCount() {
     const all = Object.keys(customerList).length;
 
     return {
-      "milik-saya": mine,
-      semua: all,
+      "my-customers": mine,
+      "all-customers": all,
     };
   }, [customerList]);
 
   return (
     <Stack justify="space-between" h="full">
-      <HStack justify="space-between">
+      <HStack justify="space-between" align="flex-start">
         <Text fontWeight="bold">Jumlah Pelanggan</Text>
         <Ellipsis
           options={options}
-          defaultValue="milik-saya"
+          defaultValue={chosenOption}
           setState={setOption}
         />
       </HStack>
       <Stack h="20" justify="flex-end" align="flex-start">
-        <Skeleton isLoaded={!isLoading} fitContent>
-          <Text fontWeight="300" fontSize="5xl" lineHeight="1" w="max-content">
-            {count ? count[chosenOption] : "XXX"}
+        <Skeleton isLoaded={!isLoading} w="20">
+          <Text
+            color={count ? "black" : "muted"}
+            fontWeight="300"
+            fontSize="5xl"
+            lineHeight="1"
+            w="max-content"
+          >
+            {count ? count[chosenOption] : "0"}
           </Text>
         </Skeleton>
         <Skeleton isLoaded={!isLoading} fitContent>

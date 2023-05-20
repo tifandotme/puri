@@ -1,6 +1,6 @@
 import { HStack, Skeleton, Stack, Text } from "@chakra-ui/react";
 import { useContext, useMemo, useState } from "react";
-import { OrderListContext } from "../../App";
+import { OrderListContext } from "../ContextProviders";
 import { Ellipsis } from "./Panel";
 
 function OrderCount() {
@@ -38,18 +38,24 @@ function OrderCount() {
 
   return (
     <Stack justify="space-between" h="full">
-      <HStack justify="space-between">
+      <HStack justify="space-between" align="flex-start">
         <Text fontWeight="bold">Jumlah Pesanan</Text>
         <Ellipsis
           options={options}
-          defaultValue="last-seven-days"
+          defaultValue={chosenOption}
           setState={setOption}
         />
       </HStack>
       <Stack h="20" justify="flex-end" align="flex-start">
-        <Skeleton isLoaded={!isLoading} fitContent>
-          <Text fontWeight="300" fontSize="5xl" lineHeight="1" w="max-content">
-            {count ? count[chosenOption] : "XXX"}
+        <Skeleton isLoaded={!isLoading} w="20">
+          <Text
+            color={count ? "black" : "muted"}
+            fontWeight="300"
+            fontSize="5xl"
+            lineHeight="1"
+            w="max-content"
+          >
+            {count ? count[chosenOption] : "0"}
           </Text>
         </Skeleton>
         <Skeleton isLoaded={!isLoading} fitContent>
