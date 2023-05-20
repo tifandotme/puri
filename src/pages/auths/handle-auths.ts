@@ -12,8 +12,6 @@ import { FieldValues } from "react-hook-form";
 import { NavigateFunction } from "react-router-dom";
 import { auth, database } from "../../config/firebase";
 
-// TODO: implement Sentry for error logging
-
 async function handleSignUp(
   data: FieldValues,
   navigate: NavigateFunction,
