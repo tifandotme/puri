@@ -4,8 +4,8 @@ import { User } from "firebase/auth";
 import { Navigate, Outlet } from "react-router-dom";
 
 import FullscreenLoading from "../FullscreenLoading";
-import SidebarPanel from "./SidebarPanel";
 import HeaderPanel from "./HeaderPanel";
+import SidebarPanel from "./SidebarPanel";
 
 // TODO: include isAllowed prop to check if user is allowed to access the routes
 // https://www.robinwieruch.de/react-router-private-routes/
@@ -30,7 +30,7 @@ function PanelContainer({ user, isLoading }: MCProps) {
         zIndex="3"
         display={{ base: "none", md: "block" }}
       />
-      <HeaderPanel onOpen={onOpen} user={user} zIndex="3" />
+      <HeaderPanel onOpen={onOpen} zIndex="3" />
       <Drawer
         placement="left"
         returnFocusOnClose={false}

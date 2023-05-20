@@ -10,10 +10,10 @@ import {
 } from "react-icons/hi2";
 
 type NavItem = {
-  name: string;
-  path: string;
-  icon: IconType;
-  iconActive: IconType;
+  readonly name: string;
+  readonly path: string;
+  readonly icon: IconType;
+  readonly iconActive: IconType;
 }[];
 
 const navItems: NavItem = [

@@ -18,7 +18,7 @@ import {
   VStack,
   useDisclosure,
 } from "@chakra-ui/react";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import {
   HiArrowRightOnRectangle,
   HiBars3,
@@ -28,26 +28,26 @@ import {
 import { Link } from "react-router-dom";
 import logo from "../../assets/logo.png";
 import { auth } from "../../config/firebase";
-import useDivision from "../../hooks/useDivision";
 import useTopValue from "../../hooks/useTopValue";
+import { UserListContext } from "../ContextProviders";
 import { handleSignOut } from "../auths/handle-auths";
 import EditProfileModal from "./EditProfileModal";
-import { User } from "firebase/auth";
 
 type HPProps = {
   onOpen: () => void;
-  user: User;
   [key: string]: any;
 };
 
-function HeaderPanel({ onOpen, user, ...props }: HPProps) {
+function HeaderPanel({ onOpen, ...props }: HPProps) {
   const { isOpen, onOpen: onOpenProfile, onClose } = useDisclosure();
 
-  // custom hooks
-  const division = useDivision(user);
+  const { userList } = useContext(UserListContext);
+
+  const division = userList ? userList[auth.currentUser!.uid].division : "";
+
   const topValue = useTopValue(16, "md");
 
-  // check if user is online
+  // check if online
   const [isOnline, setIsOnline] = useState(navigator.onLine);
   useEffect(() => {
     const handleStatusChange = () => {
@@ -118,11 +118,7 @@ function HeaderPanel({ onOpen, user, ...props }: HPProps) {
             }}
           >
             <HStack spacing={3}>
-              <Avatar
-                size="sm"
-                m="1"
-                pointerEvents="auto"
-              >
+              <Avatar size="sm" m="1" pointerEvents="auto">
                 <Tooltip
                   hasArrow
                   openDelay={250}
@@ -182,9 +178,6 @@ function HeaderPanel({ onOpen, user, ...props }: HPProps) {
             >
               Edit Profile
             </MenuItem>
-            {/* <MenuItem icon={<HiOutlineCog6Tooth size={18} />}>
-              Settings
-            </MenuItem> */}
             <MenuDivider />
             <MenuItem
               color="red.600"
@@ -197,7 +190,7 @@ function HeaderPanel({ onOpen, user, ...props }: HPProps) {
         </Menu>
       </Flex>
 
-      <EditProfileModal isOpen={isOpen} onClose={onClose} userAuth={user}/>
+      <EditProfileModal isOpen={isOpen} onClose={onClose} />
     </Box>
   );
 }

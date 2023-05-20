@@ -13,17 +13,16 @@ import {
   Text,
   useToast,
 } from "@chakra-ui/react";
-import { User as UserAuth, updateProfile } from "firebase/auth";
+import { updateProfile } from "firebase/auth";
 import { child, get, ref, update } from "firebase/database";
 import { memo, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
-import { database } from "../../config/firebase";
+import { auth, database } from "../../config/firebase";
 import { capitalizeWords } from "../../utils/misc";
 
 type EditProfileModalProps = {
   isOpen: boolean;
   onClose: () => void;
-  userAuth: UserAuth;
 };
 
 /**
@@ -32,11 +31,12 @@ type EditProfileModalProps = {
 const EditProfileModal = memo(function DM({
   isOpen,
   onClose,
-  userAuth,
 }: EditProfileModalProps) {
   const toast = useToast({
     duration: 3000,
   });
+
+  const userAuth = auth.currentUser!;
 
   const [user, setUser] = useState<User | undefined>(undefined);
   useEffect(() => {
