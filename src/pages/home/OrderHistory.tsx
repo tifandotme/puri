@@ -9,14 +9,13 @@ import {
 } from "@chakra-ui/react";
 import { useContext, useMemo, useState } from "react";
 import { RiPriceTag3Fill } from "react-icons/ri";
-import { OrderListContext } from "../../App";
+import { OrderListContext } from "../ContextProviders";
 import productList from "../orders/product-list";
 import { Ellipsis } from "./Panel";
 
 function OrderHistory() {
   const { orderList, isLoading } = useContext(OrderListContext);
 
-  // similar to Order.
   const options = {
     "last-seven-days": "7 hari terakhir",
     "all-time": "Semua waktu",
@@ -26,11 +25,24 @@ function OrderHistory() {
     useState<keyof typeof options>("last-seven-days");
 
   const orderHistory = useMemo(() => {
-    if (!orderList) return;
+    const initialValue: Record<ProductList, number> = {
+      serbaguna: 0,
+      masonry: 0,
+      extrapower: 0,
+      padang: 0,
+    };
+
+    if (!orderList) {
+      return {
+        "all-time": initialValue,
+        "last-seven-days": initialValue,
+      };
+    }
 
     const allTime = Object.values(orderList).reduce(
       (acc, order) => {
         acc[order.product] += order.qty.base + (order.qty.bonus ?? 0);
+
         return acc;
       },
       {
@@ -38,7 +50,7 @@ function OrderHistory() {
         masonry: 0,
         extrapower: 0,
         padang: 0,
-      } as Record<ProductList, number>
+      }
     );
 
     const lastSevenDays = Object.values(orderList)
@@ -47,7 +59,6 @@ function OrderHistory() {
         const createdAt = new Date(order.createdAt);
 
         const diffTime = Math.abs(now.getTime() - createdAt.getTime());
-
         const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
 
         return diffDays <= 7;
@@ -55,6 +66,7 @@ function OrderHistory() {
       .reduce(
         (acc, order) => {
           acc[order.product] += order.qty.base + (order.qty.bonus ?? 0);
+
           return acc;
         },
         {
@@ -62,7 +74,7 @@ function OrderHistory() {
           masonry: 0,
           extrapower: 0,
           padang: 0,
-        } as Record<ProductList, number>
+        }
       );
 
     return {
@@ -80,11 +92,11 @@ function OrderHistory() {
 
   return (
     <Stack justify="space-between" h="full">
-      <HStack justify="space-between">
+      <HStack justify="space-between" align="flex-start">
         <Text fontWeight="bold">Akumulasi Pembelian</Text>
         <Ellipsis
           options={options}
-          defaultValue="last-seven-days"
+          defaultValue={chosenOption}
           setState={setOption}
         />
       </HStack>
@@ -94,9 +106,10 @@ function OrderHistory() {
         align="flex-start"
         overflow="hidden"
         whiteSpace="nowrap"
+        transition="all 0.2s ease-in-out"
       >
         <List spacing={2}>
-          {orderHistory
+          {!isLoading
             ? Object.entries(orderHistory[chosenOption]).map(([key, value]) => (
                 <ListItem key={key}>
                   <ListIcon
@@ -104,7 +117,10 @@ function OrderHistory() {
                     boxSize="5"
                     color={iconColor[key as ProductList]}
                   />
-                  {productList[key as ProductList] + ": " + value} zak
+                  {productList[key as ProductList] + ": "}{" "}
+                  <Text as="span" fontWeight="500">
+                    {value} zak
+                  </Text>
                 </ListItem>
               ))
             : Object.keys(productList).map((key) => (
