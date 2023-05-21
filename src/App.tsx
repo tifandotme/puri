@@ -25,6 +25,7 @@ import EditOrderPage from "./pages/orders/EditOrderPage";
 import MyOrdersPage from "./pages/orders/MyOrdersPage";
 import OrderListPage from "./pages/orders/OrderListPage";
 import NotFoundPage from "./pages/404Page";
+import HelpPage from "./pages/help/HelpPage";
 
 function App() {
   const currentPath = useLocation().pathname;
@@ -55,12 +56,7 @@ function App() {
                   <Route path="my-orders" element={<MyOrdersPage />} />
                   <Route path=":id" element={<EditOrderPage />} />
                 </Route>
-                <Route
-                  path="help"
-                  element={
-                    <h1>Bantuan TODO: dokumentasi lengkap cara penggunaan</h1>
-                  }
-                />
+                <Route path="help" element={<HelpPage />} />
               </Route>
               <Route
                 element={
