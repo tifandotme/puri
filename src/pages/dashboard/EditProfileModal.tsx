@@ -80,7 +80,13 @@ const EditProfileModal = memo(function DM({
   });
 
   return (
-    <Modal isOpen={isOpen} onClose={onClose} size={{ base: "full", sm: "md" }}>
+    <Modal
+      isOpen={isOpen}
+      onClose={onClose}
+      size={{ base: "full", sm: "md" }}
+      isCentered
+      motionPreset="none"
+    >
       <ModalOverlay />
       <ModalContent>
         <form onSubmit={onSubmit}>

@@ -1,4 +1,5 @@
 import { Image, Stack, Text } from "@chakra-ui/react";
+import john from "../assets/404.gif";
 
 function NotFoundPage() {
   return (
@@ -12,7 +13,7 @@ function NotFoundPage() {
         Oops, halaman tidak ditemukan
       </Text>
       <Image
-        src="../assets/404.gif"
+        src={john}
         alt="404"
         h={{ base: "200px", md: "300px" }}
       />
