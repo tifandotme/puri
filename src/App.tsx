@@ -24,6 +24,7 @@ import AddOrderPage from "./pages/orders/AddOrderPage";
 import EditOrderPage from "./pages/orders/EditOrderPage";
 import MyOrdersPage from "./pages/orders/MyOrdersPage";
 import OrderListPage from "./pages/orders/OrderListPage";
+import NotFoundPage from "./pages/404Page";
 
 function App() {
   const currentPath = useLocation().pathname;
@@ -74,7 +75,7 @@ function App() {
                 <Route path="/signup" element={<SignUp />} />
                 <Route path="/forgotpassword" element={<ForgotPassword />} />
               </Route>
-              <Route path="*" element={<h1>404</h1>} />
+              <Route path="*" element={<NotFoundPage />} />
             </Routes>
           </UserListContext.Provider>
         </OrderListContext.Provider>
