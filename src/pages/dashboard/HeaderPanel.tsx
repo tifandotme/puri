@@ -17,6 +17,7 @@ import {
   VStack,
   useDisclosure,
 } from "@chakra-ui/react";
+import { User } from "firebase/auth";
 import { useContext, useEffect, useState } from "react";
 import {
   HiArrowRightOnRectangle,
@@ -34,18 +35,18 @@ import { handleSignOut } from "../auths/handle-auths";
 import EditProfileModal from "./EditProfileModal";
 
 type HPProps = {
+  user: User | undefined;
   onOpen: () => void;
   [key: string]: any;
 };
 
-function HeaderPanel({ onOpen, ...props }: HPProps) {
+function HeaderPanel({ user, onOpen, ...props }: HPProps) {
   const { isOpen, onOpen: onOpenProfile, onClose } = useDisclosure();
 
   const { userList } = useContext(UserListContext);
 
-  const division = userList
-    ? capitalizeWords(userList[auth.currentUser!.uid].division)
-    : "";
+  const division =
+    userList && user ? capitalizeWords(userList[user.uid].division) : "";
 
   const topValue = useTopValue(16, "md");
 

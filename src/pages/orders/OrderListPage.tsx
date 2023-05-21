@@ -9,11 +9,11 @@ import {
   useToast,
 } from "@chakra-ui/react";
 import { ColumnDef } from "@tanstack/react-table";
+import { User as UserAuth } from "firebase/auth";
 import { useContext, useMemo, useRef } from "react";
 import { FaEllipsisV, FaToggleOff, FaToggleOn } from "react-icons/fa";
 import { MdOutlineTextSnippet } from "react-icons/md";
 import { TbPackage, TbPackageExport } from "react-icons/tb";
-import { auth } from "../../config/firebase";
 import {
   formatDateTime,
   formatPayment,
@@ -26,7 +26,7 @@ import ContentWrapper from "../dashboard/ContentWrapper";
 import OrderDetailModal from "./OrderDetailModal";
 import { handleToggleDelivery } from "./handle-order";
 
-function OrderListPage() {
+function OrderListPage({ user }: { user: UserAuth | undefined }) {
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   const toast = useToast({
@@ -38,7 +38,7 @@ function OrderListPage() {
   const { orderList, isLoading } = useContext(OrderListContext);
   const { userList } = useContext(UserListContext);
 
-  const division = userList ? userList[auth.currentUser!.uid].division : "";
+  const division = userList && user ? userList[user.uid].division : "";
 
   const columns = useMemo<ColumnDef<[string, Order], any>[]>(
     () => [
@@ -88,8 +88,13 @@ function OrderListPage() {
         header: "Pembayaran",
         accessorKey: "payment",
         size: 25, // % of table width
-        accessorFn: (row) =>
-          row[1].payment ? formatPayment(row[1].payment) : "",
+        accessorFn: (row) => {
+          if (row[1].payment) {
+            return formatPayment(row[1].payment);
+          } else {
+            return " ";
+          }
+        },
         meta: {
           headerProps: {
             display: { base: "none", lg: "table-cell" },

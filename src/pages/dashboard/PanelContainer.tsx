@@ -28,7 +28,7 @@ function PanelContainer({ user, isLoading }: MCProps) {
         zIndex="3"
         display={{ base: "none", md: "block" }}
       />
-      <HeaderPanel onOpen={onOpen} zIndex="3" />
+      <HeaderPanel user={user} onOpen={onOpen} zIndex="3" />
       <Drawer
         placement="left"
         returnFocusOnClose={false}

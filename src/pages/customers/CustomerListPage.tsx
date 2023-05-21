@@ -1,9 +1,9 @@
 import { Icon, IconButton, Tooltip, useDisclosure } from "@chakra-ui/react";
 import { ColumnDef } from "@tanstack/react-table";
+import { User as UserAuth } from "firebase/auth";
 import { useContext, useMemo, useRef } from "react";
 import { FaEllipsisV } from "react-icons/fa";
 import { MdGroup } from "react-icons/md";
-import { auth } from "../../config/firebase";
 import { formatAddress } from "../../utils/format";
 import { CustomerListContext, UserListContext } from "../ContextProviders";
 import { ContentSpinner } from "../LoadingOverlay";
@@ -11,7 +11,7 @@ import TanStackTable from "../TanStackTable";
 import ContentWrapper from "../dashboard/ContentWrapper";
 import CustomerDetailModal from "./CustomerDetailModal";
 
-function CustomerListPage() {
+function CustomerListPage({ user }: { user: UserAuth | undefined }) {
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   const selectedCustomer = useRef<Customer | undefined>(undefined);
@@ -19,7 +19,7 @@ function CustomerListPage() {
   const { customerList, isLoading } = useContext(CustomerListContext);
   const { userList } = useContext(UserListContext);
 
-  const division = userList ? userList[auth.currentUser!.uid].division : "";
+  const division = userList && user ? userList[user.uid].division : "";
 
   // added salesName from the uid to full name conversion in useCustomerList
   const columns = useMemo<

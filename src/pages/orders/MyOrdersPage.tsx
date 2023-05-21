@@ -12,6 +12,7 @@ import { useContext, useMemo, useRef } from "react";
 import { FaEllipsisV } from "react-icons/fa";
 import { HiArrowLeft, HiPencilSquare } from "react-icons/hi2";
 import { MdOutlineTextSnippet } from "react-icons/md";
+import { TbPackage, TbPackageExport } from "react-icons/tb";
 import { useNavigate } from "react-router-dom";
 import { auth } from "../../config/firebase";
 import {
@@ -37,52 +38,24 @@ function MyOrdersPage() {
   const columns = useMemo<ColumnDef<[string, Order], any>[]>(
     () => [
       {
-        header: "Pelanggan",
-        accessorKey: "customer",
-        // accessorFn: (row) => row[1].customer,
-        size: 25, // % of table width
+        header: "",
+        accessorKey: "status",
+        minSize: 1,
+        size: 1, // % table width
         meta: {
           bodyProps: {
-            whiteSpace: "normal",
+            textAlign: "center",
           },
         },
         cell: ({ row }) => {
-          const now = new Date();
-          const createdAt = new Date(row.original[1].createdAt);
-
-          const diffTime = Math.abs(now.getTime() - createdAt.getTime());
-          const isNew = diffTime <= 1000 * 60 * 60;
-
-          const { customer, isDelivered } = row.original[1];
+          const { isDelivered } = row.original[1];
           return (
-            <>
-              <Text
-                display="inline-block"
-                mr="1"
-                verticalAlign="middle"
-                color={isDelivered ? "green.500" : "none"}
-                fontWeight={isDelivered ? "600" : "none"}
-              >
-                {customer}
-              </Text>
-              {isDelivered && (
-                <Tooltip label="Terkirim">
-                  <Badge
-                    fontSize="1.4rem"
-                    boxShadow="none"
-                    variant="outline"
-                    colorScheme="green"
-                  >
-                    ✔
-                  </Badge>
-                </Tooltip>
-              )}
-              {isNew && (
-                <Badge variant="outline" colorScheme="red">
-                  BARU
-                </Badge>
-              )}
-            </>
+            <Icon
+              verticalAlign="middle"
+              as={isDelivered ? TbPackageExport : TbPackage}
+              boxSize="6"
+              color={isDelivered ? "gray.700" : "red.500"}
+            />
           );
         },
       },
@@ -93,6 +66,17 @@ function MyOrdersPage() {
         accessorFn: (row) => formatQtyProduct(row[1].qty, row[1].product),
         meta: {
           bodyProps: { whiteSpace: "normal" },
+        },
+      },
+      {
+        header: "Pelanggan",
+        accessorKey: "customer",
+        accessorFn: (row) => row[1].customer,
+        size: 25, // % of table width
+        meta: {
+          bodyProps: {
+            whiteSpace: "normal",
+          },
         },
       },
       {
@@ -121,11 +105,11 @@ function MyOrdersPage() {
         header: "Ditambahkan",
         accessorKey: "date",
         size: 25, // % of table width
-        accessorFn: (row) =>
-          formatDateTime(row[1].createdAt, {
-            isIncludeTime: true,
-            isShortDate: true,
-          }),
+        // accessorFn: (row) =>
+        //   formatDateTime(row[1].createdAt, {
+        //     isIncludeTime: true,
+        //     isShortDate: true,
+        //   }),
         meta: {
           headerProps: {
             display: { base: "none", lg: "table-cell" },
@@ -135,6 +119,27 @@ function MyOrdersPage() {
             textOverflow: "ellipsis",
             display: { base: "none", lg: "table-cell" },
           },
+        },
+        cell: ({ row }) => {
+          const now = new Date();
+          const createdAt = new Date(row.original[1].createdAt);
+          const diffTime = Math.abs(now.getTime() - createdAt.getTime());
+          const isNew = diffTime <= 1000 * 60 * 60;
+          return (
+            <>
+              <Text display="inline-block" mr="1" verticalAlign="middle">
+                {formatDateTime(row.original[1].createdAt, {
+                  isIncludeTime: true,
+                  isShortDate: true,
+                })}
+              </Text>
+              {isNew && (
+                <Badge variant="outline" colorScheme="red" userSelect="none">
+                  BARU
+                </Badge>
+              )}
+            </>
+          );
         },
       },
       {

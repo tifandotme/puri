@@ -5,6 +5,7 @@ import useCustomerList from "./hooks/useCustomerList";
 import useOrderList from "./hooks/useOrderList";
 import useUserAuth from "./hooks/useUserAuth";
 import useUserList from "./hooks/useUserList";
+import NotFoundPage from "./pages/404Page";
 import {
   CustomerListContext,
   OrderListContext,
@@ -19,13 +20,12 @@ import CustomerListPage from "./pages/customers/CustomerListPage";
 import EditCustomerPage from "./pages/customers/EditCustomerPage";
 import MyCustomersPage from "./pages/customers/MyCustomersPage";
 import PanelContainer from "./pages/dashboard/PanelContainer";
+import HelpPage from "./pages/help/HelpPage";
 import HomePage from "./pages/home/HomePage";
 import AddOrderPage from "./pages/orders/AddOrderPage";
 import EditOrderPage from "./pages/orders/EditOrderPage";
 import MyOrdersPage from "./pages/orders/MyOrdersPage";
 import OrderListPage from "./pages/orders/OrderListPage";
-import NotFoundPage from "./pages/404Page";
-import HelpPage from "./pages/help/HelpPage";
 
 function App() {
   const currentPath = useLocation().pathname;
@@ -44,14 +44,14 @@ function App() {
               >
                 <Route index element={<HomePage />} />
                 <Route path="customers">
-                  <Route index element={<CustomerListPage />} />
+                  <Route index element={<CustomerListPage user={user} />} />
                   <Route path="new" element={<AddCustomerPage />} />
                   <Route path="my-customers" element={<MyCustomersPage />} />
                   <Route path=":id" element={<EditCustomerPage />} />
                 </Route>
 
                 <Route path="orders">
-                  <Route index element={<OrderListPage />} />
+                  <Route index element={<OrderListPage user={user} />} />
                   <Route path="new" element={<AddOrderPage />} />
                   <Route path="my-orders" element={<MyOrdersPage />} />
                   <Route path=":id" element={<EditOrderPage />} />
@@ -69,7 +69,10 @@ function App() {
               >
                 <Route path="/login" element={<LoginPage />} />
                 <Route path="/signup" element={<SignUpPage />} />
-                <Route path="/forgotpassword" element={<ForgotPasswordPage />} />
+                <Route
+                  path="/forgotpassword"
+                  element={<ForgotPasswordPage />}
+                />
               </Route>
               <Route path="*" element={<NotFoundPage />} />
             </Routes>
