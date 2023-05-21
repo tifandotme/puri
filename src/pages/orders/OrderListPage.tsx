@@ -195,7 +195,7 @@ function OrderListPage({ user }: { user: UserAuth | undefined }) {
         ),
       },
     ],
-    []
+    [division]
   );
 
   const orderListMemo = useMemo(

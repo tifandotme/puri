@@ -95,7 +95,7 @@ function CustomerListPage({ user }: { user: UserAuth | undefined }) {
         ),
       },
     ],
-    [] // tadinya onOpen, sama dgn OrderListPage, kenapa ya?
+    [division]
   );
 
   const customerListMemo = useMemo(
