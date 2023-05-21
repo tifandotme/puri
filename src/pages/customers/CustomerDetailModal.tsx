@@ -57,48 +57,40 @@ const CustomerDetailModal = memo(function DM({
           </Badge>
         </ModalHeader>
         <ModalBody>
-          <TableContainer>
-            <Table variant="unstyled">
+          <TableContainer mt="3" mb="10" mx="3" whiteSpace="normal">
+            <Table>
               <Tbody>
                 <Tr>
-                  <Td>Nama</Td>
-                  <Td fontWeight="bold" whiteSpace="normal">
-                    {customer?.name}
-                  </Td>
+                  <Td w="25%">Nama</Td>
+                  <Td fontWeight="bold">{customer?.name}</Td>
                 </Tr>
                 <Tr>
                   <Td>
                     {customer?.type === "perusahaan" ? "No NPWP" : "No KTP"}
                   </Td>
-                  <Td whiteSpace="normal">{customer?.id}</Td>
+                  <Td>{customer?.id}</Td>
                 </Tr>
                 <Tr>
                   <Td>No Telp</Td>
-                  <Td whiteSpace="normal" isNumeric>
-                    {customer?.phone}
-                  </Td>
+                  <Td>{customer?.phone}</Td>
                 </Tr>
                 <Tr>
                   <Td>No Telp 2</Td>
-                  <Td whiteSpace="normal" isNumeric>
-                    {customer?.phone2}
-                  </Td>
+                  <Td>{customer?.phone2}</Td>
                 </Tr>
                 <Tr>
                   <Td>Alamat</Td>
-                  <Td whiteSpace="normal">
-                    {customer && formatAddress(customer.address)}
-                  </Td>
+                  <Td>{customer && formatAddress(customer.address)}</Td>
                 </Tr>
                 <Tr>
                   <Td>Sales</Td>
-                  <Td whiteSpace="normal">
+                  <Td>
                     <Skeleton isLoaded={sales !== undefined}>{sales}</Skeleton>
                   </Td>
                 </Tr>
                 <Tr>
                   <Td>Tanggal Dibuat</Td>
-                  <Td whiteSpace="normal">
+                  <Td>
                     {customer &&
                       formatDateTime(customer.createdAt, {
                         isIncludeTime: true,

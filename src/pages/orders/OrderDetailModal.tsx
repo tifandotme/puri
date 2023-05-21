@@ -17,8 +17,8 @@ import {
 } from "@chakra-ui/react";
 import { memo, useEffect, useState } from "react";
 import { FiArrowUpRight } from "react-icons/fi";
-import { getFullName } from "../../utils/misc";
 import { formatDateTime, formatPayment } from "../../utils/format";
+import { getFullName } from "../../utils/misc";
 import productList from "./product-list";
 
 type OrderDetailModalProps = {
@@ -49,18 +49,16 @@ const OrderDetailModal = memo(function DM({
       <ModalContent>
         <ModalHeader>Detail Pesanan</ModalHeader>
         <ModalBody>
-          <TableContainer>
-            <Table variant="unstyled">
+          <TableContainer mt="3" mb="10" mx="3" whiteSpace="normal">
+            <Table>
               <Tbody>
                 <Tr>
-                  <Td>Pelanggan</Td>
-                  <Td fontWeight="bold" whiteSpace="normal">
-                    {order?.customer}
-                  </Td>
+                  <Td w="25%">Pelanggan</Td>
+                  <Td fontWeight="bold">{order?.customer}</Td>
                 </Tr>
                 <Tr>
                   <Td>Jumlah</Td>
-                  <Td whiteSpace="normal">
+                  <Td>
                     {`${order?.qty.base}${
                       order?.qty.bonus ? "+" + order?.qty.bonus : " "
                     }`}
@@ -68,19 +66,15 @@ const OrderDetailModal = memo(function DM({
                 </Tr>
                 <Tr>
                   <Td>Barang</Td>
-                  <Td whiteSpace="normal">
-                    {order && productList[order.product]}
-                  </Td>
+                  <Td>{order && productList[order.product]}</Td>
                 </Tr>
                 <Tr>
                   <Td>Pembayaran</Td>
-                  <Td whiteSpace="normal">
-                    {order?.payment && formatPayment(order.payment)}
-                  </Td>
+                  <Td>{order?.payment && formatPayment(order.payment)}</Td>
                 </Tr>
                 <Tr>
                   <Td>Waktu Kirim</Td>
-                  <Td whiteSpace="normal">
+                  <Td>
                     {order?.scheduledTime &&
                       formatDateTime(order.scheduledTime)}
                   </Td>
