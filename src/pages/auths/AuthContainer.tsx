@@ -1,8 +1,8 @@
-import { Box, Container, Stack, Heading, Image, Text } from "@chakra-ui/react";
+import { Box, Container, Heading, Image, Stack, Text } from "@chakra-ui/react";
 import { User } from "firebase/auth";
-import { Outlet, Navigate } from "react-router-dom";
+import { Navigate, Outlet } from "react-router-dom";
 import logo from "../../assets/logo.png";
-import FullscreenLoading from "../FullscreenLoading";
+import { FullscreenSpinner } from "../LoadingOverlay";
 
 type ACProps = {
   user: User | undefined;
@@ -11,7 +11,6 @@ type ACProps = {
 };
 
 function AuthContainer({ user, isLoading, currentPath }: ACProps) {
-
   const titleMap: Record<string, string> = {
     "/login": "Login",
     "/signup": "Daftar",
@@ -24,7 +23,7 @@ function AuthContainer({ user, isLoading, currentPath }: ACProps) {
     window.scrollTo(0, 0);
   }
 
-  if (isLoading) return <FullscreenLoading />;
+  if (isLoading) return <FullscreenSpinner />;
 
   if (user) return <Navigate to="/" replace />;
 

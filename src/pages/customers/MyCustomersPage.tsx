@@ -2,7 +2,6 @@ import {
   ButtonGroup,
   Icon,
   IconButton,
-  Spinner,
   Tooltip,
   useDisclosure,
 } from "@chakra-ui/react";
@@ -16,6 +15,7 @@ import { useNavigate } from "react-router-dom";
 import { auth } from "../../config/firebase";
 import { formatAddress } from "../../utils/format";
 import { CustomerListContext } from "../ContextProviders";
+import { ContentSpinner } from "../LoadingOverlay";
 import TanStackTable from "../TanStackTable";
 import ContentWrapper from "../dashboard/ContentWrapper";
 import CustomerDetailModal from "./CustomerDetailModal";
@@ -111,22 +111,20 @@ function MyCustomersPage() {
 
   return (
     <>
-      <ContentWrapper
-        title="Pelanggan Saya"
-        icon={MdGroup}
-        button={[
-          {
-            name: "Kembali",
-            path: "/customers",
-            colorScheme: "gray",
-            variant: "outline",
-            leftIcon: <HiArrowLeft />,
-          },
-        ]}
-      >
-        {isLoading ? (
-          <Spinner />
-        ) : (
+      {!isLoading ? (
+        <ContentWrapper
+          title="Pelanggan Saya"
+          icon={MdGroup}
+          button={[
+            {
+              name: "Kembali",
+              path: "/customers",
+              colorScheme: "gray",
+              variant: "outline",
+              leftIcon: <HiArrowLeft />,
+            },
+          ]}
+        >
           <TanStackTable
             data={customerListMemo}
             columns={columns}
@@ -135,14 +133,16 @@ function MyCustomersPage() {
               placeholder: "Cari nama pelanggan ..",
             }}
           />
-        )}
 
-        <CustomerDetailModal
-          isOpen={isOpen}
-          onClose={onClose}
-          customer={selectedCustomer.current}
-        />
-      </ContentWrapper>
+          <CustomerDetailModal
+            isOpen={isOpen}
+            onClose={onClose}
+            customer={selectedCustomer.current}
+          />
+        </ContentWrapper>
+      ) : (
+        <ContentSpinner />
+      )}
     </>
   );
 }

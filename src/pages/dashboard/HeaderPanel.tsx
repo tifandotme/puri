@@ -114,7 +114,12 @@ function HeaderPanel({ onOpen, ...props }: HPProps) {
             }}
           >
             <HStack spacing={3}>
-              <Avatar size="sm" m="1" pointerEvents="auto">
+              <Avatar
+                size="sm"
+                m="1"
+                pointerEvents="auto"
+                boxSize={{ base: "8", md: "10" }}
+              >
                 <Tooltip
                   hasArrow
                   label={isOnline ? "Online" : "Tidak ada koneksi internet"}
@@ -130,12 +135,12 @@ function HeaderPanel({ onOpen, ...props }: HPProps) {
               <VStack
                 display={{ base: "none", md: "flex" }}
                 alignItems="flex-start"
-                spacing={0.5}
+                spacing={1}
                 ml="2"
               >
-                <Text fontSize="sm">{auth.currentUser?.displayName}</Text>
+                <Text fontSize="md">{auth.currentUser?.displayName}</Text>
                 <Skeleton isLoaded={division.length !== 0} h={4}>
-                  <Text fontSize="xs" color="gray.600">
+                  <Text lineHeight="1" fontSize="sm" color="muted">
                     {division || "xxxxxxx"}
                   </Text>
                 </Skeleton>

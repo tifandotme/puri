@@ -1,8 +1,9 @@
 import {
+  Badge,
   ButtonGroup,
   Icon,
   IconButton,
-  Spinner,
+  Text,
   Tooltip,
   useDisclosure,
   useToast,
@@ -11,12 +12,14 @@ import { ColumnDef } from "@tanstack/react-table";
 import { useContext, useMemo, useRef } from "react";
 import { FaEllipsisV, FaToggleOff, FaToggleOn } from "react-icons/fa";
 import { MdOutlineTextSnippet } from "react-icons/md";
+import { auth } from "../../config/firebase";
 import {
   formatDateTime,
   formatPayment,
   formatQtyProduct,
 } from "../../utils/format";
-import { OrderListContext } from "../ContextProviders";
+import { OrderListContext, UserListContext } from "../ContextProviders";
+import { ContentSpinner } from "../LoadingOverlay";
 import TanStackTable from "../TanStackTable";
 import ContentWrapper from "../dashboard/ContentWrapper";
 import OrderDetailModal from "./OrderDetailModal";
@@ -32,18 +35,60 @@ function OrderListPage() {
   const selectedOrder = useRef<Order | undefined>(undefined);
 
   const { orderList, isLoading } = useContext(OrderListContext);
+  const { userList } = useContext(UserListContext);
+
+  const division = userList ? userList[auth.currentUser!.uid].division : "";
 
   const columns = useMemo<ColumnDef<[string, Order], any>[]>(
     () => [
       {
         header: "Pelanggan",
         accessorKey: "customer",
-        accessorFn: (row) => row[1].customer,
+        // accessorFn: (row) => row[1].customer,
         size: 25, // % of table width
         meta: {
           bodyProps: {
             whiteSpace: "normal",
           },
+        },
+        cell: ({ row }) => {
+          const now = new Date();
+          const createdAt = new Date(row.original[1].createdAt);
+
+          const diffTime = Math.abs(now.getTime() - createdAt.getTime());
+          const isNew = diffTime <= 1000 * 60 * 60;
+
+          const { customer, isDelivered } = row.original[1];
+          return (
+            <>
+              <Text
+                display="inline-block"
+                mr="1"
+                verticalAlign="middle"
+                color={isDelivered ? "green.500" : "none"}
+                fontWeight={isDelivered ? "600" : "none"}
+              >
+                {customer}
+              </Text>
+              {isDelivered && (
+                <Tooltip label="Terkirim">
+                  <Badge
+                    fontSize="1.4rem"
+                    boxShadow="none"
+                    variant="outline"
+                    colorScheme="green"
+                  >
+                    ✔
+                  </Badge>
+                </Tooltip>
+              )}
+              {isNew && (
+                <Badge variant="outline" colorScheme="red">
+                  BARU
+                </Badge>
+              )}
+            </>
+          );
         },
       },
       {
@@ -104,19 +149,23 @@ function OrderListPage() {
         },
         cell: ({ row }) => (
           <ButtonGroup variant="link">
-            <Tooltip label="Ubah status">
-              <IconButton
-                aria-label="Edit"
-                icon={
-                  <Icon
-                    as={row.original[1].isDelivered ? FaToggleOn : FaToggleOff}
-                    boxSize="6"
-                  />
-                }
-                onClick={() => handleToggleDelivery(row.original, toast)}
-                colorScheme={row.original[1].isDelivered ? "green" : "red"}
-              />
-            </Tooltip>
+            {division === "logistik" && (
+              <Tooltip label="Ubah status">
+                <IconButton
+                  aria-label="Edit"
+                  icon={
+                    <Icon
+                      as={
+                        row.original[1].isDelivered ? FaToggleOn : FaToggleOff
+                      }
+                      boxSize="6"
+                    />
+                  }
+                  onClick={() => handleToggleDelivery(row.original, toast)}
+                  colorScheme={row.original[1].isDelivered ? "green" : "red"}
+                />
+              </Tooltip>
+            )}
             <Tooltip label="Detail">
               <IconButton
                 aria-label="Detail"
@@ -132,7 +181,7 @@ function OrderListPage() {
         ),
       },
     ],
-    [onOpen]
+    []
   );
 
   const orderListMemo = useMemo(
@@ -147,35 +196,39 @@ function OrderListPage() {
 
   return (
     <>
-      <ContentWrapper
-        title="Daftar Pesanan"
-        icon={MdOutlineTextSnippet}
-        button={[
-          {
-            name: "Pesanan Saya",
-            path: "my-orders",
-            colorScheme: "gray",
-            variant: "outline",
-          },
-          {
-            name: "Tambah Baru",
-            path: "new",
-            colorScheme: "secondary",
-          },
-        ]}
-      >
-        {isLoading ? (
-          <Spinner />
-        ) : (
+      {!isLoading && userList !== undefined ? (
+        <ContentWrapper
+          title="Daftar Pesanan"
+          icon={MdOutlineTextSnippet}
+          button={
+            division === "sales"
+              ? [
+                  {
+                    name: "Pesanan Saya",
+                    path: "my-orders",
+                    colorScheme: "gray",
+                    variant: "outline",
+                  },
+                  {
+                    name: "Tambah Baru",
+                    path: "new",
+                    colorScheme: "secondary",
+                  },
+                ]
+              : undefined
+          }
+        >
           <TanStackTable data={orderListMemo} columns={columns} />
-        )}
 
-        <OrderDetailModal
-          isOpen={isOpen}
-          onClose={onClose}
-          order={selectedOrder.current}
-        />
-      </ContentWrapper>
+          <OrderDetailModal
+            isOpen={isOpen}
+            onClose={onClose}
+            order={selectedOrder.current}
+          />
+        </ContentWrapper>
+      ) : (
+        <ContentSpinner />
+      )}
     </>
   );
 }

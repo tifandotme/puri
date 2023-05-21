@@ -1,9 +1,7 @@
 import { Box, Drawer, DrawerContent, useDisclosure } from "@chakra-ui/react";
 import { User } from "firebase/auth";
-
 import { Navigate, Outlet } from "react-router-dom";
-
-import FullscreenLoading from "../FullscreenLoading";
+import { FullscreenSpinner } from "../LoadingOverlay";
 import HeaderPanel from "./HeaderPanel";
 import SidebarPanel from "./SidebarPanel";
 
@@ -18,7 +16,7 @@ type MCProps = {
 function PanelContainer({ user, isLoading }: MCProps) {
   const { isOpen, onOpen, onClose } = useDisclosure();
 
-  if (isLoading) return <FullscreenLoading />;
+  if (isLoading) return <FullscreenSpinner />;
 
   if (!user) return <Navigate to="/login" replace />;
 

@@ -81,7 +81,7 @@ function TanStackTable<
                         : undefined
                     }
                     {...header.column.columnDef.meta?.headerProps}
-                    px={{ base: "6", md: "4" }}
+                    px="4"
                   >
                     {header.isPlaceholder
                       ? null
@@ -102,7 +102,7 @@ function TanStackTable<
                     key={cell.id}
                     {...cell.column.columnDef.meta?.bodyProps}
                     py="4"
-                    px={{ base: "6", md: "4" }}
+                    px="4"
                   >
                     {flexRender(cell.column.columnDef.cell, cell.getContext())}
                   </Td>
@@ -129,7 +129,7 @@ function SearchBar({ table, columnKey, placeholder }: SearchBarProps) {
     <HStack my="4" mx="6" justifyContent="flex-start">
       <InputGroup>
         <InputLeftElement pointerEvents="none">
-          <Icon as={HiMagnifyingGlass} boxSize="5" color="gray.600"/>
+          <Icon as={HiMagnifyingGlass} boxSize="5" color="gray.600" />
         </InputLeftElement>
         <Input
           type="text"

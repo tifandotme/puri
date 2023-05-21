@@ -1,8 +1,9 @@
 import {
+  Badge,
   ButtonGroup,
   Icon,
   IconButton,
-  Spinner,
+  Text,
   Tooltip,
   useDisclosure,
 } from "@chakra-ui/react";
@@ -19,6 +20,7 @@ import {
   formatQtyProduct,
 } from "../../utils/format";
 import { OrderListContext } from "../ContextProviders";
+import { ContentSpinner } from "../LoadingOverlay";
 import TanStackTable from "../TanStackTable";
 import ContentWrapper from "../dashboard/ContentWrapper";
 import OrderDetailModal from "./OrderDetailModal";
@@ -37,12 +39,51 @@ function MyOrdersPage() {
       {
         header: "Pelanggan",
         accessorKey: "customer",
-        accessorFn: (row) => row[1].customer,
+        // accessorFn: (row) => row[1].customer,
         size: 25, // % of table width
         meta: {
           bodyProps: {
             whiteSpace: "normal",
           },
+        },
+        cell: ({ row }) => {
+          const now = new Date();
+          const createdAt = new Date(row.original[1].createdAt);
+
+          const diffTime = Math.abs(now.getTime() - createdAt.getTime());
+          const isNew = diffTime <= 1000 * 60 * 60;
+
+          const { customer, isDelivered } = row.original[1];
+          return (
+            <>
+              <Text
+                display="inline-block"
+                mr="1"
+                verticalAlign="middle"
+                color={isDelivered ? "green.500" : "none"}
+                fontWeight={isDelivered ? "600" : "none"}
+              >
+                {customer}
+              </Text>
+              {isDelivered && (
+                <Tooltip label="Terkirim">
+                  <Badge
+                    fontSize="1.4rem"
+                    boxShadow="none"
+                    variant="outline"
+                    colorScheme="green"
+                  >
+                    ✔
+                  </Badge>
+                </Tooltip>
+              )}
+              {isNew && (
+                <Badge variant="outline" colorScheme="red">
+                  BARU
+                </Badge>
+              )}
+            </>
+          );
         },
       },
       {
@@ -149,31 +190,31 @@ function MyOrdersPage() {
 
   return (
     <>
-      <ContentWrapper
-        title="Pesanan Saya"
-        icon={MdOutlineTextSnippet}
-        button={[
-          {
-            name: "Kembali",
-            path: "/orders",
-            colorScheme: "gray",
-            variant: "outline",
-            leftIcon: <HiArrowLeft />,
-          },
-        ]}
-      >
-        {isLoading ? (
-          <Spinner />
-        ) : (
+      {!isLoading ? (
+        <ContentWrapper
+          title="Pesanan Saya"
+          icon={MdOutlineTextSnippet}
+          button={[
+            {
+              name: "Kembali",
+              path: "/orders",
+              colorScheme: "gray",
+              variant: "outline",
+              leftIcon: <HiArrowLeft />,
+            },
+          ]}
+        >
           <TanStackTable data={orderListMemo} columns={columns} />
-        )}
 
-        <OrderDetailModal
-          isOpen={isOpen}
-          onClose={onClose}
-          order={selectedOrder.current}
-        />
-      </ContentWrapper>
+          <OrderDetailModal
+            isOpen={isOpen}
+            onClose={onClose}
+            order={selectedOrder.current}
+          />
+        </ContentWrapper>
+      ) : (
+        <ContentSpinner />
+      )}
     </>
   );
 }

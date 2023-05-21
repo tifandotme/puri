@@ -1,16 +1,18 @@
 import {
   Icon,
   IconButton,
-  Spinner,
   Tooltip,
   useDisclosure,
+  useToast,
 } from "@chakra-ui/react";
 import { ColumnDef } from "@tanstack/react-table";
 import { useContext, useMemo, useRef } from "react";
 import { FaEllipsisV } from "react-icons/fa";
 import { MdGroup } from "react-icons/md";
+import { auth } from "../../config/firebase";
 import { formatAddress } from "../../utils/format";
-import { CustomerListContext } from "../ContextProviders";
+import { CustomerListContext, UserListContext } from "../ContextProviders";
+import { ContentSpinner } from "../LoadingOverlay";
 import TanStackTable from "../TanStackTable";
 import ContentWrapper from "../dashboard/ContentWrapper";
 import CustomerDetailModal from "./CustomerDetailModal";
@@ -18,9 +20,16 @@ import CustomerDetailModal from "./CustomerDetailModal";
 function CustomerListPage() {
   const { isOpen, onOpen, onClose } = useDisclosure();
 
+  const toast = useToast({
+    duration: 3000,
+  });
+
   const selectedCustomer = useRef<Customer | undefined>(undefined);
 
   const { customerList, isLoading } = useContext(CustomerListContext);
+  const { userList } = useContext(UserListContext);
+
+  const division = userList ? userList[auth.currentUser!.uid].division : "";
 
   // added salesName from the uid to full name conversion in useCustomerList
   const columns = useMemo<
@@ -96,7 +105,7 @@ function CustomerListPage() {
         ),
       },
     ],
-    [onOpen]
+    [] // tadinya onOpen, sama dgn OrderListPage, kenapa ya?
   );
 
   const customerListMemo = useMemo(
@@ -111,26 +120,28 @@ function CustomerListPage() {
 
   return (
     <>
-      <ContentWrapper
-        title="Daftar Pelanggan"
-        icon={MdGroup}
-        button={[
-          {
-            name: "Pelanggan Saya",
-            path: "my-customers",
-            colorScheme: "gray",
-            variant: "outline",
-          },
-          {
-            name: "Tambah Baru",
-            path: "new",
-            colorScheme: "secondary",
-          },
-        ]}
-      >
-        {isLoading ? (
-          <Spinner />
-        ) : (
+      {!isLoading && userList !== undefined ? (
+        <ContentWrapper
+          title="Daftar Pelanggan"
+          icon={MdGroup}
+          button={
+            division === "sales"
+              ? [
+                  {
+                    name: "Pelanggan Saya",
+                    path: "my-customers",
+                    colorScheme: "gray",
+                    variant: "outline",
+                  },
+                  {
+                    name: "Tambah Baru",
+                    path: "new",
+                    colorScheme: "secondary",
+                  },
+                ]
+              : undefined
+          }
+        >
           <TanStackTable
             data={customerListMemo}
             columns={columns}
@@ -139,14 +150,16 @@ function CustomerListPage() {
               placeholder: "Cari nama pelanggan ..",
             }}
           />
-        )}
 
-        <CustomerDetailModal
-          isOpen={isOpen}
-          onClose={onClose}
-          customer={selectedCustomer.current}
-        />
-      </ContentWrapper>
+          <CustomerDetailModal
+            isOpen={isOpen}
+            onClose={onClose}
+            customer={selectedCustomer.current}
+          />
+        </ContentWrapper>
+      ) : (
+        <ContentSpinner />
+      )}
     </>
   );
 }
