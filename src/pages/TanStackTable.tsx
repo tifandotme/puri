@@ -156,7 +156,7 @@ function Pagination<T>({ table }: { table: TTable<T> }) {
       justifyContent={{ lg: "space-between" }}
       alignItems={{ base: "center" }}
     >
-      <HStack>
+      <Stack align="center" direction={{ base: "column", lg: "row" }} gap={{ base: 5, lg: 7 }}>
         <ButtonGroup colorScheme="secondary" size="sm" variant="outline">
           <Button
             onClick={() => table.setPageIndex(0)}
@@ -196,7 +196,7 @@ function Pagination<T>({ table }: { table: TTable<T> }) {
             w="3em"
           />
         </InputGroup>
-      </HStack>
+      </Stack>
       <HStack>
         <Text fontSize="sm">
           Halaman{" "}

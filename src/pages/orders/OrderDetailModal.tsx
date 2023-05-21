@@ -56,7 +56,7 @@ const OrderDetailModal = memo(function DM({
         <ModalHeader>Detail Pesanan</ModalHeader>
         <ModalBody>
           <TableContainer
-            h={{ base: "md", md: "50vh" }}
+            h={{ base: "sm", md: "50vh" }}
             overflowY="scroll"
             whiteSpace="normal"
             border="1px solid"
