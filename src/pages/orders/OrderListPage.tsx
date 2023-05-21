@@ -55,12 +55,16 @@ function OrderListPage({ user }: { user: UserAuth | undefined }) {
         cell: ({ row }) => {
           const { isDelivered } = row.original[1];
           return (
-            <Icon
-              verticalAlign="middle"
-              as={isDelivered ? TbPackageExport : TbPackage}
-              boxSize="6"
-              color={isDelivered ? "gray.700" : "red.500"}
-            />
+            <Tooltip label={isDelivered ? "Sudah dikirim" : "Belum dikirim"}>
+              <Text as="span">
+                <Icon
+                  verticalAlign="middle"
+                  as={isDelivered ? TbPackageExport : TbPackage}
+                  boxSize="6"
+                  color={isDelivered ? "gray.700" : "red.500"}
+                />
+              </Text>
+            </Tooltip>
           );
         },
       },
@@ -137,9 +141,11 @@ function OrderListPage({ user }: { user: UserAuth | undefined }) {
                 })}
               </Text>
               {isNew && (
-                <Badge variant="outline" colorScheme="red" userSelect="none">
-                  BARU
-                </Badge>
+                <Tooltip label="Baru ditambahkan < 1 jam">
+                  <Badge variant="outline" colorScheme="red" userSelect="none">
+                    BARU
+                  </Badge>
+                </Tooltip>
               )}
             </>
           );
