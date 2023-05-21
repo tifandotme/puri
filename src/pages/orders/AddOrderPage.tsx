@@ -27,7 +27,9 @@ import { handleAddOrder } from "./handle-order";
 import productList from "./product-list";
 
 function AddOrderPage() {
-  const toast = useToast();
+  const toast = useToast({
+    duration: 3000,
+  });
 
   const navigate = useNavigate();
 

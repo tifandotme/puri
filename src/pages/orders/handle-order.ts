@@ -1,5 +1,12 @@
 import { useToast } from "@chakra-ui/react";
-import { child, push, ref, serverTimestamp, set, update } from "firebase/database";
+import {
+  child,
+  push,
+  ref,
+  serverTimestamp,
+  set,
+  update,
+} from "firebase/database";
 import { NavigateFunction } from "react-router-dom";
 import { auth, database } from "../../config/firebase";
 
@@ -35,6 +42,7 @@ async function handleAddOrder(
       createdAt: serverTimestamp(),
       // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
       sales: auth.currentUser!.uid,
+      isDelivered: false,
     };
 
     await set(push(ref(database, "orders")), order);
@@ -80,4 +88,29 @@ async function handleEditOrder(
   }
 }
 
-export { handleAddOrder, handleEditOrder };
+async function handleToggleDelivery(
+  id: [string, Order],
+  toast: ReturnType<typeof useToast>
+) {
+  try {
+    const isDelivered = !id[1].isDelivered;
+
+    await update(child(ref(database, "orders"), id[0]), {
+      isDelivered,
+    });
+
+    toast({
+      title: "Status pesanan berhasil diubah",
+      status: "success",
+    });
+  } catch (error: unknown) {
+    if (error instanceof Error) {
+      toast({
+        title: error.message,
+        status: "error",
+      });
+    }
+  }
+}
+
+export { handleAddOrder, handleEditOrder, handleToggleDelivery };

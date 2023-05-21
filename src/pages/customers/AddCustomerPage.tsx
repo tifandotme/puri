@@ -26,7 +26,9 @@ import CustomerTypeRadio from "./CustomerTypeRadio";
 import { handleAddCustomer } from "./handle-customer";
 
 function AddCustomerPage() {
-  const toast = useToast();
+  const toast = useToast({
+    duration: 3000,
+  });
 
   const navigate = useNavigate();
 

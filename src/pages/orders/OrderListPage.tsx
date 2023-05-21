@@ -1,13 +1,15 @@
 import {
+  ButtonGroup,
   Icon,
   IconButton,
   Spinner,
   Tooltip,
   useDisclosure,
+  useToast,
 } from "@chakra-ui/react";
 import { ColumnDef } from "@tanstack/react-table";
 import { useContext, useMemo, useRef } from "react";
-import { FaEllipsisV } from "react-icons/fa";
+import { FaEllipsisV, FaToggleOff, FaToggleOn } from "react-icons/fa";
 import { MdOutlineTextSnippet } from "react-icons/md";
 import {
   formatDateTime,
@@ -18,9 +20,14 @@ import { OrderListContext } from "../ContextProviders";
 import TanStackTable from "../TanStackTable";
 import ContentWrapper from "../dashboard/ContentWrapper";
 import OrderDetailModal from "./OrderDetailModal";
+import { handleToggleDelivery } from "./handle-order";
 
 function OrderListPage() {
   const { isOpen, onOpen, onClose } = useDisclosure();
+
+  const toast = useToast({
+    duration: 3000,
+  });
 
   const selectedOrder = useRef<Order | undefined>(undefined);
 
@@ -96,18 +103,32 @@ function OrderListPage() {
           },
         },
         cell: ({ row }) => (
-          <Tooltip label="Detail">
-            <IconButton
-              aria-label="Detail"
-              icon={<Icon as={FaEllipsisV} boxSize="5" />}
-              onClick={() => {
-                selectedOrder.current = row.original[1];
-                onOpen();
-              }}
-              colorScheme="secondary"
-              variant="link"
-            />
-          </Tooltip>
+          <ButtonGroup variant="link">
+            <Tooltip label="Ubah status">
+              <IconButton
+                aria-label="Edit"
+                icon={
+                  <Icon
+                    as={row.original[1].isDelivered ? FaToggleOn : FaToggleOff}
+                    boxSize="6"
+                  />
+                }
+                onClick={() => handleToggleDelivery(row.original, toast)}
+                colorScheme={row.original[1].isDelivered ? "green" : "red"}
+              />
+            </Tooltip>
+            <Tooltip label="Detail">
+              <IconButton
+                aria-label="Detail"
+                icon={<Icon as={FaEllipsisV} boxSize="5" />}
+                onClick={() => {
+                  selectedOrder.current = row.original[1];
+                  onOpen();
+                }}
+                colorScheme="secondary"
+              />
+            </Tooltip>
+          </ButtonGroup>
         ),
       },
     ],

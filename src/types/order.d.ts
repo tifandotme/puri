@@ -27,8 +27,9 @@ type Order<TDate extends object = number> = {
   payment?: Payment;
   scheduledTime?: number;
   location?: string;
-  createdAt: TDate; // number when reading from database
+  createdAt: TDate;
   sales: string;
+  isDelivered: boolean;
 };
 
 /**
