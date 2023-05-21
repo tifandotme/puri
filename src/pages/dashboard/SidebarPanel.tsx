@@ -1,4 +1,15 @@
-import { Box, CloseButton, Flex, Icon, Image, Text } from "@chakra-ui/react";
+import {
+  Box,
+  CloseButton,
+  Flex,
+  Icon,
+  Image,
+  Link,
+  Stack,
+  Text,
+} from "@chakra-ui/react";
+import { FaGithub } from "react-icons/fa";
+import { HiExternalLink } from "react-icons/hi";
 import { NavLink } from "react-router-dom";
 import logo from "../../assets/logo.png";
 import navItems from "./sidebar-nav-items";
@@ -9,15 +20,6 @@ type SPProps = {
 };
 
 function SidebarPanel({ onClose, ...props }: SPProps) {
-  // const [appVersion, setAppVersion] = useState("");
-  // useEffect(() => {
-  //   fetch("https://raw.githubusercontent.com/tifandotme/puri/main/package.json")
-  //     .then((res) => res.json() as Promise<{ version: string }>)
-  //     .then((data) => {
-  //       setAppVersion(data.version);
-  //     });
-  // }, []);
-
   const appVersion = "1.0.0";
 
   return (
@@ -81,6 +83,46 @@ function SidebarPanel({ onClose, ...props }: SPProps) {
           </NavLink>
         );
       })}
+      <Link
+        href="https://github.com/tifandotme/puri"
+        target="_blank"
+        draggable={false}
+        _hover={{
+          textDecoration: "none",
+        }}
+      >
+        <Stack
+          align="center"
+          bg="yellow.100"
+          color="yellow.700"
+          _hover={{
+            color: "yellow.800",
+            borderColor: "yellow.400",
+          }}
+          borderColor="yellow.300"
+          borderWidth="1px"
+          borderRadius="md"
+          mx="4"
+          p="2"
+          position="absolute"
+          bottom="16"
+          userSelect="none"
+          direction="row"
+          maxW="full"
+        >
+          <Icon as={FaGithub} boxSize={6} />
+          <Text fontSize="xs">
+            This project is open-source on GitHub
+          </Text>
+          <Icon
+            as={HiExternalLink}
+            boxSize={4}
+            position="relative"
+            color="yellow.500"
+            alignSelf={{ base: "center", md: "flex-start" }}
+          />
+        </Stack>
+      </Link>
       <Text
         color="gray.400"
         fontSize="xs"

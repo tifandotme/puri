@@ -22,7 +22,7 @@ type CWProps = {
 
 function ContentWrapper({ title, button, children }: CWProps) {
   const location = useLocation().pathname;
-  const iconColor = useToken("colors", "secondary.50");
+  const iconColor = useToken("colors", "gray.100");
   const iconComponent = location.startsWith("/orders") ? (
     <MdOutlineTextSnippet color={iconColor} />
   ) : (

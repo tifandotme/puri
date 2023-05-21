@@ -29,6 +29,7 @@ import { Link } from "react-router-dom";
 import logo from "../../assets/logo.png";
 import { auth } from "../../config/firebase";
 import useTopValue from "../../hooks/useTopValue";
+import { capitalizeWords } from "../../utils/misc";
 import { UserListContext } from "../ContextProviders";
 import { handleSignOut } from "../auths/handle-auths";
 import EditProfileModal from "./EditProfileModal";
@@ -43,7 +44,9 @@ function HeaderPanel({ onOpen, ...props }: HPProps) {
 
   const { userList } = useContext(UserListContext);
 
-  const division = userList ? userList[auth.currentUser!.uid].division : "";
+  const division = userList
+    ? capitalizeWords(userList[auth.currentUser!.uid].division)
+    : "";
 
   const topValue = useTopValue(16, "md");
 
@@ -121,7 +124,6 @@ function HeaderPanel({ onOpen, ...props }: HPProps) {
               <Avatar size="sm" m="1" pointerEvents="auto">
                 <Tooltip
                   hasArrow
-                  openDelay={250}
                   label={isOnline ? "Online" : "Tidak ada koneksi internet"}
                   fontSize="sm"
                   bg="gray.600"
