@@ -15,8 +15,8 @@ import {
   Tr,
 } from "@chakra-ui/react";
 import { memo, useEffect, useState } from "react";
-import { getFullName } from "../../utils/misc";
 import { formatAddress, formatDateTime } from "../../utils/format";
+import { getFullName } from "../../utils/misc";
 
 type CustomerDetailModalProps = {
   isOpen: boolean;
@@ -41,7 +41,13 @@ const CustomerDetailModal = memo(function DM({
   }, [customer]);
 
   return (
-    <Modal isOpen={isOpen} onClose={onClose} size={{ base: "full", md: "lg" }}>
+    <Modal
+      isOpen={isOpen}
+      onClose={onClose}
+      size={{ base: "full", md: "lg" }}
+      isCentered
+      motionPreset="none"
+    >
       <ModalOverlay />
       <ModalContent>
         <ModalHeader>
@@ -57,7 +63,13 @@ const CustomerDetailModal = memo(function DM({
           </Badge>
         </ModalHeader>
         <ModalBody>
-          <TableContainer mt="3" mb="10" mx="3" whiteSpace="normal">
+          <TableContainer
+            h={{ base: "md", md: "50vh" }}
+            overflowY="scroll"
+            whiteSpace="normal"
+            border="1px solid"
+            borderColor="gray.300"
+          >
             <Table>
               <Tbody>
                 <Tr>

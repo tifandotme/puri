@@ -21,7 +21,7 @@ const inputMultiPart = defineStyleConfig({
     flushed: {
       field: {
         borderBottomWidth: "2px",
-        borderColor: "gray.400"
+        borderColor: "gray.400",
       },
     },
   },
@@ -56,7 +56,7 @@ const Modal = defineStyleConfig({
     header: {
       paddingTop: 8,
       fontSize: "2xl",
-      fontWeight: "500",
+      fontWeight: "600",
     },
     body: {
       paddingInlineStart: 0,

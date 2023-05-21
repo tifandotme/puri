@@ -44,12 +44,24 @@ const OrderDetailModal = memo(function DM({
   }, [order]);
 
   return (
-    <Modal isOpen={isOpen} onClose={onClose} size={{ base: "full", md: "lg" }}>
+    <Modal
+      isOpen={isOpen}
+      onClose={onClose}
+      size={{ base: "full", md: "lg" }}
+      isCentered
+      motionPreset="none"
+    >
       <ModalOverlay />
       <ModalContent>
         <ModalHeader>Detail Pesanan</ModalHeader>
         <ModalBody>
-          <TableContainer mt="3" mb="10" mx="3" whiteSpace="normal">
+          <TableContainer
+            h={{ base: "md", md: "50vh" }}
+            overflowY="scroll"
+            whiteSpace="normal"
+            border="1px solid"
+            borderColor="gray.300"
+          >
             <Table>
               <Tbody>
                 <Tr>

@@ -110,6 +110,7 @@ const UserListModal = memo(function UserListModal({
       onClose={onClose}
       size={{ base: "full", md: "lg" }}
       isCentered
+      motionPreset="none"
     >
       <ModalOverlay />
       <ModalContent>
@@ -143,13 +144,13 @@ const UserListModal = memo(function UserListModal({
 function UsersTable({ list }: { list: User[] | undefined }) {
   return (
     <TableContainer
-      h={{ base: "70vh", md: "50vh" }}
+      h={{ base: "md", md: "50vh" }}
       overflowY="scroll"
       whiteSpace="normal"
       border="1px solid"
       borderColor="gray.300"
     >
-      <Table size="md">
+      <Table>
         <Thead fontWeight="600" bg="gray.100" position="sticky" top="0">
           <Tr>
             <Td py="3" w="45%">
