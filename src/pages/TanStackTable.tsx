@@ -156,7 +156,11 @@ function Pagination<T>({ table }: { table: TTable<T> }) {
       justifyContent={{ lg: "space-between" }}
       alignItems={{ base: "center" }}
     >
-      <Stack align="center" direction={{ base: "column", lg: "row" }} gap={{ base: 5, lg: 7 }}>
+      <Stack
+        align="center"
+        direction={{ base: "column", lg: "row" }}
+        gap={{ base: 5, lg: 7 }}
+      >
         <ButtonGroup colorScheme="secondary" size="sm" variant="outline">
           <Button
             onClick={() => table.setPageIndex(0)}
