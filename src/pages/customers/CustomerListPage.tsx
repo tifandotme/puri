@@ -20,10 +20,6 @@ import CustomerDetailModal from "./CustomerDetailModal";
 function CustomerListPage() {
   const { isOpen, onOpen, onClose } = useDisclosure();
 
-  const toast = useToast({
-    duration: 3000,
-  });
-
   const selectedCustomer = useRef<Customer | undefined>(undefined);
 
   const { customerList, isLoading } = useContext(CustomerListContext);
