@@ -20,7 +20,7 @@ type PanelProps = {
 } & BoxProps;
 
 function Panel({ icon, children, ...props }: PanelProps) {
-  const colorNormal = useToken("colors", "gray.50");
+  const colorNormal = useToken("colors", "gray.100");
   const colorHover = useToken("colors", "secondary.50");
 
   const [iconColor, setIconColor] = React.useState<string>(colorNormal);

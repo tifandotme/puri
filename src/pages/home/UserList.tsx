@@ -150,7 +150,7 @@ function UsersTable({ list }: { list: User[] | undefined }) {
       borderColor="gray.300"
     >
       <Table size="md">
-        <Thead fontWeight="600" bg="gray.50" position="sticky" top="0">
+        <Thead fontWeight="600" bg="gray.100" position="sticky" top="0">
           <Tr>
             <Td py="3" w="45%">
               Nama
