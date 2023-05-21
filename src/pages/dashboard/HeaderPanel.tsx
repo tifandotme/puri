@@ -135,7 +135,7 @@ function HeaderPanel({ onOpen, ...props }: HPProps) {
               <VStack
                 display={{ base: "none", md: "flex" }}
                 alignItems="flex-start"
-                spacing={1}
+                spacing={0.5}
                 ml="2"
               >
                 <Text fontSize="md">{auth.currentUser?.displayName}</Text>
