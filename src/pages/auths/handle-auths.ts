@@ -9,12 +9,11 @@ import {
 } from "firebase/auth";
 import { ref, set } from "firebase/database";
 import { FieldValues } from "react-hook-form";
-import { NavigateFunction } from "react-router-dom";
+import { redirect } from "react-router-dom";
 import { auth, database } from "../../config/firebase";
 
 async function handleSignUp(
   data: FieldValues,
-  navigate: NavigateFunction,
   toast: ReturnType<typeof useToast>
 ) {
   const { firstName, lastName, email, password, division } = data;
@@ -37,7 +36,7 @@ async function handleSignUp(
       division,
     });
 
-    navigate("/");
+    redirect("/");
   } catch (error: unknown) {
     if (error instanceof FirebaseError) {
       toast({
@@ -53,7 +52,6 @@ async function handleSignUp(
 
 async function handleSignIn(
   data: FieldValues,
-  navigate: NavigateFunction,
   toast: ReturnType<typeof useToast>
 ) {
   const { email, password } = data;
@@ -61,7 +59,7 @@ async function handleSignIn(
   try {
     await signInWithEmailAndPassword(auth, email, password);
 
-    navigate("/");
+    redirect("/");
   } catch (error: unknown) {
     if (error instanceof FirebaseError) {
       toast({

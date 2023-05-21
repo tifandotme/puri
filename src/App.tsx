@@ -11,9 +11,9 @@ import {
   UserListContext,
 } from "./pages/ContextProviders";
 import AuthContainer from "./pages/auths/AuthContainer";
-import ForgotPassword from "./pages/auths/ForgotPassword";
-import Login from "./pages/auths/Login";
-import SignUp from "./pages/auths/SignUp";
+import ForgotPasswordPage from "./pages/auths/ForgotPassword";
+import LoginPage from "./pages/auths/LoginPage";
+import SignUpPage from "./pages/auths/SignUpPage";
 import AddCustomerPage from "./pages/customers/AddCustomerPage";
 import CustomerListPage from "./pages/customers/CustomerListPage";
 import EditCustomerPage from "./pages/customers/EditCustomerPage";
@@ -67,9 +67,9 @@ function App() {
                   />
                 }
               >
-                <Route path="/login" element={<Login />} />
-                <Route path="/signup" element={<SignUp />} />
-                <Route path="/forgotpassword" element={<ForgotPassword />} />
+                <Route path="/login" element={<LoginPage />} />
+                <Route path="/signup" element={<SignUpPage />} />
+                <Route path="/forgotpassword" element={<ForgotPasswordPage />} />
               </Route>
               <Route path="*" element={<NotFoundPage />} />
             </Routes>

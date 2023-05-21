@@ -7,14 +7,12 @@ import {
   useToast,
 } from "@chakra-ui/react";
 import { useForm } from "react-hook-form";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { EmailField, PasswordField } from "./AuthFields";
 import { handleSignIn } from "./handle-auths";
 
-function Login() {
+function LoginPage() {
   const toast = useToast();
-
-  const navigate = useNavigate();
 
   const {
     register,
@@ -22,7 +20,7 @@ function Login() {
     formState: { errors, isSubmitting },
   } = useForm();
 
-  const onSubmit = handleSubmit((data) => handleSignIn(data, navigate, toast));
+  const onSubmit = handleSubmit((data) => handleSignIn(data, toast));
 
   return (
     <form onSubmit={onSubmit}>
@@ -65,4 +63,4 @@ function Login() {
   );
 }
 
-export default Login;
+export default LoginPage;

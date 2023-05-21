@@ -12,16 +12,14 @@ import {
   useToast,
 } from "@chakra-ui/react";
 import { useForm } from "react-hook-form";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { EmailField, PasswordField } from "./AuthFields";
 import { handleSignUp } from "./handle-auths";
 
-function SignUp() {
+function SignUpPage() {
   const toast = useToast({
-    duration: 3000
+    duration: 3000,
   });
-
-  const navigate = useNavigate();
 
   const {
     register,
@@ -30,7 +28,7 @@ function SignUp() {
   } = useForm();
 
   // used in select field (onKeyDown) and submit button
-  const onSubmit = handleSubmit((data) => handleSignUp(data, navigate, toast));
+  const onSubmit = handleSubmit((data) => handleSignUp(data, toast));
 
   return (
     <form onSubmit={onSubmit}>
@@ -107,4 +105,4 @@ function SignUp() {
   );
 }
 
-export default SignUp;
+export default SignUpPage;

@@ -4,8 +4,10 @@ import { Link } from "react-router-dom";
 import { EmailField } from "./AuthFields";
 import { handleForgotPassword } from "./handle-auths";
 
-function ForgotPassword() {
-  const toast = useToast();
+function ForgotPasswordPage() {
+  const toast = useToast({
+    duration: 3000,
+  });
 
   const {
     register,
@@ -48,4 +50,4 @@ function ForgotPassword() {
   );
 }
 
-export default ForgotPassword;
+export default ForgotPasswordPage;
