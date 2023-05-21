@@ -11,10 +11,11 @@ import { FaEllipsisV } from "react-icons/fa";
 import { ColumnDef } from "@tanstack/react-table";
 import { useContext, useMemo, useRef } from "react";
 import { HiArrowLeft, HiPencilSquare } from "react-icons/hi2";
+import { MdGroup } from "react-icons/md";
 import { useNavigate } from "react-router-dom";
-import { CustomerListContext } from "../ContextProviders";
 import { auth } from "../../config/firebase";
 import { formatAddress } from "../../utils/format";
+import { CustomerListContext } from "../ContextProviders";
 import TanStackTable from "../TanStackTable";
 import ContentWrapper from "../dashboard/ContentWrapper";
 import CustomerDetailModal from "./CustomerDetailModal";
@@ -112,6 +113,7 @@ function MyCustomersPage() {
     <>
       <ContentWrapper
         title="Pelanggan Saya"
+        icon={MdGroup}
         button={[
           {
             name: "Kembali",

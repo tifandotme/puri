@@ -23,6 +23,7 @@ import { FieldValues, UseFormUnregister, useForm } from "react-hook-form";
 import { BiPlus } from "react-icons/bi";
 import { GiCheckMark } from "react-icons/gi";
 import { HiArrowLeft } from "react-icons/hi2";
+import { MdOutlineTextSnippet } from "react-icons/md";
 import { useNavigate, useParams } from "react-router-dom";
 import { database } from "../../config/firebase";
 import { formatDateTime } from "../../utils/format";
@@ -84,7 +85,7 @@ function EditOrderPage() {
   };
 
   return (
-    <ContentWrapper title="Edit Pesanan">
+    <ContentWrapper title="Edit Pesanan" icon={MdOutlineTextSnippet}>
       {order ? (
         <>
           <form onSubmit={onSubmit}>

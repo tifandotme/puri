@@ -16,6 +16,7 @@ import { child, get, ref, remove } from "firebase/database";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { HiArrowLeft } from "react-icons/hi2";
+import { MdPerson } from "react-icons/md";
 import { useNavigate, useParams } from "react-router-dom";
 import {
   District,
@@ -132,7 +133,7 @@ function EditCustomerPage() {
   };
 
   return (
-    <ContentWrapper title="Edit Pelanggan">
+    <ContentWrapper title="Edit Pelanggan" icon={MdPerson}>
       {customer ? (
         <>
           <form onSubmit={onSubmit}>

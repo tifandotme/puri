@@ -9,7 +9,6 @@ import {
   Image,
   Menu,
   MenuButton,
-  MenuDivider,
   MenuItem,
   MenuList,
   Skeleton,
@@ -106,17 +105,11 @@ function HeaderPanel({ onOpen, ...props }: HPProps) {
             py={3}
             mx={-2}
             px={2}
-            borderRadius="xl"
+            borderRadius="md"
             _hover={{
               base: {},
               md: {
-                bg: "gray.50",
-              },
-            }}
-            _active={{
-              base: {},
-              md: {
-                bg: "gray.50",
+                bg: "gray.100",
               },
             }}
           >
@@ -152,7 +145,7 @@ function HeaderPanel({ onOpen, ...props }: HPProps) {
               </Box>
             </HStack>
           </MenuButton>
-          <MenuList borderColor="gray.200">
+          <MenuList borderColor="gray.200" minW="180px">
             <VStack
               display={{ base: "flex", md: "none" }}
               align="flex-start"
@@ -180,7 +173,6 @@ function HeaderPanel({ onOpen, ...props }: HPProps) {
             >
               Edit Profile
             </MenuItem>
-            <MenuDivider />
             <MenuItem
               color="red.600"
               onClick={handleSignOut}

@@ -11,6 +11,7 @@ import {
 } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
+import { MdPerson } from "react-icons/md";
 import { useNavigate } from "react-router-dom";
 import {
   District,
@@ -90,7 +91,7 @@ function AddCustomerPage() {
   );
 
   return (
-    <ContentWrapper title="Tambah Pelanggan">
+    <ContentWrapper title="Tambah Pelanggan" icon={MdPerson}>
       <form onSubmit={onSubmit}>
         <Stack
           spacing="12"

@@ -10,14 +10,15 @@ import { ColumnDef } from "@tanstack/react-table";
 import { useContext, useMemo, useRef } from "react";
 import { FaEllipsisV } from "react-icons/fa";
 import { HiArrowLeft, HiPencilSquare } from "react-icons/hi2";
+import { MdOutlineTextSnippet } from "react-icons/md";
 import { useNavigate } from "react-router-dom";
-import { OrderListContext } from "../ContextProviders";
 import { auth } from "../../config/firebase";
 import {
   formatDateTime,
   formatPayment,
   formatQtyProduct,
 } from "../../utils/format";
+import { OrderListContext } from "../ContextProviders";
 import TanStackTable from "../TanStackTable";
 import ContentWrapper from "../dashboard/ContentWrapper";
 import OrderDetailModal from "./OrderDetailModal";
@@ -150,6 +151,7 @@ function MyOrdersPage() {
     <>
       <ContentWrapper
         title="Pesanan Saya"
+        icon={MdOutlineTextSnippet}
         button={[
           {
             name: "Kembali",

@@ -8,12 +8,13 @@ import {
 import { ColumnDef } from "@tanstack/react-table";
 import { useContext, useMemo, useRef } from "react";
 import { FaEllipsisV } from "react-icons/fa";
-import { OrderListContext } from "../ContextProviders";
+import { MdOutlineTextSnippet } from "react-icons/md";
 import {
   formatDateTime,
   formatPayment,
   formatQtyProduct,
 } from "../../utils/format";
+import { OrderListContext } from "../ContextProviders";
 import TanStackTable from "../TanStackTable";
 import ContentWrapper from "../dashboard/ContentWrapper";
 import OrderDetailModal from "./OrderDetailModal";
@@ -127,6 +128,7 @@ function OrderListPage() {
     <>
       <ContentWrapper
         title="Daftar Pesanan"
+        icon={MdOutlineTextSnippet}
         button={[
           {
             name: "Pesanan Saya",

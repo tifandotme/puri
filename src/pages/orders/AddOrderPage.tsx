@@ -19,6 +19,7 @@ import { memo, useEffect, useState } from "react";
 import { FieldValues, UseFormUnregister, useForm } from "react-hook-form";
 import { BiPlus } from "react-icons/bi";
 import { GiCheckMark } from "react-icons/gi";
+import { MdOutlineTextSnippet } from "react-icons/md";
 import { useNavigate } from "react-router-dom";
 import ContentWrapper from "../dashboard/ContentWrapper";
 import CustomerNameSelect from "./CustomerNameSelect";
@@ -43,7 +44,7 @@ function AddOrderPage() {
   });
 
   return (
-    <ContentWrapper title="Tambah Pesanan">
+    <ContentWrapper title="Tambah Pesanan" icon={MdOutlineTextSnippet}>
       <form onSubmit={onSubmit}>
         <Stack
           spacing="6"

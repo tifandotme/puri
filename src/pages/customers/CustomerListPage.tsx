@@ -8,11 +8,12 @@ import {
 import { ColumnDef } from "@tanstack/react-table";
 import { useContext, useMemo, useRef } from "react";
 import { FaEllipsisV } from "react-icons/fa";
+import { MdGroup } from "react-icons/md";
 import { formatAddress } from "../../utils/format";
+import { CustomerListContext } from "../ContextProviders";
 import TanStackTable from "../TanStackTable";
 import ContentWrapper from "../dashboard/ContentWrapper";
 import CustomerDetailModal from "./CustomerDetailModal";
-import { CustomerListContext } from "../ContextProviders";
 
 function CustomerListPage() {
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -112,6 +113,7 @@ function CustomerListPage() {
     <>
       <ContentWrapper
         title="Daftar Pelanggan"
+        icon={MdGroup}
         button={[
           {
             name: "Pelanggan Saya",

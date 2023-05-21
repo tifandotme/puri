@@ -7,11 +7,12 @@ import {
   useToken,
 } from "@chakra-ui/react";
 import { renderToString } from "react-dom/server";
-import { MdGroup, MdOutlineTextSnippet } from "react-icons/md";
-import { Link, useLocation } from "react-router-dom";
+import { IconType } from "react-icons";
+import { Link } from "react-router-dom";
 
 type CWProps = {
   title: string;
+  icon?: IconType;
   button?: {
     name: string;
     path: string;
@@ -20,16 +21,13 @@ type CWProps = {
   children: React.ReactNode;
 };
 
-function ContentWrapper({ title, button, children }: CWProps) {
-  const location = useLocation().pathname;
+function ContentWrapper({ title, icon, button, children }: CWProps) {
   const iconColor = useToken("colors", "gray.100");
-  const iconComponent = location.startsWith("/orders") ? (
-    <MdOutlineTextSnippet color={iconColor} />
-  ) : (
-    <MdGroup color={iconColor} />
-  );
-  const svgString = renderToString(iconComponent);
-  const svgUrl = `data:image/svg+xml,${encodeURIComponent(svgString)}`;
+
+  const iconUrl = (icon: IconType): string =>
+    `data:image/svg+xml,${encodeURIComponent(
+      renderToString(icon({ color: iconColor, size: "220px" }))
+    )}`;
 
   return (
     <>
@@ -39,7 +37,7 @@ function ContentWrapper({ title, button, children }: CWProps) {
         py="40px"
         px={{ base: "30px", md: "50px" }}
         bgColor="white"
-        bgImage={{ base: "none", md: `${svgUrl}` }}
+        bgImage={{ base: "none", md: icon ? iconUrl(icon) : "none" }}
         bgPosition="-20px 40%"
         bgRepeat="no-repeat"
         bgSize="250px"
