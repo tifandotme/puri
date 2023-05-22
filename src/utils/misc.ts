@@ -1,8 +1,8 @@
 import { child, get, ref } from "firebase/database";
 import { database } from "../config/firebase";
 
-function capitalizeWords(str: string): string {
-  if (str === "") return "";
+function capitalizeWords(str: string | undefined): string {
+  if (!str) return "";
   
   const words = str.split(" ");
 

@@ -34,6 +34,7 @@ function EmailField({ register, errors, showAsterisk }: EFProps) {
         focusBorderColor={errors.email && "red.500"}
         {...register("email", {
           required: true,
+          setValueAs: (value: string) => value.toLowerCase().trim(),
           pattern: {
             value: /\S+@\S+\.\S+/,
             message: "Email tidak valid",
