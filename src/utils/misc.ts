@@ -3,7 +3,7 @@ import { database } from "../config/firebase";
 
 function capitalizeWords(str: string | undefined): string {
   if (!str) return "";
-  
+
   const words = str.split(" ");
 
   for (let i = 0; i < words.length; i++) {
@@ -30,9 +30,13 @@ async function getCustomerName(customerUid: string): Promise<string> {
 async function getFullName(uid: string): Promise<string> {
   const snapshot = await get(child(ref(database, "users"), `${uid}`));
 
-  const { firstName, lastName } = snapshot.val();
+  const { firstName, lastName } = snapshot.val() as User;
 
-  return `${firstName} ${lastName}`;
+  if (lastName) {
+    return `${firstName} ${lastName}`;
+  } else {
+    return firstName;
+  }
 }
 
 export { capitalizeWords, getCustomerName, getFullName };

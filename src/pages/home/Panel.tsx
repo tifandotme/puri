@@ -40,7 +40,6 @@ function Panel({ icon, children, ...props }: PanelProps) {
       bg="white"
       _hover={{
         boxShadow: "md",
-        color: "secondary.800",
       }}
       bgImage={icon ? iconUrl(icon) : undefined}
       bgPosition="-20px 26px"

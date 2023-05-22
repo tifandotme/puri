@@ -1,7 +1,7 @@
 import { defineStyleConfig, extendTheme } from "@chakra-ui/react";
 import background from "../assets/background.webp";
 
-import "@fontsource/inter/variable.css";
+import "@fontsource/inter";
 import "@fontsource/ubuntu";
 
 const inputMultiPart = defineStyleConfig({
