@@ -6,11 +6,13 @@ import { UserListContext } from "../ContextProviders";
 function Greeting() {
   const { userList } = useContext(UserListContext);
 
-  // non-null asserted, because this component rendered after user is logged in
-  const firstName =
-    userList && auth.currentUser
-      ? userList[auth.currentUser.uid].firstName
-      : "";
+  let firstName;
+
+  if (userList && auth.currentUser) {
+    firstName = userList[auth.currentUser.uid].firstName;
+  } else {
+    firstName = "";
+  }
 
   const hour = new Date().getHours();
   let greeting: string;

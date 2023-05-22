@@ -16,7 +16,11 @@ function useUserList(user?: User) {
       userQuery,
       (snapshot) => {
         if (snapshot.exists()) {
-          setUserList(snapshot.val() as UserList);
+          const userList = snapshot.val() as UserList;
+
+          if (user.uid in userList) {
+            setUserList(userList);
+          }
         }
       },
       (error) => {

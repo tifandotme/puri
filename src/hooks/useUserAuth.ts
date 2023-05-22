@@ -4,7 +4,7 @@ import { auth } from "../config/firebase";
 
 /**
  * Get the current logged-in user from Firebase Auth (Not Firebase Database!).
- * 
+ *
  * This will only run once when App is mounted.
  *
  * @returns user and isLoading flag which then can be used to
@@ -15,10 +15,13 @@ function useUserAuth() {
   const [isLoading, setLoading] = useState(true);
 
   useEffect(() => {
-    const unsubscribe = auth.onAuthStateChanged((user) => {
-      setUser(user ? user : undefined);
-      setLoading(false);
-    });
+    const unsubscribe = auth.onAuthStateChanged(
+      (user) => {
+        setUser(user ? user : undefined);
+        setLoading(false);
+      },
+      (e) => console.error(e)
+    );
 
     return unsubscribe;
   }, []);

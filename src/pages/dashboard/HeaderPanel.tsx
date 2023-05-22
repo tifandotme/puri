@@ -45,8 +45,13 @@ function HeaderPanel({ user, onOpen, ...props }: HPProps) {
 
   const { userList } = useContext(UserListContext);
 
-  const division =
-    userList && user ? capitalizeWords(userList[user.uid].division) : "";
+  let division;
+
+  if (userList && user) {
+    division = capitalizeWords(userList[user.uid].division);
+  } else {
+    division = "";
+  }
 
   const topValue = useTopValue(16, "md");
 
