@@ -38,7 +38,7 @@ function OrderListPage({ user }: { user: UserAuth | undefined }) {
   const { orderList, isLoading } = useContext(OrderListContext);
   const { userList } = useContext(UserListContext);
 
-  const division = userList && user ? userList[user.uid].division : "";
+  const division = userList?.[user?.uid ?? ""]?.division;
 
   const columns = useMemo<ColumnDef<[string, Order], any>[]>(
     () => [

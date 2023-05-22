@@ -6,13 +6,7 @@ import { UserListContext } from "../ContextProviders";
 function Greeting() {
   const { userList } = useContext(UserListContext);
 
-  let firstName;
-
-  if (userList && auth.currentUser) {
-    firstName = userList[auth.currentUser.uid].firstName;
-  } else {
-    firstName = "";
-  }
+  const firstName = userList?.[auth.currentUser?.uid ?? ""]?.firstName;
 
   const hour = new Date().getHours();
   let greeting: string;

@@ -19,7 +19,7 @@ function CustomerListPage({ user }: { user: UserAuth | undefined }) {
   const { customerList, isLoading } = useContext(CustomerListContext);
   const { userList } = useContext(UserListContext);
 
-  const division = userList && user ? userList[user.uid].division : "";
+  const division = userList?.[user?.uid ?? ""]?.division;
 
   // added salesName from the uid to full name conversion in useCustomerList
   const columns = useMemo<

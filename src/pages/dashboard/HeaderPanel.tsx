@@ -45,13 +45,7 @@ function HeaderPanel({ user, onOpen, ...props }: HPProps) {
 
   const { userList } = useContext(UserListContext);
 
-  let division;
-
-  if (userList && user) {
-    division = capitalizeWords(userList[user.uid].division);
-  } else {
-    division = "";
-  }
+  const division = capitalizeWords(userList?.[user?.uid ?? ""]?.division);
 
   const topValue = useTopValue(16, "md");
 
@@ -145,7 +139,7 @@ function HeaderPanel({ user, onOpen, ...props }: HPProps) {
                 ml="2"
               >
                 <Text fontSize="md">{auth.currentUser?.displayName}</Text>
-                <Skeleton isLoaded={division.length !== 0} h={4}>
+                <Skeleton isLoaded={division !== undefined} h={4}>
                   <Text lineHeight="1" fontSize="sm" color="muted">
                     {division || "xxxxxxx"}
                   </Text>
