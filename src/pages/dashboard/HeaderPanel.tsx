@@ -139,7 +139,7 @@ function HeaderPanel({ user, onOpen, ...props }: HPProps) {
                 ml="2"
               >
                 <Text fontSize="md">{auth.currentUser?.displayName}</Text>
-                <Skeleton isLoaded={division !== undefined} h={4}>
+                <Skeleton isLoaded={division.length !== 0} h={4}>
                   <Text lineHeight="1" fontSize="sm" color="muted">
                     {division || "xxxxxxx"}
                   </Text>

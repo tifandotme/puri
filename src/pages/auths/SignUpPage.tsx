@@ -5,6 +5,7 @@ import {
   FormHelperText,
   FormLabel,
   HStack,
+  Heading,
   Input,
   Select,
   Stack,
@@ -31,77 +32,83 @@ function SignUpPage() {
   const onSubmit = handleSubmit((data) => handleSignUp(data, toast));
 
   return (
-    <form onSubmit={onSubmit}>
-      <Stack spacing="6">
-        <Stack spacing="5">
-          <HStack spacing="1" justify="center">
-            <FormControl isRequired>
-              <FormLabel htmlFor="fname">Nama Depan</FormLabel>
-              <Input
-                id="fname"
-                type="text"
-                {...register("firstName", { required: true, maxLength: 80 })}
-              />
-            </FormControl>
-            <FormControl>
-              <FormLabel htmlFor="lname">Nama Belakang</FormLabel>
-              <Input
-                id="lname"
-                type="text"
-                {...register("lastName", { required: false, maxLength: 100 })}
-              />
-            </FormControl>
-          </HStack>
+    <>
+      <Heading mb="10" textAlign="center" size="md" lineHeight="1.6">
+        Daftar
+      </Heading>
 
-          <EmailField register={register} errors={errors} showAsterisk />
-          <PasswordField
-            register={register}
-            errors={errors}
-            showAsterisk
-            isConstrained
-          />
-
-          <FormControl
-            isRequired
-            onKeyDown={(e) => e.key === "Enter" && onSubmit()}
-          >
-            <FormLabel htmlFor="role">Divisi</FormLabel>
-            <Select id="role" {...register("division", { required: true })}>
-              <option value="">—</option>
-              <option value="sales">Sales</option>
-              <option value="logistik">Logistik</option>
-            </Select>
-            <FormHelperText>
-              Pilihan divisi akan mempengaruhi fitur yang tersedia untuk akun
-              yang didaftarkan.
-            </FormHelperText>
-          </FormControl>
-        </Stack>
-
+      <form onSubmit={onSubmit}>
         <Stack spacing="6">
-          <Button
-            type="submit"
-            colorScheme="red"
-            variant="solid"
-            isLoading={isSubmitting}
-            isDisabled={errors.password || errors.email ? true : false}
-          >
-            Daftar
-          </Button>
+          <Stack spacing="5">
+            <HStack spacing="1" justify="center">
+              <FormControl isRequired>
+                <FormLabel htmlFor="fname">Nama Depan</FormLabel>
+                <Input
+                  id="fname"
+                  type="text"
+                  {...register("firstName", { required: true, maxLength: 80 })}
+                />
+              </FormControl>
+              <FormControl>
+                <FormLabel htmlFor="lname">Nama Belakang</FormLabel>
+                <Input
+                  id="lname"
+                  type="text"
+                  {...register("lastName", { required: false, maxLength: 100 })}
+                />
+              </FormControl>
+            </HStack>
 
-          <Divider />
+            <EmailField register={register} errors={errors} showAsterisk />
+            <PasswordField
+              register={register}
+              errors={errors}
+              showAsterisk
+              isConstrained
+            />
 
-          <HStack spacing="1" justify="center">
-            <Text color="muted">Sudah punya akun?</Text>
-            <Link to="/login" tabIndex={-1}>
-              <Button variant="link" colorScheme="blue">
-                Login
-              </Button>
-            </Link>
-          </HStack>
+            <FormControl
+              isRequired
+              onKeyDown={(e) => e.key === "Enter" && onSubmit()}
+            >
+              <FormLabel htmlFor="role">Divisi</FormLabel>
+              <Select id="role" {...register("division", { required: true })}>
+                <option value="">—</option>
+                <option value="sales">Sales</option>
+                <option value="logistik">Logistik</option>
+              </Select>
+              <FormHelperText>
+                Pilihan divisi akan mempengaruhi fitur yang tersedia untuk akun
+                yang didaftarkan.
+              </FormHelperText>
+            </FormControl>
+          </Stack>
+
+          <Stack spacing="6">
+            <Button
+              type="submit"
+              colorScheme="red"
+              variant="solid"
+              isLoading={isSubmitting}
+              isDisabled={errors.password || errors.email ? true : false}
+            >
+              Daftar
+            </Button>
+
+            <Divider />
+
+            <HStack spacing="1" justify="center">
+              <Text color="muted">Sudah punya akun?</Text>
+              <Link to="/login" tabIndex={-1}>
+                <Button variant="link" colorScheme="blue">
+                  Login
+                </Button>
+              </Link>
+            </HStack>
+          </Stack>
         </Stack>
-      </Stack>
-    </form>
+      </form>
+    </>
   );
 }
 

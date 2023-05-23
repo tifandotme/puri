@@ -1,4 +1,4 @@
-import { Box, Container, Heading, Image, Stack, Text } from "@chakra-ui/react";
+import { Box, Container, Image, Stack, Text } from "@chakra-ui/react";
 import { User } from "firebase/auth";
 import { Navigate, Outlet } from "react-router-dom";
 import logo from "../../assets/logo.png";
@@ -11,13 +11,6 @@ type ACProps = {
 };
 
 function AuthContainer({ user, isLoading, currentPath }: ACProps) {
-  const titleMap: Record<string, string> = {
-    "/login": "Login",
-    "/signup": "Daftar",
-    "/forgotpassword": "Lupa Password",
-  };
-  const pageTitle = titleMap[currentPath];
-
   // scroll to top when path changes
   if (currentPath) {
     window.scrollTo(0, 0);
@@ -31,10 +24,10 @@ function AuthContainer({ user, isLoading, currentPath }: ACProps) {
     <Container
       maxW="lg"
       h="100vh"
-      pt={10} // top logo
+      pt="3" // top logo
       px={{ base: "4", sm: "8" }}
     >
-      <Stack spacing={{ base: "5", sm: "16" }} pb={8}>
+      <Stack spacing={{ base: "5", sm: "8" }} pb="5">
         <Stack alignItems="center" spacing={4}>
           <Image
             src={logo}
@@ -55,34 +48,11 @@ function AuthContainer({ user, isLoading, currentPath }: ACProps) {
           px={{ base: "4", sm: "10" }}
           boxShadow={{ base: "none", sm: "lg" }}
           borderRadius={{ base: "none", sm: "xl" }}
-          backgroundColor="white"
+          bg="white"
+          textAlign="right"
         >
-          <Heading textAlign="center" pb={12} size="md">
-            {pageTitle}
-          </Heading>
           <Outlet />
         </Box>
-      </Stack>
-      <Stack
-        display={{ base: "none", sm: "Flex" }}
-        align="center"
-        justify="center"
-        h={10}
-      >
-        <a
-          href="https://github.com/tifandotme/puri"
-          rel="noreferrer"
-          target="_blank"
-        >
-          <Text
-            as="span"
-            fontSize="sm"
-            color="gray.500"
-            _hover={{ textDecoration: "underline" }}
-          >
-            View Source Code
-          </Text>
-        </a>
       </Stack>
     </Container>
   );

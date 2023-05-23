@@ -1,4 +1,4 @@
-import { Button, Divider, HStack, Stack, useToast } from "@chakra-ui/react";
+import { Button, Divider, HStack, Heading, Stack, useToast } from "@chakra-ui/react";
 import { useForm } from "react-hook-form";
 import { Link } from "react-router-dom";
 import { EmailField } from "./AuthFields";
@@ -18,35 +18,41 @@ function ForgotPasswordPage() {
   const onSubmit = handleSubmit((data) => handleForgotPassword(data, toast));
 
   return (
-    <form onSubmit={onSubmit}>
-      <Stack spacing="6">
-        <Stack spacing="5">
-          <EmailField register={register} errors={errors} />
+    <>
+      <Heading mb="10" textAlign="center" size="md" lineHeight="1.6">
+        Lupa Password
+      </Heading>
 
-          <Stack spacing="6">
-            <Button
-              type="submit"
-              colorScheme="red"
-              variant="solid"
-              isLoading={isSubmitting}
-              isDisabled={errors.email ? true : false}
-            >
-              Reset Password
-            </Button>
+      <form onSubmit={onSubmit}>
+        <Stack spacing="6">
+          <Stack spacing="5">
+            <EmailField register={register} errors={errors} />
 
-            <Divider />
+            <Stack spacing="6">
+              <Button
+                type="submit"
+                colorScheme="red"
+                variant="solid"
+                isLoading={isSubmitting}
+                isDisabled={errors.email ? true : false}
+              >
+                Reset Password
+              </Button>
 
-            <HStack spacing="1" justify="center">
-              <Link to="/login" tabIndex={-1}>
-                <Button variant="link" colorScheme="blue">
-                  Kembali ke login
-                </Button>
-              </Link>
-            </HStack>
+              <Divider />
+
+              <HStack spacing="1" justify="center">
+                <Link to="/login" tabIndex={-1}>
+                  <Button variant="link" colorScheme="blue">
+                    Kembali ke login
+                  </Button>
+                </Link>
+              </HStack>
+            </Stack>
           </Stack>
         </Stack>
-      </Stack>
-    </form>
+      </form>
+    </>
   );
 }
 
