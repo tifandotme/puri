@@ -10,6 +10,7 @@ import {
   PopoverBody,
   PopoverCloseButton,
   PopoverContent,
+  PopoverHeader,
   PopoverTrigger,
   Stack,
   Text,
@@ -56,7 +57,7 @@ function LoginPage() {
                 <IconButton
                   position="relative"
                   aria-label="Introduction"
-                  icon={<Icon as={MdInfoOutline} boxSize={5} />}
+                  icon={<Icon as={MdInfoOutline} boxSize={6} />}
                   variant="ghost"
                   colorScheme="blue"
                   size="sm"
@@ -73,22 +74,16 @@ function LoginPage() {
               >
                 <PopoverArrow bg="white" />
                 <PopoverCloseButton />
+                <PopoverHeader fontWeight="600">
+                  Ini adalah aplikasi demo
+                </PopoverHeader>
                 <PopoverBody>
-                  <Text>
-                    Aplikasi ini adalah demo. Daftar akun atau login instan
-                    sebagai divisi:
-                  </Text>
-                  <Stack
-                    spacing={2}
-                    mt={3}
-                    mb={1}
-                    direction="row"
-                    justify="center"
-                  >
+                  <Text>Daftar akun atau login instan sebagai divisi:</Text>
+                  <Stack spacing={2} mt={3} direction="row" justify="center">
                     <Button
-                      colorScheme="secondary"
                       ref={initRef}
                       w="24"
+                      colorScheme="secondary"
                       onClick={() => {
                         setValue("email", "demo-logistik@puri.systems");
                         setValue("password", "123456");
@@ -98,8 +93,8 @@ function LoginPage() {
                       Logistik
                     </Button>
                     <Button
-                      colorScheme="secondary"
                       w="24"
+                      colorScheme="secondary"
                       onClick={() => {
                         setValue("email", "demo-sales@puri.systems");
                         setValue("password", "123456");
