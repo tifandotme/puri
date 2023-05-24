@@ -12,12 +12,12 @@
     "@chakra-ui/react": "^2.6.1",
     "@emotion/react": "^11.11.0",
     "@emotion/styled": "^11.11.0",
-    "@fontsource/inter": "^5.0.0",
-    "@fontsource/ubuntu": "^5.0.0",
+    "@fontsource/inter": "^5.0.1",
+    "@fontsource/ubuntu": "^5.0.1",
     "@tanstack/react-table": "^8.9.1",
     "@vercel/analytics": "^1.0.1",
     "firebase": "^9.22.0",
-    "framer-motion": "^10.12.12",
+    "framer-motion": "^10.12.16",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-hook-form": "^7.43.9",
@@ -28,11 +28,11 @@
   },
   "devDependencies": {
     "@total-typescript/ts-reset": "^0.4.2",
-    "@types/react": "^18.2.6",
+    "@types/react": "^18.2.7",
     "@types/react-dom": "^18.2.4",
     "@types/territory-indonesia": "^0.1.0",
-    "@typescript-eslint/eslint-plugin": "^5.59.6",
-    "@typescript-eslint/parser": "^5.59.6",
+    "@typescript-eslint/eslint-plugin": "^5.59.7",
+    "@typescript-eslint/parser": "^5.59.7",
     "@vitejs/plugin-react-swc": "^3.3.1",
     "eslint": "^8.41.0",
     "eslint-config-prettier": "^8.8.0",
@@ -43,6 +43,7 @@
     "eslint-plugin-react-hooks": "^4.6.0",
     "prettier": "^2.8.8",
     "typescript": "^5.0.4",
-    "vite": "^4.3.8"
+    "vite": "^4.3.8",
+    "vite-plugin-pwa": "^0.15.0"
   }
 }

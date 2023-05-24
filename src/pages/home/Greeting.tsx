@@ -32,7 +32,7 @@ function Greeting() {
       {greeting + ", "}
       <Skeleton
         display="inline-block"
-        isLoaded={userList !== undefined}
+        isLoaded={firstName !== undefined}
         fitContent
       >
         {firstName ? firstName + "!" : "XXXXXX"}

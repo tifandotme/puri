@@ -14,10 +14,10 @@ import {
   PopoverTrigger,
   Stack,
   Text,
+  useDisclosure,
   useToast,
-  useToken,
 } from "@chakra-ui/react";
-import { useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import { MdInfoOutline } from "react-icons/md";
 import { Link } from "react-router-dom";
@@ -38,16 +38,31 @@ function LoginPage() {
 
   const initRef = useRef<HTMLButtonElement>(null);
 
+  const [isShowAgain, setIsShowAgain] = useState(
+    localStorage.getItem("showAgain") !== "false"
+  );
+
+  const { isOpen, onToggle, onClose, onOpen } = useDisclosure();
+
+  useEffect(() => {
+    const delay = setTimeout(() => {
+      if (isShowAgain) {
+        onOpen();
+      }
+    }, 1500); // set the delay time in milliseconds
+    return () => clearTimeout(delay);
+  }, []);
+
   return (
     <>
       <HStack justify="center" mb="10" align="flex-start">
-        <Heading textAlign="center" size="md" lineHeight="1.5" pl="40px">
+        <Heading textAlign="center" size="md" lineHeight="1.6" pl="40px">
           Login
         </Heading>
         <Popover
-          defaultIsOpen={true}
+          isOpen={isOpen}
+          onClose={onClose}
           arrowSize={15}
-          arrowShadowColor={useToken("colors", "gray.400")}
           placement="bottom"
           initialFocusRef={initRef}
         >
@@ -61,6 +76,7 @@ function LoginPage() {
                   variant="ghost"
                   colorScheme="blue"
                   size="sm"
+                  onClick={onToggle}
                 />
               </PopoverTrigger>
               <PopoverContent
@@ -69,7 +85,7 @@ function LoginPage() {
                 bg="white"
                 textAlign="left"
                 py="2"
-                px="3"
+                px="2"
                 boxShadow="md"
               >
                 <PopoverArrow bg="white" />
@@ -77,9 +93,18 @@ function LoginPage() {
                 <PopoverHeader fontWeight="600">
                   Ini adalah aplikasi demo
                 </PopoverHeader>
-                <PopoverBody>
-                  <Text>Daftar akun atau login instan sebagai divisi:</Text>
-                  <Stack spacing={2} mt={3} direction="row" justify="center">
+                <PopoverBody display="flex" flexDir="column">
+                  <Text>
+                    Apakah Anda ingin login instan sebagai salah satu divisi
+                    berikut?
+                  </Text>
+                  <Stack
+                    spacing={2}
+                    mt={3}
+                    mb={1}
+                    direction="row"
+                    justify="center"
+                  >
                     <Button
                       ref={initRef}
                       w="24"
@@ -104,6 +129,22 @@ function LoginPage() {
                       Sales
                     </Button>
                   </Stack>
+                  {isShowAgain && (
+                    <Button
+                      mt={2}
+                      variant="link"
+                      size="sm"
+                      colorScheme="secondary"
+                      justifySelf="center"
+                      onClick={() => {
+                        localStorage.setItem("showAgain", "false");
+                        setIsShowAgain(false);
+                        onClose();
+                      }}
+                    >
+                      Tidak, jangan tampilkan lagi
+                    </Button>
+                  )}
                 </PopoverBody>
               </PopoverContent>
             </>

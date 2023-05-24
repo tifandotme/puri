@@ -5,7 +5,8 @@ logs
 node_modules
 dist
 dist-ssr
-public
+public/*
+!public/robots.txt
 firebase-emulator
 .firebase
 *.local

@@ -1,9 +1,34 @@
 import react from "@vitejs/plugin-react-swc";
 import { defineConfig } from "vite";
+import { VitePWA } from "vite-plugin-pwa";
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  plugins: [react()],
+  plugins: [
+    react(),
+    VitePWA({
+      registerType: "autoUpdate",
+      includeAssets: "assets/**",
+      manifest: {
+        name: "Puri: Order Management System",
+        short_name: "Puri",
+        theme_color: "#E63946",
+        background_color: "#F1FAEE",
+        icons: [
+          {
+            src: "/assets/icons/512.png",
+            sizes: "512x512",
+            type: "image/png",
+          },
+          {
+            src: "/assets/icons/256.png",
+            sizes: "256x256",
+            type: "image/png",
+          },
+        ],
+      },
+    }),
+  ],
   root: "src",
   envDir: "../",
   build: {
