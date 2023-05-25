@@ -7,13 +7,20 @@ export default defineConfig({
   plugins: [
     react(),
     VitePWA({
+      injectRegister: "script",
       registerType: "autoUpdate",
+      strategies: "generateSW",
+      workbox: {
+        globPatterns: ["**/*.{js,css,html,ico,png,svg}"],
+      },
       includeAssets: ["favicon.ico", "logo.png", "404.gif", "background.webp"],
       manifest: {
+        id: "com.puri",
+        lang: "id-ID",
         name: "Puri: Order Management System",
         short_name: "Puri",
-        theme_color: "#E63946",
-        background_color: "#F1FAEE",
+        description: "Order Management System",
+        theme_color: "#FFFFFF",
         display: "standalone",
         scope: "/",
         start_url: "/",
@@ -28,12 +35,6 @@ export default defineConfig({
             src: "pwa-512x512.png",
             sizes: "512x512",
             type: "image/png",
-          },
-          {
-            src: "pwa-512x512.png",
-            sizes: "512x512",
-            type: "image/png",
-            purpose: "any maskable",
           },
         ],
       },
