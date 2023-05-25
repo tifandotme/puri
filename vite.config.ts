@@ -8,7 +8,7 @@ export default defineConfig({
     react(),
     VitePWA({
       registerType: "autoUpdate",
-      includeAssets: "assets/**",
+      includeAssets: ["favicon.ico", "logo.png", "404.gif", "background.webp"],
       manifest: {
         name: "Puri: Order Management System",
         short_name: "Puri",
@@ -16,14 +16,20 @@ export default defineConfig({
         background_color: "#F1FAEE",
         icons: [
           {
-            src: "/assets/icons/512.png",
+            src: "pwa-192x192.png",
+            sizes: "192x192",
+            type: "image/png",
+          },
+          {
+            src: "pwa-512x512.png",
             sizes: "512x512",
             type: "image/png",
           },
           {
-            src: "/assets/icons/256.png",
-            sizes: "256x256",
+            src: "pwa-512x512.png",
+            sizes: "512x512",
             type: "image/png",
+            purpose: "any maskable",
           },
         ],
       },
