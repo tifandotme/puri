@@ -14,6 +14,10 @@ export default defineConfig({
         short_name: "Puri",
         theme_color: "#E63946",
         background_color: "#F1FAEE",
+        display: "standalone",
+        scope: "/",
+        start_url: "/",
+        orientation: "portrait",
         icons: [
           {
             src: "pwa-192x192.png",
