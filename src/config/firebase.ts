@@ -1,8 +1,7 @@
 import { FirebaseOptions, initializeApp } from "firebase/app";
 import { getAuth } from "firebase/auth";
 import { getDatabase } from "firebase/database";
-import { connectAuthEmulator } from "firebase/auth";
-import { connectDatabaseEmulator } from "firebase/database";
+import { getMessaging } from "firebase/messaging";
 
 // IN CASE ACCESS FROM LOCALHOST IS BLOCKED:
 // https://stackoverflow.com/questions/43850238/localhost-requests-from-referer-are-blocked
@@ -22,10 +21,11 @@ const app = initializeApp(firebaseConfig);
 
 const auth = getAuth(app);
 const database = getDatabase(app);
+const messaging = getMessaging(app);
 
-if (!import.meta.env.PROD) {
-  connectAuthEmulator(auth, "http://localhost:9100", { disableWarnings: true });
-  connectDatabaseEmulator(database, "localhost", 9200);
-}
+// if (!import.meta.env.PROD) {
+//   connectAuthEmulator(auth, "http://localhost:9100", { disableWarnings: true });
+//   connectDatabaseEmulator(database, "localhost", 9200);
+// }
 
-export { auth, database };
+export { auth, database, messaging };
