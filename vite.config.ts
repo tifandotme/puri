@@ -10,10 +10,12 @@ export default defineConfig({
       injectRegister: "script",
       registerType: "autoUpdate",
       strategies: "generateSW",
+      devOptions: {
+        enabled: true,
+      },
       workbox: {
         globPatterns: ["**/*.{js,css,html,ico,png,svg}"],
       },
-      includeAssets: ["favicon.ico", "logo.png", "404.gif", "background.webp"],
       manifest: {
         id: "com.puri",
         lang: "id-ID",
@@ -21,6 +23,7 @@ export default defineConfig({
         short_name: "Puri",
         description: "Order Management System",
         theme_color: "#FFFFFF",
+        background_color: "#FFFFFF",
         display: "standalone",
         scope: "/",
         start_url: "/",
@@ -42,10 +45,12 @@ export default defineConfig({
   ],
   root: "src",
   envDir: "../",
+  publicDir: "../public",
   build: {
-    outDir: "../public",
+    outDir: "../dist",
   },
   server: {
     port: 3000,
   },
+  
 });

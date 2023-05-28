@@ -5,10 +5,7 @@ logs
 node_modules
 dist
 dist-ssr
-public/*
-!public/apple-touch-icon.png
-!public/pwa-192x192.png
-!public/pwa-512x512.png
+dev-dist
 firebase-emulator
 .firebase
 *.local
