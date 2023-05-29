@@ -15,6 +15,7 @@ export default defineConfig({
       },
       workbox: {
         globPatterns: ["**/*.{js,css,html,ico,png,svg}"],
+        maximumFileSizeToCacheInBytes: 10000000,
       },
       manifest: {
         id: "com.puri",
@@ -52,5 +53,4 @@ export default defineConfig({
   server: {
     port: 3000,
   },
-  
 });

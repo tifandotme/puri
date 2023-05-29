@@ -1,4 +1,6 @@
 import { Stack, VStack } from "@chakra-ui/react";
+import { getAll } from "@vercel/edge-config";
+import { useEffect } from "react";
 import {
   MdBarChart,
   MdGroup,
@@ -15,6 +17,12 @@ import { Panel } from "./Panel";
 import UserList from "./UserList";
 
 function HomePage() {
+  useEffect(() => {
+    getAll().then((config) => {
+      console.log(JSON.stringify(config));
+    });
+  }, []);
+
   return (
     <VStack // top to bottom (one column)
       gap="2"
