@@ -1,6 +1,7 @@
 import { FirebaseOptions, initializeApp } from "firebase/app";
-import { getAuth } from "firebase/auth";
-import { getDatabase } from "firebase/database";
+import { connectAuthEmulator, getAuth } from "firebase/auth";
+import { connectDatabaseEmulator, getDatabase } from "firebase/database";
+import { connectFunctionsEmulator, getFunctions } from "firebase/functions";
 import { getMessaging } from "firebase/messaging";
 
 // IN CASE ACCESS FROM LOCALHOST IS BLOCKED:
@@ -18,14 +19,15 @@ const firebaseConfig: FirebaseOptions = {
 };
 
 const app = initializeApp(firebaseConfig);
-
 const auth = getAuth(app);
 const database = getDatabase(app);
 const messaging = getMessaging(app);
+const functions = getFunctions(app);
 
-// if (!import.meta.env.PROD) {
-//   connectAuthEmulator(auth, "http://localhost:9100", { disableWarnings: true });
-//   connectDatabaseEmulator(database, "localhost", 9200);
-// }
+if (!import.meta.env.PROD) {
+  connectAuthEmulator(auth, "http://localhost:9100", { disableWarnings: true });
+  connectDatabaseEmulator(database, "localhost", 9200);
+  connectFunctionsEmulator(functions, "localhost", 9300);
+}
 
 export { auth, database, messaging };
