@@ -1,6 +1,4 @@
 import { Stack, VStack } from "@chakra-ui/react";
-import { getToken } from "firebase/messaging";
-import { useEffect } from "react";
 import {
   MdBarChart,
   MdGroup,
@@ -8,7 +6,6 @@ import {
   MdOutlineTextSnippet,
   MdPersonSearch,
 } from "react-icons/md";
-import { messaging } from "../../config/firebase";
 import CustomerCount from "./CustomerCount";
 import Greeting from "./Greeting";
 import LatestOrder from "./LatestOrder";
@@ -18,27 +15,6 @@ import { Panel } from "./Panel";
 import UserList from "./UserList";
 
 function HomePage() {
-  useEffect(() => {
-    console.log("Requesting permission...");
-
-    Notification.requestPermission().then((permission) => {
-      if (permission === "granted") {
-        console.log("Notification permission granted.");
-
-        getToken(messaging, {
-          vapidKey:
-            "BHewbe4EkolWmFVaUDr-gITWtGGUAk5t4qPRVDF4MQdPXMfTWvijKK5ScVF2WDt3sroMmu8jc_9d-n1FAkPSj2w",
-        }).then((currentToken) => {
-          if (currentToken) {
-            console.log(currentToken);
-          }
-        });
-      } else {
-        console.log("Unable to get permission to notify.");
-      }
-    });
-  }, []);
-
   return (
     <VStack // top to bottom (one column)
       gap="2"

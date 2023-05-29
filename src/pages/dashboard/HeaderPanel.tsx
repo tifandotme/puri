@@ -11,6 +11,7 @@ import {
   MenuButton,
   MenuItem,
   MenuList,
+  Show,
   Skeleton,
   Text,
   Tooltip,
@@ -33,6 +34,7 @@ import { capitalizeWords } from "../../utils/misc";
 import { UserListContext } from "../ContextProviders";
 import { handleSignOut } from "../auths/handle-auths";
 import EditProfileModal from "./EditProfileModal";
+import { NotificationButton } from "./NotificationButton";
 
 type HPProps = {
   user: User | undefined;
@@ -45,7 +47,7 @@ function HeaderPanel({ user, onOpen, ...props }: HPProps) {
 
   const { userList } = useContext(UserListContext);
 
-  const division = capitalizeWords(userList?.[user?.uid ?? ""]?.division);
+  const division = capitalizeWords(userList?.[user?.uid ?? ""]?.division ?? "");
 
   const topValue = useTopValue(16, "md");
 
@@ -83,7 +85,7 @@ function HeaderPanel({ user, onOpen, ...props }: HPProps) {
         bg="white"
         borderBottom="1px solid"
         borderBottomColor="gray.200"
-        justify={{ base: "space-between", md: "flex-end" }}
+        justify="space-between"
       >
         <IconButton
           display={{ base: "flex", md: "none" }}
@@ -93,6 +95,9 @@ function HeaderPanel({ user, onOpen, ...props }: HPProps) {
           fontSize={22}
           icon={<HiBars3 />}
         />
+        <Show above="md">
+          <NotificationButton />
+        </Show>
 
         <Link to="/">
           <Flex h="16" align="center" display={{ base: "flex", md: "none" }}>

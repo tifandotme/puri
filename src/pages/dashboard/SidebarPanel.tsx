@@ -2,6 +2,7 @@ import {
   Box,
   CloseButton,
   Flex,
+  Hide,
   Icon,
   Image,
   Link,
@@ -12,6 +13,7 @@ import { FaGithub } from "react-icons/fa";
 import { HiExternalLink } from "react-icons/hi";
 import { NavLink } from "react-router-dom";
 import logo from "../../assets/logo.png";
+import { NotificationButton } from "./NotificationButton";
 import navItems from "./sidebar-nav-items";
 
 type SPProps = {
@@ -83,6 +85,11 @@ function SidebarPanel({ onClose, ...props }: SPProps) {
           </NavLink>
         );
       })}
+
+      <Hide above="md">
+        <NotificationButton position="absolute" bottom="120" left="15" />
+      </Hide>
+
       <Link
         href="https://github.com/tifandotme/puri"
         target="_blank"
@@ -111,9 +118,7 @@ function SidebarPanel({ onClose, ...props }: SPProps) {
           maxW="full"
         >
           <Icon as={FaGithub} boxSize={6} />
-          <Text fontSize="xs">
-            This project is open-source on GitHub
-          </Text>
+          <Text fontSize="xs">This project is open-source on GitHub</Text>
           <Icon
             as={HiExternalLink}
             boxSize={4}
