@@ -2,6 +2,7 @@ import {
   Avatar,
   AvatarBadge,
   Box,
+  BoxProps,
   Flex,
   HStack,
   Icon,
@@ -39,8 +40,7 @@ import { NotificationButton } from "./NotificationButton";
 type HPProps = {
   user: User | undefined;
   onOpen: () => void;
-  [key: string]: any;
-};
+} & BoxProps;
 
 function HeaderPanel({ user, onOpen, ...props }: HPProps) {
   const { isOpen, onOpen: onOpenProfile, onClose } = useDisclosure();

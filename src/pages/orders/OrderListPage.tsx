@@ -10,7 +10,7 @@ import {
 } from "@chakra-ui/react";
 import { ColumnDef } from "@tanstack/react-table";
 import { User as UserAuth } from "firebase/auth";
-import { useContext, useMemo, useRef } from "react";
+import { memo, useContext, useMemo, useRef, useState } from "react";
 import { FaEllipsisV, FaToggleOff, FaToggleOn } from "react-icons/fa";
 import { MdOutlineTextSnippet } from "react-icons/md";
 import { TbPackage, TbPackageExport } from "react-icons/tb";
@@ -163,23 +163,7 @@ function OrderListPage({ user }: { user: UserAuth | undefined }) {
         },
         cell: ({ row }) => (
           <ButtonGroup variant="link">
-            {division === "logistik" && (
-              <Tooltip label="Ubah status">
-                <IconButton
-                  aria-label="Edit"
-                  icon={
-                    <Icon
-                      as={
-                        row.original[1].isDelivered ? FaToggleOn : FaToggleOff
-                      }
-                      boxSize="6"
-                    />
-                  }
-                  onClick={() => handleToggleDelivery(row.original, toast)}
-                  colorScheme={row.original[1].isDelivered ? "green" : "red"}
-                />
-              </Tooltip>
-            )}
+            {division === "logistik" && <StatusButton data={row.original} />}
             <Tooltip label="Detail">
               <IconButton
                 aria-label="Detail"
@@ -195,8 +179,30 @@ function OrderListPage({ user }: { user: UserAuth | undefined }) {
         ),
       },
     ],
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     [division]
   );
+
+  const StatusButton = memo(function SB({ data }: { data: [string, Order] }) {
+    const [isLoading, setIsLoading] = useState(false);
+
+    return (
+      <Tooltip label="Ubah status">
+        <IconButton
+          isDisabled={isLoading}
+          aria-label="Edit"
+          icon={
+            <Icon
+              as={data[1].isDelivered ? FaToggleOn : FaToggleOff}
+              boxSize="6"
+            />
+          }
+          onClick={() => handleToggleDelivery(data, toast, setIsLoading)}
+          colorScheme={data[1].isDelivered ? "green" : "red"}
+        />
+      </Tooltip>
+    );
+  });
 
   const orderListMemo = useMemo(
     () =>

@@ -1,6 +1,9 @@
 import { Box, Drawer, DrawerContent, useDisclosure } from "@chakra-ui/react";
 import { User } from "firebase/auth";
+import { onMessage } from "firebase/messaging";
+import { useEffect } from "react";
 import { Navigate, Outlet } from "react-router-dom";
+import { messaging } from "../../config/firebase";
 import { FullscreenSpinner } from "../LoadingOverlay";
 import HeaderPanel from "./HeaderPanel";
 import SidebarPanel from "./SidebarPanel";
@@ -16,6 +19,14 @@ type MCProps = {
 function PanelContainer({ user, isLoading }: MCProps) {
   const { isOpen, onOpen, onClose } = useDisclosure();
 
+  useEffect(() => {
+    const unsubscribe = onMessage(messaging, (payload) => {
+      console.log("Message received. ", payload);
+      // ...
+    });
+
+    return unsubscribe;
+  }, []);
   if (isLoading) return <FullscreenSpinner />;
 
   if (!user) return <Navigate to="/login" replace />;

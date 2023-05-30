@@ -1,11 +1,12 @@
-import { Button, useToast } from "@chakra-ui/react";
+import { Button, ButtonProps, useToast } from "@chakra-ui/react";
 import { ref, runTransaction } from "firebase/database";
+import { httpsCallable } from "firebase/functions";
 import { getToken } from "firebase/messaging";
 import { useState } from "react";
 import { MdOutlineNotificationAdd } from "react-icons/md";
-import { auth, database, messaging } from "../../config/firebase";
+import { auth, database, functions, messaging } from "../../config/firebase";
 
-export function NotificationButton({ ...props }: { [key: string]: any }) {
+export function NotificationButton({ ...props }: ButtonProps) {
   const toast = useToast();
   const [isNotifHidden, setIsNotifHidden] = useState(
     ["denied", "granted"].includes(Notification.permission)
@@ -20,8 +21,10 @@ export function NotificationButton({ ...props }: { [key: string]: any }) {
           vapidKey:
             "BHewbe4EkolWmFVaUDr-gITWtGGUAk5t4qPRVDF4MQdPXMfTWvijKK5ScVF2WDt3sroMmu8jc_9d-n1FAkPSj2w",
         }).then(async (currentToken) => {
+          // write to database at /users
           await runTransaction(
-            ref(database, `users/${auth?.currentUser?.uid}/token`),
+            // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+            ref(database, `users/${auth.currentUser!.uid}/notificationTokens`),
             (data: string[] | null) => {
               if (data === null) {
                 return [currentToken];
@@ -34,6 +37,17 @@ export function NotificationButton({ ...props }: { [key: string]: any }) {
               return [...data, currentToken];
             }
           );
+
+          // call function to subscribe to topic
+          const subscribeToTopic = httpsCallable(functions, "subscribeToTopic");
+
+          const response = await subscribeToTopic({
+            token: currentToken,
+            // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+            userUid: auth.currentUser!.uid,
+          });
+
+          console.log(response);
         });
       } else {
         setIsNotifHidden(true);
@@ -57,6 +71,7 @@ export function NotificationButton({ ...props }: { [key: string]: any }) {
 
   return (
     <Button
+      isDisabled={!auth.currentUser}
       display={isNotifHidden ? "none" : "flex"}
       leftIcon={<MdOutlineNotificationAdd size={18} />}
       size="sm"

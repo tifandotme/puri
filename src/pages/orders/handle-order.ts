@@ -7,8 +7,9 @@ import {
   set,
   update,
 } from "firebase/database";
+import { httpsCallable } from "firebase/functions";
 import { NavigateFunction } from "react-router-dom";
-import { auth, database } from "../../config/firebase";
+import { auth, database, functions } from "../../config/firebase";
 
 async function handleAddOrder(
   data: AddOrderForm,
@@ -90,10 +91,19 @@ async function handleEditOrder(
 
 async function handleToggleDelivery(
   id: [string, Order],
-  toast: ReturnType<typeof useToast>
+  toast: ReturnType<typeof useToast>,
+  setLoading: React.Dispatch<React.SetStateAction<boolean>>
 ) {
   try {
     const isDelivered = !id[1].isDelivered;
+    
+    // sends notification to "sales" topic
+    if (isDelivered) {
+      setLoading(true);
+      
+      const notification = httpsCallable(functions, "sendOrderStatus");
+      await notification({ customer: id[1].customer });
+    }
 
     await update(child(ref(database, "orders"), id[0]), {
       isDelivered,
@@ -103,6 +113,8 @@ async function handleToggleDelivery(
       title: "Status pesanan berhasil diubah",
       status: "success",
     });
+
+    setLoading(false);
   } catch (error: unknown) {
     if (error instanceof Error) {
       toast({
