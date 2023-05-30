@@ -1,30 +1,57 @@
-/**
- * Import function triggers from their respective submodules:
- *
- * import {onCall} from "firebase-functions/v2/https";
- * import {onDocumentWritten} from "firebase-functions/v2/firestore";
- *
- * See a full list of supported triggers at https://firebase.google.com/docs/functions
- */
+import * as admin from "firebase-admin";
+import { onCall } from "firebase-functions/v2/https";
+import { setGlobalOptions } from "firebase-functions/v2/options";
+import serviceAccount from "./service-account-key.json";
 
-import { onRequest } from "firebase-functions/v2/https";
-import * as logger from "firebase-functions/logger";
+setGlobalOptions({ maxInstances: 10 });
 
-// import { initializeApp } from 'firebase-admin/app';
-
-// const app = initializeApp();
-
-// Start writing functions
-// https://firebase.google.com/docs/functions/typescript
-
-export const helloWorld = onRequest((request, response) => {
-  logger.info("Hello logs! F yeah", { structuredData: true });
-  response.send("Hello from Firebase! Wohoo!ss");
+const app = admin.initializeApp({
+  credential: admin.credential.cert(serviceAccount as admin.ServiceAccount),
+  databaseURL:
+    "https://puri-systems-default-rtdb.asia-southeast1.firebasedatabase.app",
 });
 
-// subscribe registration token to topic
-// export const subscribeToTopic = onRequest(async (request, response) => {
-//   const {token, topic} = request.body;
-//   await admin.messaging().subscribeToTopic(token, topic);
-//   response.send(`subscribed to ${topic}`);
-// }
+export const subscribeToTopic = onCall<{ token: string; userUid: string }>(
+  async (req) => {
+    const { token, userUid } = req.data;
+
+    const ref = admin.database(app).ref(`users/${userUid}`).child("division");
+    const division = (await ref.get()).val() as "logistik" | "sales";
+
+    try {
+      const messaging = admin.messaging(app);
+      const response = await messaging.subscribeToTopic(token, division);
+
+      return {
+        text: `Subscribed to ${division} topic`,
+        response: response,
+      };
+    } catch (error) {
+      return {
+        text: "Error subscribing to topic",
+        error: error,
+      };
+    }
+  }
+);
+
+export const sendOrderStatus = onCall<{ customer: string }>(async (req) => {
+  const { customer } = req.data;
+
+  const message: admin.messaging.MessagingPayload = {
+    notification: {
+      title: `Pesanan selesai`,
+      body: `Pesanan untuk ${customer} telah sampai tujuan.`,
+    },
+  };
+
+  const messaging = admin.messaging(app);
+  const response = await messaging.sendToTopic("sales", message);
+
+  return response;
+});
+
+// export const helloWorld = onRequest((req, res) => {
+//   logger.info("Hello logs! F yeah", { structuredData: true });
+//   res.send("Hello from Firebase!");
+// });
