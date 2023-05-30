@@ -1,15 +1,36 @@
 {
   "compilerOptions": {
-    "module": "commonjs",
-    "noImplicitReturns": true,
-    "noUnusedLocals": true,
+    "target": "es5",
+    "module": "nodenext",
+
     "outDir": "lib",
-    "sourceMap": true,
+
+    "useDefineForClassFields": true, // https://backbencher.dev/javascript-class-field-declarations
+
+    /* Imports */
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "forceConsistentCasingInFileNames": true,
+
+    /* Compiling */
+    "moduleResolution": "nodenext",
+    "allowJs": false,
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "noEmit": false, // must emit
+    "skipLibCheck": true,
+    "incremental": true,
+
+    /* Linting */
     "strict": true,
-    "target": "es2017"
+    "noUnusedLocals": true,
+    // "noUnusedParameters": true,
+    "allowUnusedLabels": false,
+    "noFallthroughCasesInSwitch": true,
+    "allowUnreachableCode": false,
+    // "noUncheckedIndexedAccess": true, // will add undefined to index signatures, e.g. [propName: string]: string;
+    "noImplicitReturns": true
   },
   "compileOnSave": true,
-  "include": [
-    "src"
-  ]
+  "include": ["src"],
 }
