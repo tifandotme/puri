@@ -1,18 +1,4 @@
 {
-  "hosting": {
-    "public": "public",
-    "ignore": [
-      "firebase.json",
-      "**/.*",
-      "**/node_modules/**"
-    ],
-    "rewrites": [
-      {
-        "source": "**",
-        "destination": "/index.html"
-      }
-    ]
-  },
   "emulators": {
     "auth": {
       "port": 9100
@@ -20,12 +6,12 @@
     "database": {
       "port": 9200
     },
+    "functions": {
+      "port": 9300
+    },
     "ui": {
       "enabled": true,
       "port": 4000
-    },
-    "functions": {
-      "port": 9300
     },
     "singleProjectMode": true
   },
@@ -42,10 +28,7 @@
         "firebase-debug.log",
         "firebase-debug.*.log"
       ],
-      "predeploy": [
-        "npm --prefix \"$RESOURCE_DIR\" run lint",
-        "npm --prefix \"$RESOURCE_DIR\" run build"
-      ]
+      "predeploy": ["pnpm --prefix \"$RESOURCE_DIR\" run build"]
     }
   ]
 }
