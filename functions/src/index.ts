@@ -1,4 +1,5 @@
 import * as admin from "firebase-admin";
+import * as logger from "firebase-functions/logger";
 import { onCall } from "firebase-functions/v2/https";
 import { setGlobalOptions } from "firebase-functions/v2/options";
 import serviceAccount from "./service-account-key.json";
@@ -21,6 +22,8 @@ export const subscribeToTopic = onCall<{ token: string; userUid: string }>(
     try {
       const messaging = admin.messaging(app);
       const response = await messaging.subscribeToTopic(token, division);
+
+      logger.info(`Subscribed to ${division} topic`);
 
       return {
         text: `Subscribed to ${division} topic`,
@@ -45,13 +48,10 @@ export const sendOrderStatus = onCall<{ customer: string }>(async (req) => {
     },
   };
 
+  logger.info("Sending message to sales");
+
   const messaging = admin.messaging(app);
   const response = await messaging.sendToTopic("sales", message);
 
   return response;
 });
-
-// export const helloWorld = onRequest((req, res) => {
-//   logger.info("Hello logs! F yeah", { structuredData: true });
-//   res.send("Hello from Firebase!");
-// });

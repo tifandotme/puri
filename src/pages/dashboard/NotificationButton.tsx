@@ -1,10 +1,9 @@
 import { Button, ButtonProps, useToast } from "@chakra-ui/react";
-import { ref, runTransaction } from "firebase/database";
 import { httpsCallable } from "firebase/functions";
 import { getToken } from "firebase/messaging";
 import { useState } from "react";
 import { MdOutlineNotificationAdd } from "react-icons/md";
-import { auth, database, functions, messaging } from "../../config/firebase";
+import { auth, functions, messaging } from "../../config/firebase";
 
 export function NotificationButton({ ...props }: ButtonProps) {
   const toast = useToast();
@@ -22,21 +21,21 @@ export function NotificationButton({ ...props }: ButtonProps) {
             "BHewbe4EkolWmFVaUDr-gITWtGGUAk5t4qPRVDF4MQdPXMfTWvijKK5ScVF2WDt3sroMmu8jc_9d-n1FAkPSj2w",
         }).then(async (currentToken) => {
           // write to database at /users
-          await runTransaction(
-            // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-            ref(database, `users/${auth.currentUser!.uid}/notificationTokens`),
-            (data: string[] | null) => {
-              if (data === null) {
-                return [currentToken];
-              }
+          // await runTransaction(
+          //   // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+          //   ref(database, `users/${auth.currentUser!.uid}/notificationTokens`),
+          //   (data: string[] | null) => {
+          //     if (data === null) {
+          //       return [currentToken];
+          //     }
 
-              if (data.includes(currentToken)) {
-                return data;
-              }
+          //     if (data.includes(currentToken)) {
+          //       return data;
+          //     }
 
-              return [...data, currentToken];
-            }
-          );
+          //     return [...data, currentToken];
+          //   }
+          // );
 
           // call function to subscribe to topic
           const subscribeToTopic = httpsCallable(functions, "subscribeToTopic");

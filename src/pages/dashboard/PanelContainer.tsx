@@ -1,4 +1,10 @@
-import { Box, Drawer, DrawerContent, useDisclosure } from "@chakra-ui/react";
+import {
+  Box,
+  Drawer,
+  DrawerContent,
+  useDisclosure,
+  useToast,
+} from "@chakra-ui/react";
 import { User } from "firebase/auth";
 import { onMessage } from "firebase/messaging";
 import { useEffect } from "react";
@@ -19,14 +25,18 @@ type MCProps = {
 function PanelContainer({ user, isLoading }: MCProps) {
   const { isOpen, onOpen, onClose } = useDisclosure();
 
+  const toast = useToast();
   useEffect(() => {
     const unsubscribe = onMessage(messaging, (payload) => {
-      console.log("Message received. ", payload);
-      // ...
+      toast({
+        title: payload.notification?.title,
+        description: payload.notification?.body,
+        status: "info",
+      });
     });
 
     return unsubscribe;
-  }, []);
+  }, [toast]);
   if (isLoading) return <FullscreenSpinner />;
 
   if (!user) return <Navigate to="/login" replace />;

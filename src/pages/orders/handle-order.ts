@@ -96,11 +96,11 @@ async function handleToggleDelivery(
 ) {
   try {
     const isDelivered = !id[1].isDelivered;
-    
+
     // sends notification to "sales" topic
     if (isDelivered) {
       setLoading(true);
-      
+
       const notification = httpsCallable(functions, "sendOrderStatus");
       await notification({ customer: id[1].customer });
     }

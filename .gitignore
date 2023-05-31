@@ -3,8 +3,10 @@ logs
 *.log
 
 # Compiled JavaScript files
-lib/**/*.js
-lib/**/*.js.map
+functions/lib/**/*.js
+functions/lib/**/*.js.map
+
+**/service-account-key.json
 
 node_modules
 dist
@@ -27,5 +29,3 @@ firebase-emulator
 *.sln
 *.sw?
 .vercel
-
-service-account-key.json
