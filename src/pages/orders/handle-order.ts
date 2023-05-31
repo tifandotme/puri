@@ -103,15 +103,15 @@ async function handleToggleDelivery(
 
       const notification = httpsCallable(functions, "sendOrderStatus");
       await notification({ customer: id[1].customer });
+
+      toast({
+        title: "Status pesanan berhasil diubah",
+        status: "success",
+      });
     }
 
     await update(child(ref(database, "orders"), id[0]), {
       isDelivered,
-    });
-
-    toast({
-      title: "Status pesanan berhasil diubah",
-      status: "success",
     });
 
     setLoading(false);

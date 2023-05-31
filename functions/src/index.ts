@@ -41,17 +41,22 @@ export const subscribeToTopic = onCall<{ token: string; userUid: string }>(
 export const sendOrderStatus = onCall<{ customer: string }>(async (req) => {
   const { customer } = req.data;
 
-  const message: admin.messaging.MessagingPayload = {
+  const message: admin.messaging.Message = {
     notification: {
       title: `Pesanan selesai`,
       body: `Pesanan untuk ${customer} telah sampai tujuan.`,
     },
+    // data: {
+    //   title: `Pesanan selesai`,
+    //   body: `Pesanan untuk ${customer} telah sampai tujuan.`,
+    // },
+    topic: "sales",
   };
 
   logger.info("Sending message to sales");
 
   const messaging = admin.messaging(app);
-  const response = await messaging.sendToTopic("sales", message);
+  const response = await messaging.send(message);
 
   return response;
 });
