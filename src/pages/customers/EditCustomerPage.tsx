@@ -189,9 +189,8 @@ function EditCustomerPage() {
                     </FormLabel>
                     <Input
                       isRequired
-                      type="number"
                       defaultValue={customer.id}
-                      {...register("id", { valueAsNumber: true })}
+                      {...register("id")}
                     />
                   </FormControl>
 
