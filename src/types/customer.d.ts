@@ -25,7 +25,7 @@ type CustomerAddress = {
  */
 type Customer<TDate extends object = number> = {
   name: string;
-  id: number;
+  id: string; // ktp or npwp
   phone: number;
   phone2?: number;
   address: CustomerAddress;

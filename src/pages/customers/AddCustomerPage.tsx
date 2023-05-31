@@ -144,10 +144,7 @@ function AddCustomerPage() {
                 <FormLabel>
                   {customerType === "perusahaan" ? "No NPWP" : "No KTP"}
                 </FormLabel>
-                <Input
-                  type="number"
-                  {...register("id", { valueAsNumber: true })}
-                />
+                <Input type="text" {...register("id")} />
               </FormControl>
               <FormControl isRequired>
                 <FormLabel>Telp</FormLabel>
