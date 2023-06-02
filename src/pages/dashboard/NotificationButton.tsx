@@ -46,6 +46,18 @@ export function NotificationButton({ ...props }: ButtonProps) {
             userUid: auth.currentUser!.uid,
           });
 
+          if (!toast.isActive("notif")) {
+            toast({
+              id: "notif",
+              title: "Notifikasi diizinkan",
+              status: "success",
+              duration: 5000,
+              isClosable: true,
+              position: "top",
+              size: "sm",
+            });
+          }
+
           console.log(response);
         });
       } else {
