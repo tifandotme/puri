@@ -96,7 +96,7 @@ function HeaderPanel({ user, onOpen, ...props }: HPProps) {
           icon={<HiBars3 />}
         />
         <Show above="md">
-          <NotificationButton />
+          <NotificationButton size="sm" />
         </Show>
 
         <Link to="/">

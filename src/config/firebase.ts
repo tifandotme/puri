@@ -1,6 +1,6 @@
 import { FirebaseOptions, initializeApp } from "firebase/app";
-import { getAuth } from "firebase/auth";
-import { getDatabase } from "firebase/database";
+import { connectAuthEmulator, getAuth } from "firebase/auth";
+import { connectDatabaseEmulator, getDatabase } from "firebase/database";
 import { connectFunctionsEmulator, getFunctions } from "firebase/functions";
 import { getMessaging } from "firebase/messaging";
 
@@ -26,8 +26,8 @@ const messaging = getMessaging(app);
 const functions = getFunctions(app);
 
 if (!import.meta.env.PROD) {
-  // connectAuthEmulator(auth, "http://localhost:9100", { disableWarnings: true });
-  // connectDatabaseEmulator(database, "localhost", 9200);
+  connectAuthEmulator(auth, "http://localhost:9100", { disableWarnings: true });
+  connectDatabaseEmulator(database, "localhost", 9200);
   connectFunctionsEmulator(functions, "localhost", 9300);
 }
 

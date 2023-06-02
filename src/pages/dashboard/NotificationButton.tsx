@@ -72,8 +72,7 @@ export function NotificationButton({ ...props }: ButtonProps) {
     <Button
       isDisabled={!auth.currentUser}
       display={isNotifHidden ? "none" : "flex"}
-      leftIcon={<MdOutlineNotificationAdd size={18} />}
-      size="sm"
+      leftIcon={<MdOutlineNotificationAdd size={20} />}
       variant="outline"
       onClick={requestNotification}
       borderRadius="full"

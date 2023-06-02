@@ -87,10 +87,10 @@ function SidebarPanel({ onClose, ...props }: SPProps) {
       })}
 
       <Hide above="md">
-        <NotificationButton position="absolute" bottom="120" left="15" />
+        <NotificationButton position="absolute" bottom="32" left="5" />
       </Hide>
 
-      <Link
+      {/* <Link
         href="https://github.com/tifandotme/puri"
         target="_blank"
         draggable={false}
@@ -112,7 +112,7 @@ function SidebarPanel({ onClose, ...props }: SPProps) {
           mx="4"
           p="2"
           position="absolute"
-          bottom="16"
+          bottom="12"
           userSelect="none"
           direction="row"
           maxW="full"
@@ -127,7 +127,7 @@ function SidebarPanel({ onClose, ...props }: SPProps) {
             alignSelf={{ base: "center", md: "flex-start" }}
           />
         </Stack>
-      </Link>
+      </Link> */}
       <Text
         color="gray.400"
         fontSize="xs"
