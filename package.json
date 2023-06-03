@@ -16,7 +16,6 @@
     "@fontsource/inter": "^5.0.1",
     "@fontsource/ubuntu": "^5.0.1",
     "@tanstack/react-table": "^8.9.1",
-    "@vercel/analytics": "^1.0.1",
     "firebase": "^9.22.1",
     "framer-motion": "^10.12.16",
     "react": "^18.2.0",
