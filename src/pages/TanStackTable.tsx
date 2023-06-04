@@ -181,7 +181,7 @@ function Pagination<T>({ table }: { table: TTable<T> }) {
             <Icon as={MdOutlineKeyboardArrowRight} boxSize="6" />
           </Button>
           <Button
-            onClick={() => table.nextPage()}
+            onClick={() => table.setPageIndex(table.getPageCount() - 1)}
             isDisabled={!table.getCanNextPage()}
           >
             <Icon as={MdOutlineKeyboardDoubleArrowRight} boxSize="6" />
