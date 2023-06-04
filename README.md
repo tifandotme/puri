@@ -27,7 +27,7 @@ puri.systems expires on Sunday 3th of February 2024
 ## Stack
 
 - **Libraries**: React, Chakra UI, React Router, React Hook Form, React Select, TanStack Table
-- **Backend** Firebase (Authentication, Realtime Database, Cloud Messaging, Cloud Functions)
+- **Backend**: Firebase (Authentication, Realtime Database, Cloud Messaging, Cloud Functions)
 - **Hosting**: Vercel
 
 ## Run Locally
@@ -51,7 +51,7 @@ Before running a local development server for this project, you need to modify a
 
 ### `src/config/firebase.ts`
 
-Provice your own Firebase configuration from **Firebase Console > Project settings > General**
+Provide your own Firebase configuration from **Firebase Console > Project settings > General**
 
 ```typescript
 const firebaseConfig: FirebaseOptions = {

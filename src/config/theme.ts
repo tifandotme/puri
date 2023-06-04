@@ -68,6 +68,18 @@ const Modal = defineStyleConfig({
   },
 });
 
+const Heading = defineStyleConfig({
+  variants: {
+    bantuan: {
+      fontSize: "24",
+      lineHeight: "1.6",
+      borderBottom: "1px",
+      borderColor: "gray.400",
+      pb: "1",
+    },
+  },
+});
+
 /**
  * Custom theme for Chakra UI to modify or extend the default theme
  */
@@ -85,6 +97,7 @@ export default function customTheme(path: string, isPageLoading: boolean) {
       Select: inputMultiPart,
       FormLabel,
       Modal,
+      Heading,
     },
     ...(isAuthPage &&
       !isPageLoading && {
