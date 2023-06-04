@@ -10,12 +10,12 @@ export function NotificationButton({ ...props }: ButtonProps) {
   const [isNotifHidden, setIsNotifHidden] = useState(
     ["denied", "granted"].includes(Notification.permission)
   );
+  const [isLoading, setIsLoading] = useState(false);
 
   const requestNotification = () => {
     Notification.requestPermission().then((permission) => {
       if (permission === "granted") {
-        setIsNotifHidden(true);
-
+        setIsLoading(true);
         getToken(messaging, {
           vapidKey:
             "BHewbe4EkolWmFVaUDr-gITWtGGUAk5t4qPRVDF4MQdPXMfTWvijKK5ScVF2WDt3sroMmu8jc_9d-n1FAkPSj2w",
@@ -50,13 +50,16 @@ export function NotificationButton({ ...props }: ButtonProps) {
             toast({
               id: "notif",
               title: "Notifikasi diizinkan",
-              status: "success",
-              duration: 5000,
+              status: "info",
+              duration: 4000,
               isClosable: true,
               position: "top",
               size: "sm",
             });
           }
+
+          setIsLoading(false);
+          setIsNotifHidden(true);
 
           console.log(response);
         });
@@ -82,6 +85,7 @@ export function NotificationButton({ ...props }: ButtonProps) {
 
   return (
     <Button
+      isLoading={isLoading}
       isDisabled={!auth.currentUser}
       display={isNotifHidden ? "none" : "flex"}
       leftIcon={<MdOutlineNotificationAdd size={20} />}
