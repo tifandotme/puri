@@ -12,11 +12,7 @@ function NotFoundPage() {
       >
         Oops, halaman tidak ditemukan
       </Text>
-      <Image
-        src={john}
-        alt="404"
-        h={{ base: "200px", md: "300px" }}
-      />
+      <Image src={john} alt="404" h={{ base: "200px", md: "300px" }} />
     </Stack>
   );
 }

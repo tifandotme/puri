@@ -36,6 +36,7 @@ const EditProfileModal = memo(function DM({
     duration: 3000,
   });
 
+  // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
   const userAuth = auth.currentUser!;
 
   const [user, setUser] = useState<User | undefined>(undefined);

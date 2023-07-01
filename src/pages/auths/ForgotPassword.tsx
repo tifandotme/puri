@@ -1,4 +1,11 @@
-import { Button, Divider, HStack, Heading, Stack, useToast } from "@chakra-ui/react";
+import {
+  Button,
+  Divider,
+  HStack,
+  Heading,
+  Stack,
+  useToast,
+} from "@chakra-ui/react";
 import { useForm } from "react-hook-form";
 import { Link } from "react-router-dom";
 import { EmailField } from "./AuthFields";

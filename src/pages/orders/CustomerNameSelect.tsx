@@ -4,7 +4,6 @@ import { Control, Controller, FieldValues, Path } from "react-hook-form";
 import ReactSelect, { ClassNamesConfig, Options } from "react-select";
 import { CustomerListContext } from "../ContextProviders";
 
-
 type CustomerNameSelectProps<TFieldValues extends FieldValues> = {
   control: Control<TFieldValues>;
   register: Path<TFieldValues>;
@@ -13,7 +12,7 @@ type CustomerNameSelectProps<TFieldValues extends FieldValues> = {
 /**
  * A custom select component for selecting customer name.
  * This component uses react-select styled with chakra-ui's style config
- * 
+ *
  * @param control react-hook-form's control object
  * @param register react-hook-form's input name to register
  */

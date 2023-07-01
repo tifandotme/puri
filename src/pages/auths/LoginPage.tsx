@@ -95,8 +95,7 @@ function LoginPage() {
                 </PopoverHeader>
                 <PopoverBody display="flex" flexDir="column">
                   <Text>
-                    Apakah Anda ingin login sebagai salah satu divisi
-                    berikut?
+                    Apakah Anda ingin login sebagai salah satu divisi berikut?
                   </Text>
                   <Stack
                     spacing={2}
