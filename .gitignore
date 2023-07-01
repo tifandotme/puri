@@ -12,8 +12,6 @@ node_modules
 dist
 dist-ssr
 dev-dist
-firebase-emulator
-.firebase
 *.local
 *.tsbuildinfo
 
