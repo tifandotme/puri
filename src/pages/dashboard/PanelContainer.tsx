@@ -14,9 +14,6 @@ import { FullscreenSpinner } from "../LoadingOverlay";
 import HeaderPanel from "./HeaderPanel";
 import SidebarPanel from "./SidebarPanel";
 
-// TODO: include isAllowed prop to check if user is allowed to access the routes
-// https://www.robinwieruch.de/react-router-private-routes/
-
 type MCProps = {
   user: User | undefined;
   isLoading: boolean;
