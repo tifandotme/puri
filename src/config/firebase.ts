@@ -7,6 +7,9 @@ import { getMessaging } from "firebase/messaging";
 // IN CASE ACCESS FROM LOCALHOST IS BLOCKED:
 // https://stackoverflow.com/questions/43850238/localhost-requests-from-referer-are-blocked
 
+
+// Self-note: Change API restriction from GCP console > API and services > Credentials > Website restrictions
+
 const firebaseConfig: FirebaseOptions = {
   apiKey: "AIzaSyD6eq4vdO_B0ivZN5oa68W97f_hSd0lMuk",
   projectId: "puri-systems",
