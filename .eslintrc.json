@@ -20,10 +20,12 @@
     "prettier"
   ],
   "plugins": ["@typescript-eslint", "react", "import", "jsx-a11y"],
+  "ignorePatterns": ["**/dev-dist/**/*"],
   "rules": {
     "import/no-unresolved": "error",
     "react/prop-types": 0,
-    "react/react-in-jsx-scope": 0
+    "react/react-in-jsx-scope": 0,
+    "@typescript-eslint/no-explicit-any": "off"
   },
   "settings": {
     "react": {
