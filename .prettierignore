@@ -1,3 +1,9 @@
-# Ignore artifacts
-build
-coverage
+/build
+/coverage
+
+/.vercel
+/public
+
+/src/dev-dist
+
+pnpm-lock.*
