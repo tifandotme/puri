@@ -1,24 +1,15 @@
-<!-- <p align="right">
-  <picture>
-    <img
-      alt="GitHub commit activity"
-      src="https://img.shields.io/github/commit-activity/m/tifandotme/puri"
-    />
-  </picture>
-</p> -->
 <p align="center">
   <picture>
     <img
       alt="Logo"
-      src="https://raw.githubusercontent.com/tifandotme/puri/master/src/assets/logo.png"
+      src="./src/assets/logo.png"
       width="130px"
     />
   </picture>
 </p>
-
 <br/>
 
-**Puri** is an Order Management System created as part of my Bachelor's thesis, which [PT. WPU](http://ptwpu.com) utilizes to manage customer orders and internal processing.
+**Puri** is an Order Management System developed for a logistics company in Semarang. The application successfully transformed the customer order processing workflow, replacing the outdated physical whiteboard-based system with a modern web-based solution. This transition enabled real-time data display and push notifications, facilitating seamless coordination between the sales and logistics divisions.
 
 <!--
 Self note:
@@ -44,18 +35,15 @@ puri.systems will expire on Sunday 3th of February 2024. When that happens, chan
 If you want to try out this demo app, follow this instructions:
 
 1. Visit [puri.systems](https://puri.systems)
-> A popup will appear prompting you to choose to log in from either __logistik__ or __sales__ demo account
-2. Login with a __logistik__ account.
-3. Open up another browser window (or another device if you can). Repeat step 1-2, but this time, choose to login with a __sales__ account.
+   > A popup will appear prompting you to choose to log in from either **logistik** or **sales** demo account
+2. Login with a **logistik** account.
+3. Open up another browser window (or another device if you can). Repeat step 1-2, but this time, choose to login with a **sales** account.
 4. Allow notification by pressing the bell icon on top-left.
-5. From a __sales__ account, you have the ability to create/modify entries, be it customers or orders.  Create/modify as you like!
-6. From a __logistik__ account, you can't modify entries, but you can change the order status. Try changing one of the switch.
-7. From __sales__ account perspective, in real-time they will receive push notifications.
+5. From a **sales** account, you have the ability to create/modify entries, be it customers or orders. Create/modify as you like!
+6. From a **logistik** account, you can't modify entries, but you can change the order status. Try changing one of the switch.
+7. From **sales** account perspective, in real-time they will receive push notifications.
 
 > Notification type will differ depending on whether the window is in focus or minimized. When in focus, an in-app notification will appear, conversely, a system push notification will appear when window is not in focus
-
-
-
 
 ## Run Locally
 
@@ -63,7 +51,7 @@ If you want to try out this demo app, follow this instructions:
 <summary>Click to open</summary>
 <br/>
 
-Make sure you have these programs installed: Git, Node, Java SDK (for firebase emulator), pnpm 
+Make sure you have these programs installed: Git, Node, Java SDK (for firebase emulator), pnpm
 
 Clone repository
 
